@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: kb
+      POSTGRES_PASSWORD: kb
+      POSTGRES_DB: kb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    environment:
+      DATABASE_URL: postgres://kb:kb@postgres:5432/kb
+      NODE_ENV: development
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    develop:
+      watch:
+        - action: rebuild
+          path: apps/server
+        - action: rebuild
+          path: packages/core
+        - action: rebuild
+          path: packages/shared
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      AUTH_URL: http://localhost:3000
+      API_URL: http://server:3001
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    develop:
+      watch:
+        - action: rebuild
+          path: apps/web
+        - action: rebuild
+          path: packages/ui
+        - action: rebuild
+          path: packages/client
+
+volumes:
+  postgres_data:

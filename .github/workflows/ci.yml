@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: Lint, Typecheck, Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Read Node.js version from .nvmrc
+        id: nvmrc
+        run: |
+          if [ ! -f .nvmrc ]; then
+            echo "::error::'.nvmrc' file not found. Cannot determine Node.js version."
+            exit 1
+          fi
+          NODE_VERSION=$(cat .nvmrc | tr -d '[:space:]')
+          echo "version=${NODE_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.nvmrc.outputs.version }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint, typecheck, and test
+        run: pnpm turbo run lint typecheck test --cache-dir=.turbo
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}

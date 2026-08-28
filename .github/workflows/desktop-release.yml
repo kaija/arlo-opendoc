@@ -1,0 +1,92 @@
+name: Desktop Release
+
+on:
+  push:
+    tags:
+      - "v*"   # Requirement 8.2
+
+jobs:
+  release:
+    name: Build · Sign · Release (${{ matrix.os }})
+    # Requirement 8.3: mac + windows matrix
+    strategy:
+      fail-fast: true   # Requirement 8.9: don't upload partial artifacts
+      matrix:
+        os: [macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read Node version
+        id: node-version
+        shell: bash
+        run: |
+          if [ -f .nvmrc ]; then
+            echo "version=$(cat .nvmrc)" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=$(node -e "console.log(require('./package.json').engines.node)")" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.node-version.outputs.version }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build workspace packages
+        run: pnpm turbo run build --filter=@kb/desktop^...
+
+      # ── macOS: import certificate and notarize ────────────────────────────
+      - name: Import macOS certificate
+        if: matrix.os == 'macos-latest'
+        # Requirement 8.5
+        run: |
+          echo "${{ secrets.APPLE_CERT_BASE64 }}" | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security import certificate.p12 -k ~/Library/Keychains/build.keychain -P "" -T /usr/bin/codesign
+          security list-keychains -s ~/Library/Keychains/build.keychain
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" ~/Library/Keychains/build.keychain
+          rm certificate.p12
+
+      - name: Build and notarize Desktop App (macOS)
+        if: matrix.os == 'macos-latest'
+        working-directory: apps/desktop
+        run: pnpm build
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Windows: import certificate and sign ─────────────────────────────
+      - name: Import Windows certificate
+        if: matrix.os == 'windows-latest'
+        # Requirement 8.6
+        shell: pwsh
+        run: |
+          $cert = [System.Convert]::FromBase64String("${{ secrets.WINDOWS_CERT_BASE64 }}")
+          [System.IO.File]::WriteAllBytes("certificate.p12", $cert)
+
+      - name: Build and sign Desktop App (Windows)
+        if: matrix.os == 'windows-latest'
+        working-directory: apps/desktop
+        run: pnpm build
+        env:
+          WIN_CSC_LINK: certificate.p12
+          WIN_CSC_KEY_PASSWORD: ""
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Upload artifacts to GitHub Release ───────────────────────────────
+      # Requirement 8.7: upload .dmg and .exe to the GitHub Release for the tag
+      # electron-builder's --publish=always handles this when GH_TOKEN is set.
+      # The publish config in electron-builder.yml points to the GitHub Release.

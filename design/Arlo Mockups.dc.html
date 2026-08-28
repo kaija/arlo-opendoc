@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/tokens/colors.css">
+<link rel="stylesheet" href="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/tokens/typography.css">
+<link rel="stylesheet" href="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/tokens/effects.css">
+<link rel="stylesheet" href="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/css/base.css">
+<link rel="stylesheet" href="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/css/components.css">
+<link rel="stylesheet" href="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/css/ui.css">
+<script src="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:#f0f0f8;font-family:Inter,system-ui,sans-serif}
+a{color:#5856D6;text-decoration:none}a:hover{color:#4745B5}
+</style>
+</helmet>
+
+<section style="padding:56px 60px 80px;box-sizing:border-box">
+  <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:44px">
+    <div style="font:600 20px/1.2 Inter,sans-serif;letter-spacing:-.02em;color:#1a1a2e">Arlo — desktop knowledge base</div>
+    <div style="font:400 13px/1.5 Inter,sans-serif;color:#64648c;max-width:760px">Eight artboards, macOS 1440×900. Accent, neutrals and type follow the Arlo AI design system (indigo <span style="font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:12px">#5856D6</span>, Inter, indigo-tinted text ramp) rather than the brief's near-identical hex values.</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,max-content);gap:64px 48px">
+
+    <div id="s1" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:500 12.5px/1 Inter,sans-serif;color:#64648c;letter-spacing:.01em">1 · Reading</div>
+      <div style="width:1440px;height:900px;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(26,26,46,.1)">
+        <div style="height:38px;flex:none;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center">
+          <div style="display:flex;gap:8px;padding:0 18px 0 20px;flex:none">
+            <div style="width:11px;height:11px;border-radius:6px;background:#ff5f57"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#febc2e"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#28c840"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;height:26px;padding:0 9px;border-radius:6px;background:#fff;border:1px solid rgba(0,0,0,.08);margin-right:14px;flex:none">
+            <div style="font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Live</div><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import></div>
+          </div>
+          <div style="width:1px;height:20px;background:rgba(0,0,0,.08);flex:none"></div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;background:#fff;box-shadow:inset 0 -1px 0 0 #5856D6;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">Payments service runbook</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">Deploy rollback</div>
+          <div style="height:38px;width:30px;display:flex;align-items:center;justify-content:center;color:#8e8eaa"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="new-chat" size="13" hint-size="13px,13px"></x-import></div></div>
+        </div>
+
+        <div style="height:48px;flex:none;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 16px;gap:16px">
+          <div style="flex:1;display:flex;align-items:center;gap:7px;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa;min-width:0">
+            <span>Runbooks</span><span style="color:#c9c9d6">/</span><span style="font-weight:500;color:#1a1a2e">Payments service runbook</span>
+          </div>
+          <div style="width:420px;flex:none;height:28px;border-radius:6px;background:#f0f0f8;display:flex;align-items:center;gap:8px;padding:0 8px 0 10px;box-sizing:border-box">
+            <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="search" size="13" hint-size="13px,13px"></x-import></div>
+            <div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa">Search Platform Handbook</div>
+            <div style="font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:4px;padding:3px 5px">⌘K</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+            <div style="display:flex;padding:2px;gap:2px;background:#f0f0f8;border-radius:6px">
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;background:#5856D6;color:#fff;font:500 12px/1 Inter,sans-serif">Read</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">Edit</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">What changed</div>
+            </div>
+            <div style="height:28px;display:flex;align-items:center;padding:0 12px;border-radius:6px;border:1px solid rgba(0,0,0,.06);background:#fff;font:500 12px/1 Inter,sans-serif;color:#c9c9d6;white-space:nowrap">Publish for review</div>
+            <div style="width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#64648c"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chat" size="15" hint-size="15px,15px"></x-import></div>
+          </div>
+        </div>
+
+        <div style="flex:1;display:flex;min-height:0;position:relative">
+          <dc-import name="Arlo Sidebar Live" hint-size="240px,100%"></dc-import>
+          <div style="flex:1;background:#fff;overflow:hidden;position:relative">
+            <div style="padding:48px 0 0;max-width:720px;margin:0 auto">
+              <div style="display:flex;gap:6px;margin-bottom:22px">
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;letter-spacing:.02em">owner</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">payments-team</span></div>
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;letter-spacing:.02em">review by</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">2026-09-30</span></div>
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;letter-spacing:.02em">severity</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">sev1</span></div>
+              </div>
+              <h1 style="margin:0 0 18px;font:700 31px/1.2 Inter,sans-serif;letter-spacing:-.025em;color:#1a1a2e">Payments service runbook</h1>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">This runbook covers the charge path only — payouts has its own. Start here when the payments dashboard goes red, or when a customer reports a charge that never landed. Everything below assumes production read access and a seat in the on-call rotation.</p>
+              <h2 style="margin:38px 0 14px;font:600 19px/1.35 Inter,sans-serif;letter-spacing:-.015em;color:#1a1a2e">Escalation path</h2>
+              <p style="margin:0 0 18px;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">Page one level at a time and wait out the response window before escalating. Nothing here needs a manager's approval at 3am.</p>
+              <div style="border:1px solid rgba(0,0,0,.08);border-radius:8px;overflow:hidden;max-width:620px">
+                <div style="display:grid;grid-template-columns:88px 1fr 130px;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.08)">
+                  <div style="padding:9px 14px;font:500 11px/1 Inter,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#8e8eaa">Level</div>
+                  <div style="padding:9px 14px;font:500 11px/1 Inter,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#8e8eaa">Who</div>
+                  <div style="padding:9px 14px;font:500 11px/1 Inter,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#8e8eaa">Response time</div>
+                </div>
+                <div style="display:grid;grid-template-columns:88px 1fr 130px;border-bottom:1px solid rgba(0,0,0,.06)">
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#1a1a2e">1</div>
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#1a1a2e">Payments on-call</div>
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#64648c">5 minutes</div>
+                </div>
+                <div style="display:grid;grid-template-columns:88px 1fr 130px;border-bottom:1px solid rgba(0,0,0,.06)">
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#1a1a2e">2</div>
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#1a1a2e">Platform on-call and the payments lead</div>
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#64648c">15 minutes</div>
+                </div>
+                <div style="display:grid;grid-template-columns:88px 1fr 130px">
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#1a1a2e">3</div>
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#1a1a2e">Incident commander, status page goes yellow</div>
+                  <div style="padding:11px 14px;font:400 14px/1.5 Inter,sans-serif;color:#64648c">30 minutes</div>
+                </div>
+              </div>
+              <h2 style="margin:38px 0 14px;font:600 19px/1.35 Inter,sans-serif;letter-spacing:-.015em;color:#1a1a2e">Failure modes</h2>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">Three things account for almost every page on this service. Work them in order — the cheap checks first.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="s2" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:500 12.5px/1 Inter,sans-serif;color:#64648c;letter-spacing:.01em">2 · Agent working</div>
+      <div style="width:1440px;height:900px;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(26,26,46,.1)">
+        <div style="height:38px;flex:none;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center">
+          <div style="display:flex;gap:8px;padding:0 18px 0 20px;flex:none">
+            <div style="width:11px;height:11px;border-radius:6px;background:#ff5f57"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#febc2e"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#28c840"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;height:26px;padding:0 9px;border-radius:6px;background:#fff;border:1px solid rgba(0,0,0,.08);margin-right:14px;flex:none">
+            <div style="width:6px;height:6px;border-radius:3px;background:#5856D6;flex:none"></div><div style="font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Payments runbook refresh</div><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import></div>
+          </div>
+          <div style="width:1px;height:20px;background:rgba(0,0,0,.08);flex:none"></div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;background:#fff;box-shadow:inset 0 -1px 0 0 #5856D6;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">Payments service runbook</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">ADR-014: Idempotency strategy</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">&ldquo;idempotency key retry&rdquo;</div>
+          <div style="height:38px;width:30px;display:flex;align-items:center;justify-content:center;color:#8e8eaa"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="new-chat" size="13" hint-size="13px,13px"></x-import></div></div>
+        </div>
+
+        <div style="height:48px;flex:none;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 16px;gap:16px">
+          <div style="flex:1;display:flex;align-items:center;gap:7px;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa;min-width:0">
+            <span>Runbooks</span><span style="color:#c9c9d6">/</span><span style="font-weight:500;color:#1a1a2e">Payments service runbook</span>
+          </div>
+          <div style="width:420px;flex:none;height:28px;border-radius:6px;background:#f0f0f8;display:flex;align-items:center;gap:8px;padding:0 8px 0 10px;box-sizing:border-box">
+            <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="search" size="13" hint-size="13px,13px"></x-import></div>
+            <div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa">Search Platform Handbook</div>
+            <div style="font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:4px;padding:3px 5px">⌘K</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+            <div style="display:flex;padding:2px;gap:2px;background:#f0f0f8;border-radius:6px">
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;background:#5856D6;color:#fff;font:500 12px/1 Inter,sans-serif">Read</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">Edit</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">What changed</div>
+            </div>
+            <div style="height:28px;display:flex;align-items:center;padding:0 12px;border-radius:6px;border:1px solid rgba(0,0,0,.1);background:#fff;font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Publish for review</div>
+            <div style="width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(88,86,214,.08);color:#5856D6"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chat" size="15" hint-size="15px,15px"></x-import></div>
+          </div>
+        </div>
+
+        <div style="flex:1;display:flex;min-height:0;position:relative">
+          <dc-import name="Arlo Sidebar" hint-size="240px,100%"></dc-import>
+          <div style="flex:1;background:#fff;overflow:hidden;position:relative">
+            <div style="padding:24px 56px 0;max-width:700px">
+              <h2 style="margin:0 0 10px;font:600 19px/1.35 Inter,sans-serif;letter-spacing:-.015em;color:#1a1a2e">Failure modes</h2>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">Three things account for almost every page on this service. Work them in order — the cheap checks first.</p>
+              <h3 style="margin:20px 0 8px;font:600 15.5px/1.4 Inter,sans-serif;color:#1a1a2e">Gateway timeout at the edge</h3>
+              <p style="margin:0 0 14px;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">The gateway gives up on the charge worker after 8 seconds. If the dashboard shows 504s but the worker's own error rate is flat, the worker is alive and slow rather than broken. Confirm with the worker's recent logs before touching anything:</p>
+              <div style="background:#f0f0f8;border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;font:400 12.5px/1.55 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;max-width:620px">kubectl logs -n payments deploy/charge-worker --since=15m</div>
+              <h3 style="margin:20px 0 8px;font:600 15.5px/1.4 Inter,sans-serif;color:#1a1a2e">Charge worker backlog</h3>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">A backlog over 2,000 messages means the worker cannot keep up with the queue. Scale to six replicas first and only then look for the cause.</p>
+              <h3 style="margin:20px 0 8px;font:600 15.5px/1.4 Inter,sans-serif;color:#1a1a2e">Downstream ledger timeout</h3>
+              <p style="margin:0 0 14px;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">The ledger holds a row lock per merchant. When it stalls, charges are accepted but never settle, so the customer sees a pending authorisation and we see nothing at all.</p>
+              <svg width="620" height="226" viewBox="0 0 620 226" style="display:block;overflow:visible">
+                <defs><marker id="arw" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0.5 L7 4 L0 7.5" fill="none" stroke="#8e8eaa" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+                <g font-family="'SF Mono',ui-monospace,Menlo,monospace" font-size="10.5" fill="#52526b" text-anchor="middle">
+                  <rect x="23" y="0" width="78" height="26" rx="6" fill="#f8f8fc" stroke="rgba(0,0,0,.1)"/><text x="62" y="17">client</text>
+                  <rect x="173" y="0" width="82" height="26" rx="6" fill="#f8f8fc" stroke="rgba(0,0,0,.1)"/><text x="214" y="17">gateway</text>
+                  <rect x="327" y="0" width="118" height="26" rx="6" fill="#f8f8fc" stroke="rgba(0,0,0,.1)"/><text x="386" y="17">charge-worker</text>
+                  <rect x="518" y="0" width="68" height="26" rx="6" fill="#f8f8fc" stroke="rgba(0,0,0,.1)"/><text x="552" y="17">ledger</text>
+                </g>
+                <g stroke="#e0e0ea" stroke-dasharray="3 4"><line x1="62" y1="26" x2="62" y2="216"/><line x1="214" y1="26" x2="214" y2="216"/><line x1="386" y1="26" x2="386" y2="216"/><line x1="552" y1="26" x2="552" y2="216"/></g>
+                <g stroke="#8e8eaa" stroke-width="1.1" marker-end="url(#arw)">
+                  <line x1="62" y1="60" x2="212" y2="60"/>
+                  <line x1="214" y1="94" x2="384" y2="94"/>
+                  <line x1="386" y1="128" x2="550" y2="128"/>
+                  <line x1="552" y1="162" x2="388" y2="162" stroke-dasharray="4 4"/>
+                  <line x1="214" y1="196" x2="64" y2="196" stroke-dasharray="4 4"/>
+                </g>
+                <g font-family="'SF Mono',ui-monospace,Menlo,monospace" font-size="10" fill="#64648c" text-anchor="middle">
+                  <text x="138" y="53">POST /charges</text>
+                  <text x="300" y="87">enqueue charge</text>
+                  <text x="468" y="121">record debit</text>
+                  <text x="470" y="155">ledger ack</text>
+                  <text x="139" y="189">201 created</text>
+                </g>
+              </svg>
+              <div style="margin-top:4px;font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa">Charge path, happy case</div>
+            </div>
+
+            <div style="position:absolute;top:0;right:0;bottom:0;width:380px;background:#fff;border-left:1px solid rgba(0,0,0,.08);border-radius:12px 0 0 12px;box-shadow:-10px 0 24px rgba(0,0,0,.08);display:flex;flex-direction:column">
+              <div style="height:44px;flex:none;display:flex;align-items:center;gap:9px;padding:0 16px;border-bottom:1px solid rgba(0,0,0,.06)">
+                <div style="font:600 12.5px/1 Inter,sans-serif;color:#1a1a2e">Arlo</div>
+                <div style="display:flex;align-items:center;gap:5px"><div style="width:6px;height:6px;border-radius:3px;background:#5856D6"></div><span style="font:400 11px/1 Inter,sans-serif;color:#5856D6">working</span></div>
+                <div style="flex:1"></div>
+                <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="close" size="14" hint-size="14px,14px"></x-import></div>
+              </div>
+              <div style="flex:1;overflow:hidden;padding:18px 16px;display:flex;flex-direction:column;gap:11px">
+                <div style="align-self:flex-end;max-width:300px;background:#f0f0f8;border-radius:10px;padding:10px 12px;font:400 12.5px/1.55 Inter,sans-serif;color:#1a1a2e">Add a section on the idempotency-key failure mode from INC-2291 last week, and link it from the failure modes list.</div>
+                <div style="border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:9px 11px;display:flex;flex-direction:column;gap:7px">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-right" size="12" hint-size="12px,12px"></x-import></div>
+                    <div style="flex:1;font:400 12px/1 Inter,sans-serif;color:#1a1a2e">Searched knowledge base — 4 results</div>
+                  </div>
+                  <div style="padding-left:20px;display:flex;flex-direction:column;gap:4px">
+                    <div style="font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa">INC-2291 postmortem</div>
+                    <div style="font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa">ADR-014: Idempotency strategy</div>
+                  </div>
+                </div>
+                <div style="border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:9px 11px;display:flex;align-items:center;gap:8px">
+                  <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-right" size="12" hint-size="12px,12px"></x-import></div>
+                  <div style="flex:1;font:400 12px/1 Inter,sans-serif;color:#1a1a2e">Read Payments service runbook</div>
+                </div>
+                <div style="font:400 12.5px/1.6 Inter,sans-serif;color:#1a1a2e;text-wrap:pretty">INC-2291 was caused by clients retrying charges without an idempotency key after a gateway timeout. I'll add a fourth failure mode under Failure modes and cross-link the ADR. Drafting now…<span style="display:inline-block;width:1.5px;height:13px;background:#5856D6;vertical-align:-2px;margin-left:2px"></span></div>
+              </div>
+              <div style="flex:none;padding:0 16px 16px;display:flex;flex-direction:column;gap:8px">
+                <div style="align-self:flex-start;display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px;font:400 11px/1 Inter,sans-serif;color:#64648c"><div style="width:5px;height:5px;border-radius:3px;background:#5856D6"></div>Draft: Payments runbook refresh</div>
+                <div style="border:1px solid rgba(0,0,0,.1);border-radius:10px;padding:10px 10px 10px 12px;display:flex;align-items:flex-end;gap:10px">
+                  <div style="flex:1;font:400 12.5px/1.5 Inter,sans-serif;color:#8e8eaa;padding-bottom:5px">Ask Arlo to change this note…</div>
+                  <div style="width:26px;height:26px;border-radius:999px;background:#5856D6;color:#fff;display:flex;align-items:center;justify-content:center;flex:none"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="submit" size="14" hint-size="14px,14px"></x-import></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="s3" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:500 12.5px/1 Inter,sans-serif;color:#64648c;letter-spacing:.01em">3 · Approval</div>
+      <div style="width:1440px;height:900px;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(26,26,46,.1)">
+        <div style="height:38px;flex:none;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center">
+          <div style="display:flex;gap:8px;padding:0 18px 0 20px;flex:none">
+            <div style="width:11px;height:11px;border-radius:6px;background:#ff5f57"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#febc2e"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#28c840"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;height:26px;padding:0 9px;border-radius:6px;background:#fff;border:1px solid rgba(0,0,0,.08);margin-right:14px;flex:none">
+            <div style="width:6px;height:6px;border-radius:3px;background:#c07a12;flex:none"></div><div style="font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Payments runbook refresh</div><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import></div>
+          </div>
+          <div style="width:1px;height:20px;background:rgba(0,0,0,.08);flex:none"></div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;background:#fff;box-shadow:inset 0 -1px 0 0 #5856D6;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">Payments service runbook</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">ADR-014: Idempotency strategy</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">&ldquo;idempotency key retry&rdquo;</div>
+          <div style="height:38px;width:30px;display:flex;align-items:center;justify-content:center;color:#8e8eaa"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="new-chat" size="13" hint-size="13px,13px"></x-import></div></div>
+        </div>
+
+        <div style="height:48px;flex:none;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 16px;gap:16px">
+          <div style="flex:1;display:flex;align-items:center;gap:7px;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa;min-width:0">
+            <span>Runbooks</span><span style="color:#c9c9d6">/</span><span style="font-weight:500;color:#1a1a2e">Payments service runbook</span>
+          </div>
+          <div style="width:420px;flex:none;height:28px;border-radius:6px;background:#f0f0f8;display:flex;align-items:center;gap:8px;padding:0 8px 0 10px;box-sizing:border-box">
+            <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="search" size="13" hint-size="13px,13px"></x-import></div>
+            <div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa">Search Platform Handbook</div>
+            <div style="font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:4px;padding:3px 5px">⌘K</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+            <div style="display:flex;padding:2px;gap:2px;background:#f0f0f8;border-radius:6px">
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;background:#5856D6;color:#fff;font:500 12px/1 Inter,sans-serif">Read</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">Edit</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">What changed</div>
+            </div>
+            <div style="height:28px;display:flex;align-items:center;padding:0 12px;border-radius:6px;border:1px solid rgba(0,0,0,.1);background:#fff;font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Publish for review</div>
+            <div style="width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(88,86,214,.08);color:#5856D6"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chat" size="15" hint-size="15px,15px"></x-import></div>
+          </div>
+        </div>
+
+        <div style="flex:1;display:flex;min-height:0;position:relative">
+          <dc-import name="Arlo Sidebar" hint-size="240px,100%"></dc-import>
+          <div style="flex:1;background:#fff;overflow:hidden;position:relative">
+            <div style="padding:24px 56px 0;max-width:700px">
+              <h2 style="margin:0 0 10px;font:600 19px/1.35 Inter,sans-serif;letter-spacing:-.015em;color:#1a1a2e">Failure modes</h2>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">Three things account for almost every page on this service. Work them in order — the cheap checks first.</p>
+              <h3 style="margin:20px 0 8px;font:600 15.5px/1.4 Inter,sans-serif;color:#1a1a2e">Gateway timeout at the edge</h3>
+              <p style="margin:0 0 14px;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">The gateway gives up on the charge worker after 8 seconds. If the dashboard shows 504s but the worker's own error rate is flat, the worker is alive and slow rather than broken. Confirm with the worker's recent logs before touching anything:</p>
+              <div style="background:#f0f0f8;border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;font:400 12.5px/1.55 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;max-width:620px">kubectl logs -n payments deploy/charge-worker --since=15m</div>
+              <h3 style="margin:20px 0 8px;font:600 15.5px/1.4 Inter,sans-serif;color:#1a1a2e">Charge worker backlog</h3>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">A backlog over 2,000 messages means the worker cannot keep up with the queue. Scale to six replicas first and only then look for the cause.</p>
+              <h3 style="margin:20px 0 8px;font:600 15.5px/1.4 Inter,sans-serif;color:#1a1a2e">Downstream ledger timeout</h3>
+              <p style="margin:0 0 14px;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">The ledger holds a row lock per merchant. When it stalls, charges are accepted but never settle, so the customer sees a pending authorisation and we see nothing at all.</p>
+              <svg width="620" height="226" viewBox="0 0 620 226" style="display:block;overflow:visible">
+                <defs><marker id="arw" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0.5 L7 4 L0 7.5" fill="none" stroke="#8e8eaa" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+                <g font-family="'SF Mono',ui-monospace,Menlo,monospace" font-size="10.5" fill="#52526b" text-anchor="middle">
+                  <rect x="23" y="0" width="78" height="26" rx="6" fill="#f8f8fc" stroke="rgba(0,0,0,.1)"/><text x="62" y="17">client</text>
+                  <rect x="173" y="0" width="82" height="26" rx="6" fill="#f8f8fc" stroke="rgba(0,0,0,.1)"/><text x="214" y="17">gateway</text>
+                  <rect x="327" y="0" width="118" height="26" rx="6" fill="#f8f8fc" stroke="rgba(0,0,0,.1)"/><text x="386" y="17">charge-worker</text>
+                  <rect x="518" y="0" width="68" height="26" rx="6" fill="#f8f8fc" stroke="rgba(0,0,0,.1)"/><text x="552" y="17">ledger</text>
+                </g>
+                <g stroke="#e0e0ea" stroke-dasharray="3 4"><line x1="62" y1="26" x2="62" y2="216"/><line x1="214" y1="26" x2="214" y2="216"/><line x1="386" y1="26" x2="386" y2="216"/><line x1="552" y1="26" x2="552" y2="216"/></g>
+                <g stroke="#8e8eaa" stroke-width="1.1" marker-end="url(#arw)">
+                  <line x1="62" y1="60" x2="212" y2="60"/>
+                  <line x1="214" y1="94" x2="384" y2="94"/>
+                  <line x1="386" y1="128" x2="550" y2="128"/>
+                  <line x1="552" y1="162" x2="388" y2="162" stroke-dasharray="4 4"/>
+                  <line x1="214" y1="196" x2="64" y2="196" stroke-dasharray="4 4"/>
+                </g>
+                <g font-family="'SF Mono',ui-monospace,Menlo,monospace" font-size="10" fill="#64648c" text-anchor="middle">
+                  <text x="138" y="53">POST /charges</text>
+                  <text x="300" y="87">enqueue charge</text>
+                  <text x="468" y="121">record debit</text>
+                  <text x="470" y="155">ledger ack</text>
+                  <text x="139" y="189">201 created</text>
+                </g>
+              </svg>
+              <div style="margin-top:4px;font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa">Charge path, happy case</div>
+            </div>
+
+            <div style="position:absolute;top:0;right:0;bottom:0;width:380px;background:#fff;border-left:1px solid rgba(0,0,0,.08);border-radius:12px 0 0 12px;box-shadow:-10px 0 24px rgba(0,0,0,.08);display:flex;flex-direction:column">
+              <div style="height:44px;flex:none;display:flex;align-items:center;gap:9px;padding:0 16px;border-bottom:1px solid rgba(0,0,0,.06)">
+                <div style="font:600 12.5px/1 Inter,sans-serif;color:#1a1a2e">Arlo</div>
+                <div style="display:flex;align-items:center;gap:5px"><div style="width:6px;height:6px;border-radius:3px;background:#c07a12"></div><span style="font:400 11px/1 Inter,sans-serif;color:#c07a12">needs your approval</span></div>
+                <div style="flex:1"></div>
+                <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="close" size="14" hint-size="14px,14px"></x-import></div>
+              </div>
+              <div style="flex:1;overflow:hidden;padding:18px 16px;display:flex;flex-direction:column;gap:11px">
+                <div style="align-self:flex-end;max-width:300px;background:#f0f0f8;border-radius:10px;padding:10px 12px;font:400 12.5px/1.55 Inter,sans-serif;color:#1a1a2e">Add a section on the idempotency-key failure mode from INC-2291 last week, and link it from the failure modes list.</div>
+                <div style="border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:9px 11px;display:flex;flex-direction:column;gap:7px">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-right" size="12" hint-size="12px,12px"></x-import></div>
+                    <div style="flex:1;font:400 12px/1 Inter,sans-serif;color:#1a1a2e">Searched knowledge base — 4 results</div>
+                  </div>
+                  <div style="padding-left:20px;display:flex;flex-direction:column;gap:4px">
+                    <div style="font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa">INC-2291 postmortem</div>
+                    <div style="font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa">ADR-014: Idempotency strategy</div>
+                  </div>
+                </div>
+                <div style="border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:9px 11px;display:flex;align-items:center;gap:8px">
+                  <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-right" size="12" hint-size="12px,12px"></x-import></div>
+                  <div style="flex:1;font:400 12px/1 Inter,sans-serif;color:#1a1a2e">Read Payments service runbook</div>
+                </div>
+                <div style="font:400 12.5px/1.6 Inter,sans-serif;color:#1a1a2e;text-wrap:pretty">INC-2291 was caused by clients retrying charges without an idempotency key. Here is the section I would add under Failure modes.</div>
+                <div style="border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden">
+                  <div style="padding:12px 13px 10px;display:flex;flex-direction:column;gap:5px">
+                    <div style="font:600 12.5px/1.3 Inter,sans-serif;color:#1a1a2e">Arlo wants to edit this note</div>
+                    <div style="display:flex;align-items:center;gap:6px"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="file" size="12" hint-size="12px,12px"></x-import></div><span style="font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa">Payments service runbook</span></div>
+                  </div>
+                  <div style="border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06)">
+                    <div style="display:flex;background:#fff;min-height:17px"><div style="width:16px;flex:none;background:#fff;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre">### Downstream ledger timeout</div></div>
+                    <div style="display:flex;background:#fff;min-height:17px"><div style="width:16px;flex:none;background:#fff;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre"></div></div>
+                    <div style="display:flex;background:#fff;min-height:17px"><div style="width:16px;flex:none;background:#fff;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre">The ledger holds a row lock per</div></div>
+                    <div style="display:flex;background:#eefaf4;min-height:17px"><div style="width:16px;flex:none;background:#d6f2e4;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre">### Duplicate charge on client retry</div></div>
+                    <div style="display:flex;background:#eefaf4;min-height:17px"><div style="width:16px;flex:none;background:#d6f2e4;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre"></div></div>
+                    <div style="display:flex;background:#eefaf4;min-height:17px"><div style="width:16px;flex:none;background:#d6f2e4;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre">A client that retries a charge after a</div></div>
+                    <div style="display:flex;background:#eefaf4;min-height:17px"><div style="width:16px;flex:none;background:#d6f2e4;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre">gateway timeout without an idempotency</div></div>
+                    <div style="display:flex;background:#eefaf4;min-height:17px"><div style="width:16px;flex:none;background:#d6f2e4;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre">key creates a second authorisation.</div></div>
+                    <div style="display:flex;background:#eefaf4;min-height:17px"><div style="width:16px;flex:none;background:#d6f2e4;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre"></div></div>
+                    <div style="display:flex;background:#eefaf4;min-height:17px"><div style="width:16px;flex:none;background:#d6f2e4;font:500 10px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;padding:0 8px;font:400 11px/17px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre">See ADR-014: Idempotency strategy</div></div>
+                  </div>
+                  <div style="padding:11px 13px 12px;display:flex;flex-direction:column;gap:11px">
+                    <div style="font:400 11.5px/1.5 Inter,sans-serif;color:#8e8eaa;text-wrap:pretty">Arlo can only edit notes inside this draft. Nothing goes live until you publish.</div>
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <div style="height:26px;display:flex;align-items:center;padding:0 12px;border-radius:999px;background:#5856D6;color:#fff;font:500 11.5px/1 Inter,sans-serif">Approve</div>
+                      <div style="height:26px;display:flex;align-items:center;font:400 11.5px/1 Inter,sans-serif;color:#64648c">Approve all edits to this note</div>
+                      <div style="height:26px;display:flex;align-items:center;font:400 11.5px/1 Inter,sans-serif;color:#64648c">Decline</div>
+                    </div>
+                    <div style="font:400 11px/1 Inter,sans-serif;color:#5856D6">Always allow · this draft only</div>
+                  </div>
+                </div>
+              </div>
+              <div style="flex:none;padding:0 16px 16px;display:flex;flex-direction:column;gap:8px">
+                <div style="align-self:flex-start;display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px;font:400 11px/1 Inter,sans-serif;color:#64648c"><div style="width:5px;height:5px;border-radius:3px;background:#5856D6"></div>Draft: Payments runbook refresh</div>
+                <div style="border:1px solid rgba(0,0,0,.1);border-radius:10px;padding:10px 10px 10px 12px;display:flex;align-items:flex-end;gap:10px">
+                  <div style="flex:1;font:400 12.5px/1.5 Inter,sans-serif;color:#8e8eaa;padding-bottom:5px">Ask Arlo to change this note…</div>
+                  <div style="width:26px;height:26px;border-radius:999px;background:#5856D6;color:#fff;display:flex;align-items:center;justify-content:center;flex:none"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="submit" size="14" hint-size="14px,14px"></x-import></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="s4" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:500 12.5px/1 Inter,sans-serif;color:#64648c;letter-spacing:.01em">4 · Search</div>
+      <div style="width:1440px;height:900px;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(26,26,46,.1);position:relative">
+        <div style="height:38px;flex:none;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center">
+          <div style="display:flex;gap:8px;padding:0 18px 0 20px;flex:none">
+            <div style="width:11px;height:11px;border-radius:6px;background:#ff5f57"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#febc2e"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#28c840"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;height:26px;padding:0 9px;border-radius:6px;background:#fff;border:1px solid rgba(0,0,0,.08);margin-right:14px;flex:none">
+            <div style="width:6px;height:6px;border-radius:3px;background:#5856D6;flex:none"></div><div style="font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Payments runbook refresh</div><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import></div>
+          </div>
+          <div style="width:1px;height:20px;background:rgba(0,0,0,.08);flex:none"></div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">Payments service runbook</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">ADR-014: Idempotency strategy</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;background:#fff;box-shadow:inset 0 -1px 0 0 #5856D6;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">&ldquo;idempotency key retry&rdquo;</div>
+          <div style="height:38px;width:30px;display:flex;align-items:center;justify-content:center;color:#8e8eaa"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="new-chat" size="13" hint-size="13px,13px"></x-import></div></div>
+        </div>
+
+        <div style="height:48px;flex:none;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 16px;gap:16px">
+          <div style="flex:1;display:flex;align-items:center;gap:7px;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa;min-width:0">
+            <span>Runbooks</span><span style="color:#c9c9d6">/</span><span style="font-weight:500;color:#1a1a2e">Payments service runbook</span>
+          </div>
+          <div style="width:420px;flex:none;height:28px;border-radius:6px;background:#f0f0f8;display:flex;align-items:center;gap:8px;padding:0 8px 0 10px;box-sizing:border-box">
+            <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="search" size="13" hint-size="13px,13px"></x-import></div>
+            <div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa">Search Platform Handbook</div>
+            <div style="font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:4px;padding:3px 5px">⌘K</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+            <div style="display:flex;padding:2px;gap:2px;background:#f0f0f8;border-radius:6px">
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;background:#5856D6;color:#fff;font:500 12px/1 Inter,sans-serif">Read</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">Edit</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">What changed</div>
+            </div>
+            <div style="height:28px;display:flex;align-items:center;padding:0 12px;border-radius:6px;border:1px solid rgba(0,0,0,.06);background:#fff;font:500 12px/1 Inter,sans-serif;color:#c9c9d6;white-space:nowrap">Publish for review</div>
+            <div style="width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#64648c"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chat" size="15" hint-size="15px,15px"></x-import></div>
+          </div>
+        </div>
+
+        <div style="flex:1;display:flex;min-height:0;position:relative">
+          <dc-import name="Arlo Sidebar Live" hint-size="240px,100%"></dc-import>
+          <div style="flex:1;background:#fff;overflow:hidden;position:relative">
+            <div style="padding:48px 0 0;max-width:720px;margin:0 auto">
+              <div style="display:flex;gap:6px;margin-bottom:22px">
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">owner</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">payments-team</span></div>
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">review by</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">2026-09-30</span></div>
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">severity</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">sev1</span></div>
+              </div>
+              <h1 style="margin:0 0 18px;font:700 31px/1.2 Inter,sans-serif;letter-spacing:-.025em;color:#1a1a2e">Payments service runbook</h1>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">This runbook covers the charge path only — payouts has its own. Start here when the payments dashboard goes red, or when a customer reports a charge that never landed. Everything below assumes production read access and a seat in the on-call rotation.</p>
+              <h2 style="margin:38px 0 14px;font:600 19px/1.35 Inter,sans-serif;letter-spacing:-.015em;color:#1a1a2e">Escalation path</h2>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">Page one level at a time and wait out the response window before escalating. Nothing here needs a manager's approval at 3am.</p>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;inset:0;background:rgba(26,26,46,.28);display:flex;justify-content:center;align-items:flex-start">
+          <div style="width:720px;margin-top:96px;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(26,26,46,.24);overflow:hidden">
+            <div style="height:52px;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid rgba(0,0,0,.08)">
+              <div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="search" size="15" hint-size="15px,15px"></x-import></div>
+              <div style="flex:1;display:flex;align-items:center;font:400 14px/1 Inter,sans-serif;color:#1a1a2e">idempotency key retry<span style="display:inline-block;width:1.5px;height:15px;background:#5856D6;margin-left:2px"></span></div>
+              <div style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;background:#f0f0f8;border-radius:4px;padding:4px 6px">esc</div>
+            </div>
+            <div style="display:flex;gap:6px;padding:10px 18px;border-bottom:1px solid rgba(0,0,0,.06)">
+              <div style="height:24px;display:flex;align-items:center;padding:0 10px;border-radius:999px;font:500 11.5px/1 Inter,sans-serif;color:#1a1a2e;background:#f0f0f8">All notebooks</div><div style="height:24px;display:flex;align-items:center;padding:0 10px;border-radius:999px;font:400 11.5px/1 Inter,sans-serif;color:#64648c;background:transparent">Runbooks</div><div style="height:24px;display:flex;align-items:center;padding:0 10px;border-radius:999px;font:400 11.5px/1 Inter,sans-serif;color:#64648c;background:transparent">Architecture Decisions</div><div style="height:24px;display:flex;align-items:center;padding:0 10px;border-radius:999px;font:400 11.5px/1 Inter,sans-serif;color:#64648c;background:transparent">Incidents</div>
+            </div>
+            <div>
+              <div style="padding:11px 18px;display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid rgba(0,0,0,.06);background:#f8f8fc">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 13px/1.3 Inter,sans-serif;color:#1a1a2e">Payments service runbook</span><span style="font:400 11px/1.3 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">&rsaquo; Failure modes &rsaquo; Duplicate charge on client retry</span></div>
+                    <div style="font:400 12px/1.5 Inter,sans-serif;color:#64648c;max-width:520px;text-wrap:pretty">A client that <span style="background:#fdf6d8;border-radius:2px">retries</span> a charge after a gateway timeout without an <span style="background:#fdf6d8;border-radius:2px">idempotency key</span> creates a second authorisation.</div>
+                  </div>
+                  <div style="flex:none;display:flex;align-items:center;gap:6px;padding-top:1px">
+                    <div style="font:500 10.5px/1 Inter,sans-serif;color:#c07a12;background:rgba(192,122,18,.09);border-radius:999px;padding:4px 8px">Changed in this draft</div>
+                    <div style="font:500 10.5px/1 Inter,sans-serif;color:#64648c;background:#f0f0f8;border-radius:999px;padding:4px 8px">Exact + meaning</div>
+                  </div>
+                </div>
+              <div style="padding:11px 18px;display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid rgba(0,0,0,.06);background:#fff">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 13px/1.3 Inter,sans-serif;color:#1a1a2e">ADR-014: Idempotency strategy</span><span style="font:400 11px/1.3 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">&rsaquo; Decision</span></div>
+                    <div style="font:400 12px/1.5 Inter,sans-serif;color:#64648c;max-width:520px;text-wrap:pretty">Every write endpoint accepts an Idempotency-<span style="background:#fdf6d8;border-radius:2px">Key</span> header; the gateway stores the response for 24 hours and replays it on <span style="background:#fdf6d8;border-radius:2px">retry</span>.</div>
+                  </div>
+                  <div style="flex:none;display:flex;align-items:center;gap:6px;padding-top:1px">
+                    
+                    <div style="font:500 10.5px/1 Inter,sans-serif;color:#64648c;background:#f0f0f8;border-radius:999px;padding:4px 8px">Meaning</div>
+                  </div>
+                </div>
+              <div style="padding:11px 18px;display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid rgba(0,0,0,.06);background:#fff">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 13px/1.3 Inter,sans-serif;color:#1a1a2e">API Reference — Payments</span><span style="font:400 11px/1.3 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">&rsaquo; POST /charges</span></div>
+                    <div style="font:400 12px/1.5 Inter,sans-serif;color:#64648c;max-width:520px;text-wrap:pretty">Send <span style="background:#fdf6d8;border-radius:2px">Idempotency-Key</span> with every request. Repeated keys return the original charge rather than creating a new one.</div>
+                  </div>
+                  <div style="flex:none;display:flex;align-items:center;gap:6px;padding-top:1px">
+                    
+                    <div style="font:500 10.5px/1 Inter,sans-serif;color:#64648c;background:#f0f0f8;border-radius:999px;padding:4px 8px">Exact</div>
+                  </div>
+                </div>
+              <div style="padding:11px 18px;display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid rgba(0,0,0,.06);background:#fff">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 13px/1.3 Inter,sans-serif;color:#1a1a2e">INC-2291 postmortem</span><span style="font:400 11px/1.3 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">&rsaquo; Timeline</span></div>
+                    <div style="font:400 12px/1.5 Inter,sans-serif;color:#64648c;max-width:520px;text-wrap:pretty">09:14 — <span style="background:#fdf6d8;border-radius:2px">retries</span> from the mobile client begin arriving without <span style="background:#fdf6d8;border-radius:2px">idempotency keys</span>; duplicate charges reach the ledger.</div>
+                  </div>
+                  <div style="flex:none;display:flex;align-items:center;gap:6px;padding-top:1px">
+                    
+                    <div style="font:500 10.5px/1 Inter,sans-serif;color:#64648c;background:#f0f0f8;border-radius:999px;padding:4px 8px">Exact + meaning</div>
+                  </div>
+                </div>
+              <div style="padding:11px 18px;display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid rgba(0,0,0,.06);background:#fff">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+                    <div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 13px/1.3 Inter,sans-serif;color:#1a1a2e">On-call handover</span><span style="font:400 11px/1.3 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">&rsaquo; Open questions</span></div>
+                    <div style="font:400 12px/1.5 Inter,sans-serif;color:#64648c;max-width:520px;text-wrap:pretty">Do we want the gateway to reject unkeyed <span style="background:#fdf6d8;border-radius:2px">retries</span> outright, or keep accepting them for older clients?</div>
+                  </div>
+                  <div style="flex:none;display:flex;align-items:center;gap:6px;padding-top:1px">
+                    
+                    <div style="font:500 10.5px/1 Inter,sans-serif;color:#64648c;background:#f0f0f8;border-radius:999px;padding:4px 8px">Meaning</div>
+                  </div>
+                </div>
+            </div>
+            <div style="height:40px;display:flex;align-items:center;gap:12px;padding:0 18px;background:#f8f8fc;border-top:1px solid rgba(0,0,0,.06)">
+              <div style="flex:1;font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa;white-space:nowrap">1,284 notes · ↑↓ to navigate · ↵ to open</div>
+              <div style="font:400 11px/1 Inter,sans-serif;color:#8e8eaa;white-space:nowrap">Search is still catching up — meaning-based results may be incomplete</div>
+              <div style="width:56px;height:3px;border-radius:2px;background:#e4e4ee;overflow:hidden"><div style="width:20px;height:3px;border-radius:2px;background:#5856D6;margin-left:14px"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="s5" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:500 12.5px/1 Inter,sans-serif;color:#64648c;letter-spacing:.01em">5 · What changed</div>
+      <div style="width:1440px;height:900px;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(26,26,46,.1);position:relative">
+        <div style="height:38px;flex:none;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center">
+          <div style="display:flex;gap:8px;padding:0 18px 0 20px;flex:none">
+            <div style="width:11px;height:11px;border-radius:6px;background:#ff5f57"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#febc2e"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#28c840"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;height:26px;padding:0 9px;border-radius:6px;background:#fff;border:1px solid rgba(0,0,0,.08);margin-right:14px;flex:none">
+            <div style="width:6px;height:6px;border-radius:3px;background:#c07a12;flex:none"></div><div style="font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Payments runbook refresh</div><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import></div>
+          </div>
+          <div style="width:1px;height:20px;background:rgba(0,0,0,.08);flex:none"></div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;background:#fff;box-shadow:inset 0 -1px 0 0 #5856D6;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">Payments service runbook</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">ADR-014: Idempotency strategy</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">&ldquo;idempotency key retry&rdquo;</div>
+          <div style="height:38px;width:30px;display:flex;align-items:center;justify-content:center;color:#8e8eaa"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="new-chat" size="13" hint-size="13px,13px"></x-import></div></div>
+        </div>
+
+        <div style="height:48px;flex:none;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 16px;gap:16px">
+          <div style="flex:1;display:flex;align-items:center;gap:7px;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa;min-width:0">
+            <span>Runbooks</span><span style="color:#c9c9d6">/</span><span style="font-weight:500;color:#1a1a2e">Payments service runbook</span>
+          </div>
+          <div style="width:420px;flex:none;height:28px;border-radius:6px;background:#f0f0f8;display:flex;align-items:center;gap:8px;padding:0 8px 0 10px;box-sizing:border-box">
+            <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="search" size="13" hint-size="13px,13px"></x-import></div>
+            <div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa">Search Platform Handbook</div>
+            <div style="font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:4px;padding:3px 5px">⌘K</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+            <div style="display:flex;padding:2px;gap:2px;background:#f0f0f8;border-radius:6px">
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">Read</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">Edit</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;background:#5856D6;color:#fff;font:500 12px/1 Inter,sans-serif">What changed</div>
+            </div>
+            <div style="height:28px;display:flex;align-items:center;padding:0 12px;border-radius:6px;border:1px solid rgba(0,0,0,.1);background:#fff;font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Publish for review</div>
+            <div style="width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(88,86,214,.08);color:#5856D6"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chat" size="15" hint-size="15px,15px"></x-import></div>
+          </div>
+        </div>
+
+        <div style="flex:1;display:flex;min-height:0;position:relative">
+          <dc-import name="Arlo Sidebar" hint-size="240px,100%"></dc-import>
+          <div style="flex:1;background:#fff;display:flex;flex-direction:column;min-width:0">
+            <div style="height:44px;flex:none;display:flex;align-items:center;gap:9px;padding:0 20px;border-bottom:1px solid rgba(0,0,0,.08)">
+              <div style="font:500 13px/1 Inter,sans-serif;color:#1a1a2e">Payments service runbook</div>
+              <div style="font:500 10px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#c07a12">(M)</div>
+              <div style="display:flex;gap:8px;font:500 11.5px/1 'SF Mono',ui-monospace,Menlo,monospace"><span style="color:#1f9d6b">+18</span><span style="color:#d1435b">−2</span></div>
+              <div style="flex:1"></div>
+              <div style="font:400 11.5px/1 Inter,sans-serif;color:#8e8eaa">4 notes changed in Payments runbook refresh</div>
+              <div style="display:flex;gap:8px;font:500 11.5px/1 'SF Mono',ui-monospace,Menlo,monospace"><span style="color:#1f9d6b">+32</span><span style="color:#d1435b">−3</span></div>
+            </div>
+            <div style="height:30px;flex:none;display:flex;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.06)">
+              <div style="flex:1;padding:0 12px;font:500 11px/30px Inter,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#8e8eaa;border-right:1px solid rgba(0,0,0,.06)">Live</div>
+              <div style="flex:1;padding:0 12px;font:500 11px/30px Inter,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#8e8eaa">This draft</div>
+            </div>
+            <div style="flex:1;display:flex;min-height:0">
+              <div style="flex:1;min-width:0;border-right:1px solid rgba(0,0,0,.06);padding-top:8px">
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#f7d7dd;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#b5566a;text-align:center">−</div><div style="flex:1;background:#fdf0f2;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">review by: 2026-06-30</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">### Downstream ledger timeout</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">The ledger holds a row lock per merchant. When it stalls,</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">charges are accepted but never settle, so the customer sees</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">a pending authorisation and we see nothing at all.</div></div>
+                    <div style="height:189px;background:#fafafb;border-top:1px solid rgba(0,0,0,.04);border-bottom:1px solid rgba(0,0,0,.04)"></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">### Checklist</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">- [ ] Confirm the gateway replays idempotent charges</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">- [x] Link the INC-2291 dashboard</div></div>
+              </div>
+              <div style="flex:1;min-width:0;padding-top:8px">
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">review by: 2026-09-30</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">### Downstream ledger timeout</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">The ledger holds a row lock per merchant. When it stalls,</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">charges are accepted but never settle, so the customer sees</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">a pending authorisation and we see nothing at all.</div></div>
+                    <div style="position:relative;border-top:1px solid rgba(0,0,0,.04);border-bottom:1px solid rgba(0,0,0,.04)">
+                      <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">### Duplicate charge on client retry</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">A client that retries a charge after a gateway timeout</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">without an idempotency key creates a second authorisation.</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">The worker cannot tell the two apart.</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">See ADR-014: Idempotency strategy</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:#d6f2e4;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center">+</div><div style="flex:1;background:#eefaf4;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                      <div style="position:absolute;top:5px;right:10px;height:22px;display:flex;align-items:center;gap:5px;padding:0 9px;border-radius:999px;background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 1px 3px rgba(26,26,46,.08);font:500 10.5px/1 Inter,sans-serif;color:#52526b;white-space:nowrap"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="regenerate" size="11" hint-size="11px,11px"></x-import></div>Undo this change</div>
+                    </div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden"></div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">### Checklist</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">- [ ] Confirm the gateway replays idempotent charges</div></div>
+                    <div style="display:flex;height:21px"><div style="width:20px;flex:none;background:transparent;font:500 10px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#4f9c78;text-align:center"></div><div style="flex:1;background:#fff;padding:0 12px;font:400 11.5px/21px 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre;overflow:hidden">- [x] Link the INC-2291 dashboard</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="s6" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:500 12.5px/1 Inter,sans-serif;color:#64648c;letter-spacing:.01em">6 · Publish for review</div>
+      <div style="width:1440px;height:900px;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(26,26,46,.1);position:relative">
+        <div style="height:38px;flex:none;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center">
+          <div style="display:flex;gap:8px;padding:0 18px 0 20px;flex:none">
+            <div style="width:11px;height:11px;border-radius:6px;background:#ff5f57"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#febc2e"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#28c840"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;height:26px;padding:0 9px;border-radius:6px;background:#fff;border:1px solid rgba(0,0,0,.08);margin-right:14px;flex:none">
+            <div style="width:6px;height:6px;border-radius:3px;background:#c07a12;flex:none"></div><div style="font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Payments runbook refresh</div><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import></div>
+          </div>
+          <div style="width:1px;height:20px;background:rgba(0,0,0,.08);flex:none"></div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;background:#fff;box-shadow:inset 0 -1px 0 0 #5856D6;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">Payments service runbook</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">ADR-014: Idempotency strategy</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">&ldquo;idempotency key retry&rdquo;</div>
+          <div style="height:38px;width:30px;display:flex;align-items:center;justify-content:center;color:#8e8eaa"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="new-chat" size="13" hint-size="13px,13px"></x-import></div></div>
+        </div>
+
+        <div style="height:48px;flex:none;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 16px;gap:16px">
+          <div style="flex:1;display:flex;align-items:center;gap:7px;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa;min-width:0">
+            <span>Runbooks</span><span style="color:#c9c9d6">/</span><span style="font-weight:500;color:#1a1a2e">Payments service runbook</span>
+          </div>
+          <div style="width:420px;flex:none;height:28px;border-radius:6px;background:#f0f0f8;display:flex;align-items:center;gap:8px;padding:0 8px 0 10px;box-sizing:border-box">
+            <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="search" size="13" hint-size="13px,13px"></x-import></div>
+            <div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa">Search Platform Handbook</div>
+            <div style="font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:4px;padding:3px 5px">⌘K</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+            <div style="display:flex;padding:2px;gap:2px;background:#f0f0f8;border-radius:6px">
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;background:#5856D6;color:#fff;font:500 12px/1 Inter,sans-serif">Read</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">Edit</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">What changed</div>
+            </div>
+            <div style="height:28px;display:flex;align-items:center;padding:0 12px;border-radius:6px;border:1px solid rgba(0,0,0,.1);background:#fff;font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Publish for review</div>
+            <div style="width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(88,86,214,.08);color:#5856D6"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chat" size="15" hint-size="15px,15px"></x-import></div>
+          </div>
+        </div>
+
+        <div style="flex:1;display:flex;min-height:0;position:relative">
+          <dc-import name="Arlo Sidebar" hint-size="240px,100%"></dc-import>
+          <div style="flex:1;background:#fff;overflow:hidden;position:relative">
+            <div style="padding:48px 0 0;max-width:720px;margin:0 auto">
+              <div style="display:flex;gap:6px;margin-bottom:22px">
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">owner</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">payments-team</span></div>
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">review by</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">2026-09-30</span></div>
+                <div style="display:flex;align-items:center;gap:6px;background:#f0f0f8;border-radius:999px;padding:4px 10px"><span style="font:500 10.5px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa">severity</span><span style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">sev1</span></div>
+              </div>
+              <h1 style="margin:0 0 18px;font:700 31px/1.2 Inter,sans-serif;letter-spacing:-.025em;color:#1a1a2e">Payments service runbook</h1>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">This runbook covers the charge path only — payouts has its own. Start here when the payments dashboard goes red, or when a customer reports a charge that never landed. Everything below assumes production read access and a seat in the on-call rotation.</p>
+              <h2 style="margin:38px 0 14px;font:600 19px/1.35 Inter,sans-serif;letter-spacing:-.015em;color:#1a1a2e">Escalation path</h2>
+              <p style="margin:0;font:400 15px/1.7 Inter,sans-serif;color:#1a1a2e;max-width:68ch;text-wrap:pretty">Page one level at a time and wait out the response window before escalating. Nothing here needs a manager's approval at 3am.</p>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;inset:0;background:rgba(26,26,46,.28);display:flex;justify-content:center;align-items:flex-start">
+          <div style="width:620px;margin-top:110px;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(26,26,46,.24);overflow:hidden">
+            <div style="padding:20px 24px 4px;font:600 16px/1.3 Inter,sans-serif;letter-spacing:-.015em;color:#1a1a2e">Publish for review</div>
+            <div style="padding:14px 24px 20px;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">Title</div>
+                <div style="height:34px;border:1px solid rgba(0,0,0,.1);border-radius:6px;display:flex;align-items:center;padding:0 11px;font:400 13px/1 Inter,sans-serif;color:#1a1a2e">Add idempotency-key failure mode to payments runbook</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;align-items:baseline"><div style="flex:1;font:500 11.5px/1 Inter,sans-serif;color:#52526b">Summary</div><div style="font:400 11px/1 Inter,sans-serif;color:#8e8eaa">Drafted by Arlo — edit freely</div></div>
+                <div style="border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:5px;font:400 12.5px/1.6 Inter,sans-serif;color:#1a1a2e">
+                  <div>• Adds a fourth failure mode covering duplicate charges from unkeyed client retries.</div>
+                  <div>• Links the new section to ADR-014 so the retry policy is one click away.</div>
+                  <div>• Corrects the level 2 escalation window from 10 to 15 minutes.</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">4 notes changed</div>
+                <div style="border:1px solid rgba(0,0,0,.08);border-radius:8px;overflow:hidden;background:#fff">
+                  <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.05)">
+                  <div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="file" size="13" hint-size="13px,13px"></x-import></div><div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#1a1a2e">Payments service runbook</div>
+                  <div style="display:flex;gap:7px;font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace"><span style="color:#1f9d6b">+18</span><span style="color:#d1435b">−2</span></div>
+                </div><div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.05)">
+                  <div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="file" size="13" hint-size="13px,13px"></x-import></div><div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#1a1a2e">ADR-014: Idempotency strategy</div>
+                  <div style="display:flex;gap:7px;font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace"><span style="color:#1f9d6b">+4</span><span style="color:#d1435b">−0</span></div>
+                </div><div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.05)">
+                  <div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="file" size="13" hint-size="13px,13px"></x-import></div><div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#1a1a2e">INC-2291 follow-ups</div>
+                  <div style="font:500 10px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#1f9d6b">new</div>
+                  <div style="display:flex;gap:7px;font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace"><span style="color:#1f9d6b">+9</span><span style="color:#d1435b">−0</span></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:9px 12px">
+                  <div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="file" size="13" hint-size="13px,13px"></x-import></div><div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#1a1a2e">On-call handover</div>
+                  <div style="display:flex;gap:7px;font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace"><span style="color:#1f9d6b">+1</span><span style="color:#d1435b">−1</span></div>
+                </div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="font:500 11.5px/1 Inter,sans-serif;color:#52526b">Reviewers</div>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <div style="display:flex;align-items:center;gap:7px;background:#f0f0f8;border-radius:999px;padding:3px 10px 3px 4px">
+                    <div style="width:20px;height:20px;border-radius:999px;background:#dcdcea;color:#52526b;font:600 9px/20px Inter,sans-serif;text-align:center">DO</div>
+                    <span style="font:400 12px/1 Inter,sans-serif;color:#1a1a2e">Dana Okoye</span>
+                    <div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="close" size="11" hint-size="11px,11px"></x-import></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:5px;border:1px dashed rgba(0,0,0,.16);border-radius:999px;padding:5px 11px;font:400 12px/1 Inter,sans-serif;color:#64648c;white-space:nowrap">+ Add</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:9px">
+                <div style="width:15px;height:15px;border-radius:5px;background:#5856D6;color:#fff;display:flex;align-items:center;justify-content:center"><div style="color:#fff;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="check" size="11" hint-size="11px,11px"></x-import></div></div>
+                <div style="font:400 12.5px/1 Inter,sans-serif;color:#1a1a2e">Note that Arlo helped write this</div>
+              </div>
+            </div>
+            <div style="padding:14px 24px;border-top:1px solid rgba(0,0,0,.08);background:#f8f8fc;display:flex;align-items:center;justify-content:flex-end;gap:12px">
+              <div style="font:400 12.5px/1 Inter,sans-serif;color:#64648c">Save and finish later</div>
+              <div style="height:34px;display:flex;align-items:center;padding:0 16px;border-radius:999px;background:#5856D6;color:#fff;font:500 12.5px/1 Inter,sans-serif">Publish for review</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="s7" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:500 12.5px/1 Inter,sans-serif;color:#64648c;letter-spacing:.01em">7 · Editing</div>
+      <div style="width:1440px;height:900px;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(26,26,46,.1);position:relative">
+        <div style="height:38px;flex:none;background:#f8f8fc;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center">
+          <div style="display:flex;gap:8px;padding:0 18px 0 20px;flex:none">
+            <div style="width:11px;height:11px;border-radius:6px;background:#ff5f57"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#febc2e"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#28c840"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;height:26px;padding:0 9px;border-radius:6px;background:#fff;border:1px solid rgba(0,0,0,.08);margin-right:14px;flex:none">
+            <div style="width:6px;height:6px;border-radius:3px;border:1.5px solid #8e8eaa;box-sizing:border-box;flex:none"></div><div style="font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Payments runbook refresh</div><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-down" size="12" hint-size="12px,12px"></x-import></div>
+          </div>
+          <div style="width:1px;height:20px;background:rgba(0,0,0,.08);flex:none"></div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;background:#fff;box-shadow:inset 0 -1px 0 0 #5856D6;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">Payments service runbook</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">ADR-014: Idempotency strategy</div>
+          <div style="height:38px;display:flex;align-items:center;padding:0 14px;white-space:nowrap;font:400 12.5px/1 Inter,sans-serif;color:#64648c">&ldquo;idempotency key retry&rdquo;</div>
+          <div style="height:38px;width:30px;display:flex;align-items:center;justify-content:center;color:#8e8eaa"><div style="color:#8e8eaa;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="new-chat" size="13" hint-size="13px,13px"></x-import></div></div>
+        </div>
+
+        <div style="height:48px;flex:none;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 16px;gap:16px">
+          <div style="flex:1;display:flex;align-items:center;gap:7px;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa;min-width:0">
+            <span>Runbooks</span><span style="color:#c9c9d6">/</span><span style="font-weight:500;color:#1a1a2e">Payments service runbook</span>
+          </div>
+          <div style="width:420px;flex:none;height:28px;border-radius:6px;background:#f0f0f8;display:flex;align-items:center;gap:8px;padding:0 8px 0 10px;box-sizing:border-box">
+            <div style="color:#8e8eaa"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="search" size="13" hint-size="13px,13px"></x-import></div>
+            <div style="flex:1;font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa">Search Platform Handbook</div>
+            <div style="font:500 11px/1 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:4px;padding:3px 5px">⌘K</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+            <div style="display:flex;padding:2px;gap:2px;background:#f0f0f8;border-radius:6px">
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">Read</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;background:#5856D6;color:#fff;font:500 12px/1 Inter,sans-serif">Edit</div>
+              <div style="height:24px;display:flex;align-items:center;padding:0 11px;border-radius:5px;color:#64648c;font:400 12px/1 Inter,sans-serif">What changed</div>
+            </div>
+            <div style="height:28px;display:flex;align-items:center;padding:0 12px;border-radius:6px;border:1px solid rgba(0,0,0,.1);background:#fff;font:500 12px/1 Inter,sans-serif;color:#1a1a2e;white-space:nowrap">Publish for review</div>
+            <div style="width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:rgba(88,86,214,.08);color:#5856D6"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chat" size="15" hint-size="15px,15px"></x-import></div>
+          </div>
+        </div>
+
+        <div style="flex:1;display:flex;min-height:0;position:relative">
+          <dc-import name="Arlo Sidebar" hint-size="240px,100%"></dc-import>
+          <div style="flex:1;background:#fff;display:flex;min-width:0">
+            <div style="flex:1;min-width:0;padding:36px 40px;max-width:820px">
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap"><span style="color:#8e8eaa">##</span> <span style="color:#5856D6">Failure modes</span></div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">&nbsp;</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">Three things account for almost every page on this service.</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">&nbsp;</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap"><span style="color:#8e8eaa">###</span> <span style="color:#5856D6">Gateway timeout at the edge</span></div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">&nbsp;</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">The gateway gives up on the charge worker after <span style="color:#8e8eaa">**</span><strong>8 seconds</strong><span style="color:#8e8eaa">**</span>.</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">&nbsp;</div>
+              <div style="background:#f0f0f8;border-radius:8px;padding:10px 14px;margin:2px 0">
+                <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;white-space:pre-wrap"><span style="color:#8e8eaa">```</span></div>
+                <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#52526b;white-space:pre-wrap">kubectl logs -n payments deploy/charge-worker --since=15m</div>
+                <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#8e8eaa;white-space:pre-wrap"><span style="color:#8e8eaa">```</span></div>
+              </div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">&nbsp;</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap"><span style="color:#8e8eaa">###</span> <span style="color:#5856D6">Duplicate charge on client retry</span></div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">&nbsp;</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">A client that retries a charge after a gateway timeout without an</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">idempotency key creates a second authorisation. The worker cannot tell the two<span style="display:inline-block;width:1.5px;height:15px;background:#5856D6;vertical-align:-3px;margin:0 1px"></span> apart, so the ledger records both.</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap">&nbsp;</div>
+              <div style="font:400 13.5px/1.85 'SF Mono',ui-monospace,Menlo,monospace;color:#1a1a2e;white-space:pre-wrap"><span style="color:#8e8eaa">[</span>ADR-014: Idempotency strategy<span style="color:#8e8eaa">](/architecture/adr-014)</span></div>
+            </div>
+            <div style="width:186px;flex:none;border-left:1px solid rgba(0,0,0,.06);padding:36px 18px;display:flex;flex-direction:column;gap:10px">
+              <div style="font:500 11px/1 Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#8e8eaa">Outline</div>
+              <div style="font:400 12px/1.45 Inter,sans-serif;color:#64648c">Failure modes</div>
+              <div style="font:400 12px/1.45 Inter,sans-serif;color:#64648c;padding-left:11px">Gateway timeout at the edge</div>
+              <div style="font:400 12px/1.45 Inter,sans-serif;color:#64648c;padding-left:11px">Charge worker backlog</div>
+              <div style="font:400 12px/1.45 Inter,sans-serif;color:#64648c;padding-left:11px">Downstream ledger timeout</div>
+              <div style="font:500 12px/1.45 Inter,sans-serif;color:#5856D6;padding-left:11px">Duplicate charge on client retry</div>
+              <div style="font:400 12px/1.45 Inter,sans-serif;color:#64648c">Checklist</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="s8" style="display:flex;flex-direction:column;gap:12px">
+      <div style="font:500 12.5px/1 Inter,sans-serif;color:#64648c;letter-spacing:.01em">8 · Onboarding</div>
+      <div style="width:1440px;height:900px;background:#f8f8fc;border:1px solid rgba(0,0,0,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(26,26,46,.1)">
+        <div style="height:38px;flex:none;display:flex;align-items:center">
+          <div style="display:flex;gap:8px;padding:0 20px">
+            <div style="width:11px;height:11px;border-radius:6px;background:#ff5f57"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#febc2e"></div>
+            <div style="width:11px;height:11px;border-radius:6px;background:#28c840"></div>
+          </div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:34px">
+            <div style="width:30px;height:30px;border-radius:7px;background:#5856D6;color:#fff;font:700 16px/30px Inter,sans-serif;text-align:center">A</div>
+            <div style="font:700 21px/1 Inter,sans-serif;letter-spacing:-.02em;color:#1a1a2e">Arlo</div>
+          </div>
+          <div style="font:700 27px/1.25 Inter,sans-serif;letter-spacing:-.025em;color:#1a1a2e;margin-bottom:10px">Where should your knowledge live?</div>
+          <div style="font:400 14px/1.6 Inter,sans-serif;color:#64648c;margin-bottom:36px">Pick one to start. Arlo works the same way in both.</div>
+          <div style="display:flex;gap:20px;align-items:stretch">
+            <div style="width:300px;box-sizing:border-box;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:11px">
+              <div style="width:44px;height:44px;border-radius:8px;background:rgba(88,86,214,.08);display:flex;align-items:center;justify-content:center"><div style="color:#5856D6;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="file" size="22" hint-size="22px,22px"></x-import></div></div>
+              <div style="font:600 15px/1.35 Inter,sans-serif;letter-spacing:-.01em;color:#1a1a2e">Personal knowledge base</div>
+              <div style="font:400 13px/1.6 Inter,sans-serif;color:#64648c;flex:1;text-wrap:pretty">Choose a folder on this Mac. Everything stays on your machine.</div>
+              <div style="height:36px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.12);border-radius:999px;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">Choose folder…</div>
+            </div>
+            <div style="width:300px;box-sizing:border-box;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:11px">
+              <div style="width:44px;height:44px;border-radius:8px;background:rgba(88,86,214,.08);display:flex;align-items:center;justify-content:center"><div style="color:#5856D6;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="globe" size="22" hint-size="22px,22px"></x-import></div></div>
+              <div style="font:600 15px/1.35 Inter,sans-serif;letter-spacing:-.01em;color:#1a1a2e">Team knowledge base</div>
+              <div style="font:400 13px/1.6 Inter,sans-serif;color:#64648c;flex:1;text-wrap:pretty">Connect GitHub and pick a repository. Changes go through your team&rsquo;s review.</div>
+              <div style="height:36px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.12);border-radius:999px;font:500 12.5px/1 Inter,sans-serif;color:#1a1a2e">Continue with GitHub</div>
+            </div>
+          </div>
+          <div style="font:400 12.5px/1 Inter,sans-serif;color:#8e8eaa;margin-top:26px">You can add more knowledge bases later.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "out",
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@kb/shared": ["../../packages/shared/src/index.ts"],
+      "@kb/core": ["../../packages/core/src/index.ts"],
+      "@kb/client": ["../../packages/client/src/types.ts"],
+      "@kb/client/ipc": ["../../packages/client/src/ipc.ts"],
+      "@kb/client/http": ["../../packages/client/src/http.ts"],
+      "@kb/ui": ["../../packages/ui/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "out", "dist"]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@kb/desktop",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build && electron-builder",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "lint": "eslint src",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@kb/core": "workspace:*",
+    "@kb/client": "workspace:*",
+    "@kb/ui": "workspace:*",
+    "@kb/shared": "workspace:*",
+    "electron-updater": "^6.3.0"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-vite": "^2.3.0",
+    "electron-builder": "^24.13.0",
+    "typescript": "^5.0.0",
+    "@kb/config": "workspace:*",
+    "@vitejs/plugin-react": "^4.3.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "vitest": "^2.0.0"
+  }
+}

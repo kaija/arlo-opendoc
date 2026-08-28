@@ -1,0 +1,49 @@
+appId: com.kb.desktop
+productName: KB Desktop
+copyright: Copyright © 2024
+
+directories:
+  buildResources: build
+  output: dist-electron
+
+files:
+  - out/**/*
+  - package.json
+
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  icon: build/icon.icns
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  hardenedRuntime: true
+  gatekeeperAssess: false
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - arm64
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  artifactName: "${productName}-${version}-setup.${ext}"
+  shortcutName: "${productName}"
+  uninstallDisplayName: "${productName}"
+  createDesktopShortcut: always
+
+dmg:
+  artifactName: "${productName}-${version}.${ext}"
+
+publish:
+  provider: github
+  releaseType: release
+
+# Code signing placeholders (populated via CI secrets)
+# mac: certificate loaded from APPLE_CERT_BASE64 secret in CI
+# win: certificate decoded from WINDOWS_CERT_BASE64 secret in CI

@@ -1,0 +1,43 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "outDir": ".next",
+    "baseUrl": ".",
+    "paths": {
+      "@kb/shared": [
+        "../../packages/shared/src/index.ts"
+      ],
+      "@kb/client": [
+        "../../packages/client/src/types.ts"
+      ],
+      "@kb/client/ipc": [
+        "../../packages/client/src/ipc.ts"
+      ],
+      "@kb/client/http": [
+        "../../packages/client/src/http.ts"
+      ],
+      "@kb/ui": [
+        "../../packages/ui/src/index.ts"
+      ]
+    },
+    "allowJs": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "src/**/*",
+    "next.config.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

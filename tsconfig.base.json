@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@kb/shared": ["./packages/shared/src/index.ts"],
+      "@kb/shared/*": ["./packages/shared/src/*"],
+      "@kb/config": ["./packages/config/index.ts"],
+      "@kb/config/*": ["./packages/config/*"],
+      "@kb/core": ["./packages/core/src/index.ts"],
+      "@kb/core/*": ["./packages/core/src/*"],
+      "@kb/client": ["./packages/client/src/types.ts"],
+      "@kb/client/ipc": ["./packages/client/src/ipc.ts"],
+      "@kb/client/http": ["./packages/client/src/http.ts"],
+      "@kb/client/*": ["./packages/client/src/*"],
+      "@kb/ui": ["./packages/ui/src/index.ts"],
+      "@kb/ui/*": ["./packages/ui/src/*"]
+    }
+  }
+}

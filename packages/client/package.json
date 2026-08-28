@@ -1,0 +1,23 @@
+{
+  "name": "@kb/client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/types.ts",
+    "./ipc": "./src/ipc.ts",
+    "./http": "./src/http.ts"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@kb/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@kb/config": "workspace:*"
+  }
+}
