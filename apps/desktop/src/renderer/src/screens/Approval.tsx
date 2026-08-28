@@ -512,7 +512,7 @@ export function Approval(): React.ReactElement {
       />
       <Toolbar
         breadcrumb={['Runbooks', 'Payments service runbook']}
-        activeMode="read"
+        activeMode="preview"
         onModeChange={() => undefined}
         publishEnabled={false}
         chatActive={true}

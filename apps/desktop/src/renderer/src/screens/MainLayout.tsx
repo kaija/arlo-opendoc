@@ -30,6 +30,7 @@ export interface MainLayoutProps {
   onNotebookToggle: (notebookId: string) => void;
   onFileClick: (path: string) => void;
   onDirectoryToggle: (path: string) => void;
+  onContentChange: (content: string) => void;
 }
 
 // ── LoadingView ────────────────────────────────────────────────────────────
@@ -65,6 +66,7 @@ export function MainLayout({
   onNotebookToggle,
   onFileClick,
   onDirectoryToggle,
+  onContentChange,
 }: MainLayoutProps): React.ReactElement {
   const hasDraft = state.draftStatus !== null;
   const sidebarVariant = hasDraft ? 'draft' : 'live';
@@ -128,7 +130,7 @@ export function MainLayout({
             overflow: 'hidden',
           }}
         >
-          {state.viewMode === 'read' && (
+          {state.viewMode === 'preview' && (
             state.fileLoading ? (
               <LoadingView />
             ) : state.fileContent != null && state.activeFilePath != null ? (
@@ -141,7 +143,7 @@ export function MainLayout({
               <DocumentView activeNoteId={state.activeNoteId} />
             )
           )}
-          {state.viewMode === 'edit' && <MarkdownEditor />}
+          {state.viewMode === 'edit' && <MarkdownEditor content={state.fileContent} onChange={onContentChange} />}
           {state.viewMode === 'diff' && <DiffView />}
 
           {/* Chat panel — slides in from right */}

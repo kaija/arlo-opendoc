@@ -317,7 +317,7 @@ export function Agent(): React.ReactElement {
       />
       <Toolbar
         breadcrumb={['Runbooks', 'Payments service runbook']}
-        activeMode="read"
+        activeMode="preview"
         onModeChange={() => undefined}
         publishEnabled={true}
         chatActive={true}

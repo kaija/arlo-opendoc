@@ -1,6 +1,6 @@
 import type { FileNode } from '@arlo-doc/shared';
 
-export type ViewMode = 'read' | 'edit' | 'diff';
+export type ViewMode = 'preview' | 'edit' | 'diff';
 export type DraftStatus = 'working' | 'needs-approval' | 'draft' | null;
 export type ModalKind = 'search' | 'publish' | null;
 

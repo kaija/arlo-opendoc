@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import type { FileNode } from '@arlo-doc/shared';
 import { FileTypeIcon } from './FileTypeIcon';
@@ -33,15 +33,16 @@ interface TreeRowProps {
   onDoubleClick: () => void;
 }
 
+const MIN_WIDTH = 160;
+const MAX_WIDTH = 480;
+const DEFAULT_WIDTH = 240;
+
 // ── Helpers ────────────────────────────────────────────────────────────────
 
-/** Returns true for file types the preview pane can render. */
 function isPreviewable(fileName: string): boolean {
   const lower = fileName.toLowerCase();
   return lower.endsWith('.md') || lower.endsWith('.mdx') || lower.endsWith('.txt');
 }
-
-// ── flattenVisible ─────────────────────────────────────────────────────────
 
 function flattenVisible(nodes: FileNode[], depth: number, expandedPaths: string[]): FlatRow[] {
   const rows: FlatRow[] = [];
@@ -70,13 +71,9 @@ function TreeRow({
   onDoubleClick,
 }: TreeRowProps): React.ReactElement {
   let background = 'transparent';
-  if (isActive) {
-    background = 'rgba(88,86,214,.08)';
-  } else if (isHovered) {
-    background = 'rgba(88,86,214,.04)';
-  }
+  if (isActive) background = 'rgba(88,86,214,.08)';
+  else if (isHovered) background = 'rgba(88,86,214,.04)';
 
-  // Non-previewable files are dimmed and show a not-allowed cursor
   const isUnsupported = node.kind === 'file' && !isPreviewable;
 
   const rowStyle: React.CSSProperties = {
@@ -101,13 +98,6 @@ function TreeRow({
     overflow: 'hidden',
   };
 
-  const nameStyle: React.CSSProperties = {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    flex: 1,
-    minWidth: 0,
-  };
-
   return (
     <div
       style={rowStyle}
@@ -117,17 +107,17 @@ function TreeRow({
       onDoubleClick={onDoubleClick}
     >
       {node.kind === 'dir' ? (
-        isExpanded ? (
-          <ChevronDown size={12} style={{ flexShrink: 0, color: isActive ? '#5856D6' : '#8e8eaa' }} />
-        ) : (
-          <ChevronRight size={12} style={{ flexShrink: 0, color: isActive ? '#5856D6' : '#8e8eaa' }} />
-        )
+        isExpanded
+          ? <ChevronDown size={12} style={{ flexShrink: 0, color: isActive ? '#5856D6' : '#8e8eaa' }} />
+          : <ChevronRight size={12} style={{ flexShrink: 0, color: isActive ? '#5856D6' : '#8e8eaa' }} />
       ) : (
         <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
           <FileTypeIcon fileName={node.name} />
         </span>
       )}
-      <span style={nameStyle}>{node.name}</span>
+      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>
+        {node.name}
+      </span>
     </div>
   );
 }
@@ -143,23 +133,47 @@ export function FileBrowser({
   isLoading = false,
 }: FileBrowserProps): React.ReactElement {
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+  const [width, setWidth] = useState(DEFAULT_WIDTH);
+  const [resizing, setResizing] = useState(false);
+  const dragStartX = useRef(0);
+  const dragStartWidth = useRef(DEFAULT_WIDTH);
+
+  const onResizeStart = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    dragStartX.current = e.clientX;
+    dragStartWidth.current = width;
+    setResizing(true);
+
+    const onMove = (ev: MouseEvent) => {
+      const delta = ev.clientX - dragStartX.current;
+      setWidth(Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, dragStartWidth.current + delta)));
+    };
+    const onUp = () => {
+      setResizing(false);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  }, [width]);
 
   const flatRows = flattenVisible(fileTree.children, 0, expandedPaths);
-  const folderBasename = fileTree.name;
 
   return (
     <div
       style={{
-        width: 240,
+        width,
         flexShrink: 0,
         background: '#f8f8fc',
         borderRight: '1px solid rgba(0,0,0,.06)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        position: 'relative',
+        userSelect: resizing ? 'none' : undefined,
       }}
     >
-      {/* Header: folder basename */}
+      {/* Header */}
       <div
         style={{
           padding: '10px 16px 6px',
@@ -172,10 +186,10 @@ export function FileBrowser({
           flexShrink: 0,
         }}
       >
-        {folderBasename}
+        {fileTree.name}
       </div>
 
-      {/* Scrollable tree body */}
+      {/* Scrollable tree */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '0 8px' }}>
         {flatRows.map(({ node, depth }) => {
           const previewable = node.kind === 'file' && isPreviewable(node.name);
@@ -191,22 +205,29 @@ export function FileBrowser({
               isPreviewable={previewable}
               onMouseEnter={() => setHoveredPath(node.path)}
               onMouseLeave={() => setHoveredPath(null)}
-              onClick={() => {
-                // Directories toggle on single click
-                if (node.kind === 'dir') {
-                  onDirectoryToggle(node.path);
-                }
-                // Files open on double click — single click is a no-op
-              }}
-              onDoubleClick={() => {
-                if (node.kind === 'file' && previewable) {
-                  onFileClick(node.path);
-                }
-              }}
+              onClick={() => { if (node.kind === 'dir') onDirectoryToggle(node.path); }}
+              onDoubleClick={() => { if (node.kind === 'file' && previewable) onFileClick(node.path); }}
             />
           );
         })}
       </div>
+
+      {/* Drag handle */}
+      <div
+        onMouseDown={onResizeStart}
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: 4,
+          height: '100%',
+          cursor: 'col-resize',
+          background: resizing ? 'rgba(88,86,214,.25)' : 'transparent',
+          transition: 'background 0.15s',
+          zIndex: 10,
+        }}
+        title="Drag to resize"
+      />
     </div>
   );
 }

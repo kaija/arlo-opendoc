@@ -2,9 +2,7 @@ import React from 'react';
 
 interface DocumentViewProps {
   activeNoteId: string;
-  /** When non-null, renders this content instead of the hardcoded demo note. */
   fileContent?: string | null;
-  /** The absolute file path — used to determine rendering mode (.md vs other). */
   activeFilePath?: string | null;
 }
 
@@ -13,109 +11,362 @@ function isMarkdownPath(filePath: string): boolean {
   return lower.endsWith('.md') || lower.endsWith('.mdx');
 }
 
-export function DocumentView({ activeNoteId, fileContent, activeFilePath }: DocumentViewProps): React.ReactElement {
-  if (fileContent != null && activeFilePath != null) {
-    if (isMarkdownPath(activeFilePath)) {
-      return (
-        <div style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}>
-          <div style={{ width: '100%', maxWidth: 720, padding: '48px 40px' }}>
-            <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)', fontSize: 15, lineHeight: 1.7, color: '#1a1a2e' }}>
-              {fileContent}
-            </pre>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div style={{ flex: 1, overflowY: 'auto', background: '#fff' }}>
-          <pre style={{ padding: '32px 40px', fontFamily: 'var(--font-mono)', fontSize: 13, color: '#1a1a2e', lineHeight: 1.6, overflowX: 'auto', margin: 0 }}>
-            {fileContent}
-          </pre>
-        </div>
-      );
+// ── Minimal Markdown renderer ──────────────────────────────────────────────
+
+interface TableToken {
+  type: 'table';
+  headers: string[];
+  alignments: Array<'left' | 'right' | 'center' | 'none'>;
+  rows: string[][];
+}
+
+type Token =
+  | { type: 'h1'|'h2'|'h3'|'h4'|'h5'|'h6'; content: string }
+  | { type: 'p'; content: string }
+  | { type: 'ul'|'ol'; content: string; items: string[] }
+  | { type: 'blockquote'; content: string }
+  | { type: 'hr'|'blank'; content: string }
+  | { type: 'code_block'; content: string; lang: string }
+  | TableToken;
+
+function parseTableRow(line: string): string[] {
+  const trimmed = line.replace(/^\||\|$/g, '');
+  return trimmed.split('|').map((c) => c.trim());
+}
+
+function isSeparatorRow(line: string): boolean {
+  return /^\|?[\s|:\-]+\|?$/.test(line) && /[-]/.test(line);
+}
+
+function parseAlignment(cell: string): 'left' | 'right' | 'center' | 'none' {
+  const t = cell.trim();
+  if (t.startsWith(':') && t.endsWith(':')) return 'center';
+  if (t.endsWith(':')) return 'right';
+  if (t.startsWith(':')) return 'left';
+  return 'none';
+}
+
+function tokenize(md: string): Token[] {
+  const lines = md.split('\n');
+  const tokens: Token[] = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i]!;
+
+    // Fenced code block
+    if (line.startsWith('```')) {
+      const lang = line.slice(3).trim();
+      const codeLines: string[] = [];
+      i++;
+      while (i < lines.length && !lines[i]!.startsWith('```')) {
+        codeLines.push(lines[i]!);
+        i++;
+      }
+      tokens.push({ type: 'code_block', content: codeLines.join('\n'), lang });
+      i++;
+      continue;
+    }
+
+    // Table — header row followed immediately by a separator row
+    if (
+      line.includes('|') &&
+      i + 1 < lines.length &&
+      isSeparatorRow(lines[i + 1]!)
+    ) {
+      const headers = parseTableRow(line);
+      const sepCells = parseTableRow(lines[i + 1]!);
+      const alignments = sepCells.map(parseAlignment);
+      const rows: string[][] = [];
+      i += 2;
+      while (i < lines.length && lines[i]!.trim() !== '' && lines[i]!.includes('|')) {
+        rows.push(parseTableRow(lines[i]!));
+        i++;
+      }
+      tokens.push({ type: 'table', headers, alignments, rows });
+      continue;
+    }
+
+    // Headings
+    const hMatch = line.match(/^(#{1,6})\s+(.*)/);
+    if (hMatch) {
+      const level = hMatch[1]!.length as 1|2|3|4|5|6;
+      tokens.push({ type: `h${level}` as 'h1', content: hMatch[2]! });
+      i++;
+      continue;
+    }
+
+    // Horizontal rule
+    if (/^(-{3,}|\*{3,}|_{3,})\s*$/.test(line)) {
+      tokens.push({ type: 'hr', content: '' });
+      i++;
+      continue;
+    }
+
+    // Unordered list
+    if (/^[-*+]\s/.test(line)) {
+      const items: string[] = [];
+      while (i < lines.length && /^[-*+]\s/.test(lines[i]!)) {
+        items.push(lines[i]!.replace(/^[-*+]\s+/, ''));
+        i++;
+      }
+      tokens.push({ type: 'ul', content: '', items });
+      continue;
+    }
+
+    // Ordered list
+    if (/^\d+\.\s/.test(line)) {
+      const items: string[] = [];
+      while (i < lines.length && /^\d+\.\s/.test(lines[i]!)) {
+        items.push(lines[i]!.replace(/^\d+\.\s+/, ''));
+        i++;
+      }
+      tokens.push({ type: 'ol', content: '', items });
+      continue;
+    }
+
+    // Blockquote
+    if (line.startsWith('> ')) {
+      const quoteLines: string[] = [];
+      while (i < lines.length && lines[i]!.startsWith('> ')) {
+        quoteLines.push(lines[i]!.slice(2));
+        i++;
+      }
+      tokens.push({ type: 'blockquote', content: quoteLines.join('\n') });
+      continue;
+    }
+
+    // Blank line
+    if (line.trim() === '') {
+      tokens.push({ type: 'blank', content: '' });
+      i++;
+      continue;
+    }
+
+    // Paragraph — stop before block-level elements or table starts
+    const pLines: string[] = [];
+    while (
+      i < lines.length &&
+      lines[i]!.trim() !== '' &&
+      !/^(#{1,6}\s|[-*+]\s|\d+\.\s|> |```|-{3,}|\*{3,}|_{3,})/.test(lines[i]!) &&
+      !(lines[i]!.includes('|') && i + 1 < lines.length && isSeparatorRow(lines[i + 1]!))
+    ) {
+      pLines.push(lines[i]!);
+      i++;
+    }
+    if (pLines.length > 0) {
+      tokens.push({ type: 'p', content: pLines.join(' ') });
     }
   }
+  return tokens;
+}
 
+// ── Inline renderer ────────────────────────────────────────────────────────
+
+function renderInline(text: string): React.ReactNode[] {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('*') && part.endsWith('*')) {
+      return <em key={i}>{part.slice(1, -1)}</em>;
+    }
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code key={i} style={{
+          background: '#f0f0f8', borderRadius: 3, padding: '1px 5px',
+          fontFamily: 'var(--font-mono)', fontSize: '0.88em', color: '#52526b',
+        }}>
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (linkMatch) {
+      return <a key={i} href={linkMatch[2]} style={{ color: '#5856D6' }}>{linkMatch[1]}</a>;
+    }
+    return <React.Fragment key={i}>{part}</React.Fragment>;
+  });
+}
+
+// ── Token renderer ─────────────────────────────────────────────────────────
+
+const HEADING_STYLES: Record<string, React.CSSProperties> = {
+  h1: { fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', marginBottom: 16, marginTop: 40, lineHeight: 1.2, borderBottom: '1px solid rgba(0,0,0,.08)', paddingBottom: 8 },
+  h2: { fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', marginBottom: 12, marginTop: 32, lineHeight: 1.3, borderBottom: '1px solid rgba(0,0,0,.08)', paddingBottom: 6 },
+  h3: { fontSize: 17, fontWeight: 600, marginBottom: 10, marginTop: 24, lineHeight: 1.4 },
+  h4: { fontSize: 15, fontWeight: 600, marginBottom: 8,  marginTop: 20 },
+  h5: { fontSize: 14, fontWeight: 600, marginBottom: 6,  marginTop: 16 },
+  h6: { fontSize: 13, fontWeight: 600, marginBottom: 4,  marginTop: 12, color: '#52526b' },
+};
+
+const ALIGN_MAP: Record<string, React.CSSProperties['textAlign']> = {
+  left: 'left', right: 'right', center: 'center', none: 'left',
+};
+
+function renderToken(tok: Token, idx: number): React.ReactNode {
+  const base: React.CSSProperties = { fontFamily: 'var(--font-sans)', color: '#1a1a2e' };
+
+  if (tok.type === 'blank') return null;
+
+  if (tok.type === 'hr') {
+    return <hr key={idx} style={{ border: 'none', borderTop: '1px solid rgba(0,0,0,.1)', margin: '24px 0' }} />;
+  }
+
+  if (tok.type === 'code_block') {
+    return (
+      <pre key={idx} style={{ background: '#f0f0f8', borderRadius: 8, padding: '16px 20px', fontFamily: 'var(--font-mono)', fontSize: 13, color: '#1a1a2e', overflowX: 'auto', lineHeight: 1.6, margin: '16px 0' }}>
+        <code>{tok.content}</code>
+      </pre>
+    );
+  }
+
+  if (tok.type === 'blockquote') {
+    return (
+      <blockquote key={idx} style={{ borderLeft: '3px solid #5856D6', margin: '16px 0', paddingLeft: 16, color: '#52526b', fontStyle: 'italic' }}>
+        {tok.content.split('\n').map((l, i) => (
+          <p key={i} style={{ margin: 0, lineHeight: 1.7 }}>{renderInline(l)}</p>
+        ))}
+      </blockquote>
+    );
+  }
+
+  if (tok.type === 'ul') {
+    return (
+      <ul key={idx} style={{ ...base, margin: '8px 0', paddingLeft: 24, lineHeight: 1.7 }}>
+        {tok.items.map((item, i) => <li key={i} style={{ marginBottom: 2 }}>{renderInline(item)}</li>)}
+      </ul>
+    );
+  }
+
+  if (tok.type === 'ol') {
+    return (
+      <ol key={idx} style={{ ...base, margin: '8px 0', paddingLeft: 24, lineHeight: 1.7 }}>
+        {tok.items.map((item, i) => <li key={i} style={{ marginBottom: 2 }}>{renderInline(item)}</li>)}
+      </ol>
+    );
+  }
+
+  if (tok.type === 'table') {
+    return (
+      <div key={idx} style={{ margin: '16px 0', overflowX: 'auto' }}>
+        <table style={{ borderCollapse: 'collapse', width: '100%', fontFamily: 'var(--font-sans)', fontSize: 14 }}>
+          <thead>
+            <tr>
+              {tok.headers.map((h, ci) => (
+                <th
+                  key={ci}
+                  style={{
+                    padding: '8px 14px',
+                    textAlign: ALIGN_MAP[tok.alignments[ci] ?? 'none'],
+                    fontWeight: 600,
+                    fontSize: 12,
+                    color: '#52526b',
+                    background: '#f8f8fc',
+                    borderBottom: '2px solid rgba(0,0,0,.1)',
+                    borderTop: '1px solid rgba(0,0,0,.08)',
+                    letterSpacing: '0.01em',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {renderInline(h)}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {tok.rows.map((row, ri) => (
+              <tr key={ri} style={{ background: ri % 2 === 1 ? '#fafafa' : '#fff' }}>
+                {row.map((cell, ci) => (
+                  <td
+                    key={ci}
+                    style={{
+                      padding: '8px 14px',
+                      textAlign: ALIGN_MAP[tok.alignments[ci] ?? 'none'],
+                      color: '#1a1a2e',
+                      borderBottom: '1px solid rgba(0,0,0,.06)',
+                      verticalAlign: 'top',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {renderInline(cell)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  if (tok.type in HEADING_STYLES) {
+    const Tag = tok.type as keyof JSX.IntrinsicElements;
+    return (
+      <Tag key={idx} style={{ ...base, ...HEADING_STYLES[tok.type] }}>
+        {renderInline(tok.content)}
+      </Tag>
+    );
+  }
+
+  // paragraph
   return (
-    <div
-      style={{
-        flex: 1,
-        overflowY: 'auto',
-        background: '#fff',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          maxWidth: 720,
-          padding: '48px 40px',
-        }}
-      >
-        {activeNoteId === 'deploy-rollback' ? (
-          <DeployRollbackDoc />
-        ) : (
-          <PaymentsRunbookDoc />
-        )}
+    <p key={idx} style={{ ...base, fontSize: 15, lineHeight: 1.75, margin: '8px 0' }}>
+      {renderInline(tok.content)}
+    </p>
+  );
+}
+
+function MarkdownView({ content }: { content: string }): React.ReactElement {
+  const tokens = tokenize(content);
+  return (
+    <div style={{ fontFamily: 'var(--font-sans)', color: '#1a1a2e' }}>
+      {tokens.map((tok, i) => renderToken(tok, i))}
+    </div>
+  );
+}
+
+// ── DocumentView ───────────────────────────────────────────────────────────
+
+export function DocumentView({ activeNoteId, fileContent, activeFilePath }: DocumentViewProps): React.ReactElement {
+  if (fileContent != null && activeFilePath != null) {
+    const isMd = isMarkdownPath(activeFilePath);
+    return (
+      <div style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: '100%', maxWidth: 740, padding: '48px 40px' }}>
+          {isMd
+            ? <MarkdownView content={fileContent} />
+            : <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: '#1a1a2e', margin: 0 }}>{fileContent}</pre>
+          }
+        </div>
+      </div>
+    );
+  }
+
+  // Demo mode
+  return (
+    <div style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: '100%', maxWidth: 720, padding: '48px 40px' }}>
+        {activeNoteId === 'deploy-rollback' ? <DeployRollbackDoc /> : <PaymentsRunbookDoc />}
       </div>
     </div>
   );
 }
 
+// ── Demo docs ──────────────────────────────────────────────────────────────
+
 function DeployRollbackDoc(): React.ReactElement {
   return (
     <>
-      <h1
-        style={{
-          fontSize: 31,
-          fontWeight: 700,
-          color: '#1a1a2e',
-          letterSpacing: '-0.025em',
-          marginBottom: 18,
-          fontFamily: 'var(--font-sans)',
-          lineHeight: 1.2,
-        }}
-      >
+      <h1 style={{ fontSize: 31, fontWeight: 700, color: '#1a1a2e', letterSpacing: '-0.025em', marginBottom: 18, fontFamily: 'var(--font-sans)', lineHeight: 1.2 }}>
         Deploy rollback
       </h1>
-
-      <h2
-        style={{
-          fontSize: 19,
-          fontWeight: 600,
-          color: '#1a1a2e',
-          letterSpacing: '-0.015em',
-          marginBottom: 12,
-          fontFamily: 'var(--font-sans)',
-        }}
-      >
+      <h2 style={{ fontSize: 19, fontWeight: 600, color: '#1a1a2e', letterSpacing: '-0.015em', marginBottom: 12, fontFamily: 'var(--font-sans)' }}>
         Prerequisites
       </h2>
-
-      <pre
-        style={{
-          background: '#f0f0f8',
-          borderRadius: 8,
-          padding: '16px 20px',
-          fontFamily: 'var(--font-mono)',
-          fontSize: 13,
-          color: '#1a1a2e',
-          overflowX: 'auto',
-          lineHeight: 1.6,
-        }}
-      >
-        {`# Identify the last stable release tag
-git log --oneline --tags --simplify-by-decoration
-
-# Roll back to the previous deploy
-./scripts/deploy.sh --env production --tag <previous-tag>
-
-# Verify the rollback completed
-./scripts/health-check.sh --env production
-
-# Notify the on-call channel
-./scripts/notify.sh --channel incidents --message "Rollback to <previous-tag> complete"`}
+      <pre style={{ background: '#f0f0f8', borderRadius: 8, padding: '16px 20px', fontFamily: 'var(--font-mono)', fontSize: 13, color: '#1a1a2e', overflowX: 'auto', lineHeight: 1.6 }}>
+        {`# Identify the last stable release tag\ngit log --oneline --tags --simplify-by-decoration`}
       </pre>
     </>
   );
@@ -124,219 +375,11 @@ git log --oneline --tags --simplify-by-decoration
 function PaymentsRunbookDoc(): React.ReactElement {
   return (
     <>
-      {/* Frontmatter tags */}
-      <div style={{ display: 'flex', gap: 6, marginBottom: 20, flexWrap: 'wrap' }}>
-        {[
-          { label: 'owner', value: 'payments-team' },
-          { label: 'review by', value: '2026-09-30' },
-          { label: 'severity', value: 'sev1' },
-        ].map(({ label, value }) => (
-          <span
-            key={label}
-            style={{
-              background: '#f0f0f8',
-              borderRadius: 999,
-              padding: '4px 10px',
-              fontSize: 12,
-              fontFamily: 'var(--font-sans)',
-              color: '#52526b',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 11,
-                color: '#8e8eaa',
-                marginRight: 4,
-              }}
-            >
-              {label}
-            </span>
-            {value}
-          </span>
-        ))}
-      </div>
-
-      {/* H1 */}
-      <h1
-        style={{
-          fontSize: 31,
-          fontWeight: 700,
-          color: '#1a1a2e',
-          letterSpacing: '-0.025em',
-          marginBottom: 18,
-          fontFamily: 'var(--font-sans)',
-          lineHeight: 1.2,
-        }}
-      >
+      <h1 style={{ fontSize: 31, fontWeight: 700, color: '#1a1a2e', letterSpacing: '-0.025em', marginBottom: 18, fontFamily: 'var(--font-sans)', lineHeight: 1.2 }}>
         Payments service runbook
       </h1>
-
-      {/* Intro paragraph */}
-      <p
-        style={{
-          fontSize: 15,
-          fontWeight: 400,
-          lineHeight: 1.7,
-          color: '#1a1a2e',
-          maxWidth: '68ch',
-          marginBottom: 32,
-          fontFamily: 'var(--font-sans)',
-        }}
-      >
-        This runbook covers the most common operational scenarios for the Payments service,
-        including incident response procedures, escalation paths, and known failure modes.
-        Reference this document during on-call shifts and postmortems.
-      </p>
-
-      {/* H2: Escalation path */}
-      <h2
-        style={{
-          fontSize: 19,
-          fontWeight: 600,
-          color: '#1a1a2e',
-          letterSpacing: '-0.015em',
-          marginBottom: 12,
-          fontFamily: 'var(--font-sans)',
-        }}
-      >
-        Escalation path
-      </h2>
-
-      <p
-        style={{
-          fontSize: 15,
-          lineHeight: 1.7,
-          color: '#1a1a2e',
-          maxWidth: '68ch',
-          marginBottom: 20,
-          fontFamily: 'var(--font-sans)',
-        }}
-      >
-        Follow the escalation chain below when a payments incident is confirmed. Response
-        times are contractual SLAs; breach of response time should be escalated immediately
-        to the next level.
-      </p>
-
-      {/* Table */}
-      <div
-        style={{
-          border: '1px solid rgba(0,0,0,.08)',
-          borderRadius: 8,
-          overflow: 'hidden',
-          maxWidth: 620,
-          marginBottom: 36,
-        }}
-      >
-        {/* Table header */}
-        <div
-          style={{
-            display: 'flex',
-            background: '#f8f8fc',
-            borderBottom: '1px solid rgba(0,0,0,.08)',
-          }}
-        >
-          {[
-            { label: 'Level', width: 88 },
-            { label: 'Who', flex: 1 as const },
-            { label: 'Response time', width: 130 },
-          ].map(({ label, width, flex }) => (
-            <div
-              key={label}
-              style={{
-                width: width,
-                flex: flex,
-                padding: '8px 12px',
-                fontSize: 11,
-                fontWeight: 500,
-                fontFamily: 'var(--font-sans)',
-                color: '#8e8eaa',
-                textTransform: 'uppercase',
-                letterSpacing: '0.04em',
-              }}
-            >
-              {label}
-            </div>
-          ))}
-        </div>
-
-        {/* Table rows */}
-        {[
-          { level: 'L1', who: 'On-call engineer', time: '< 5 min' },
-          { level: 'L2', who: 'Payments team lead', time: '< 15 min' },
-          { level: 'L3', who: 'VP Engineering', time: '< 30 min' },
-        ].map(({ level, who, time }, i) => (
-          <div
-            key={level}
-            style={{
-              display: 'flex',
-              borderTop: i > 0 ? '1px solid rgba(0,0,0,.06)' : undefined,
-            }}
-          >
-            <div
-              style={{
-                width: 88,
-                padding: '9px 12px',
-                fontSize: 13,
-                fontFamily: 'var(--font-mono)',
-                color: '#52526b',
-              }}
-            >
-              {level}
-            </div>
-            <div
-              style={{
-                flex: 1,
-                padding: '9px 12px',
-                fontSize: 13,
-                fontFamily: 'var(--font-sans)',
-                color: '#1a1a2e',
-              }}
-            >
-              {who}
-            </div>
-            <div
-              style={{
-                width: 130,
-                padding: '9px 12px',
-                fontSize: 13,
-                fontFamily: 'var(--font-sans)',
-                color: '#52526b',
-              }}
-            >
-              {time}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* H2: Failure modes */}
-      <h2
-        style={{
-          fontSize: 19,
-          fontWeight: 600,
-          color: '#1a1a2e',
-          letterSpacing: '-0.015em',
-          marginBottom: 12,
-          fontFamily: 'var(--font-sans)',
-        }}
-      >
-        Failure modes
-      </h2>
-
-      <p
-        style={{
-          fontSize: 15,
-          lineHeight: 1.7,
-          color: '#1a1a2e',
-          maxWidth: '68ch',
-          marginBottom: 48,
-          fontFamily: 'var(--font-sans)',
-        }}
-      >
-        The following failure modes have been observed in production. Each entry includes
-        root cause, detection signals, and recommended remediation steps. Refer to linked
-        postmortems for historical context.
+      <p style={{ fontSize: 15, lineHeight: 1.7, color: '#1a1a2e', maxWidth: '68ch', marginBottom: 32, fontFamily: 'var(--font-sans)' }}>
+        This runbook covers the most common operational scenarios for the Payments service.
       </p>
     </>
   );

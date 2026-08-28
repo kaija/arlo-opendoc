@@ -3,8 +3,8 @@ import { Search, MessageSquare } from 'lucide-react';
 
 interface ToolbarProps {
   breadcrumb: string[];
-  activeMode: 'read' | 'edit' | 'diff';
-  onModeChange: (mode: 'read' | 'edit' | 'diff') => void;
+  activeMode: 'preview' | 'edit' | 'diff';
+  onModeChange: (mode: 'preview' | 'edit' | 'diff') => void;
   publishEnabled: boolean;
   chatActive: boolean;
   onChatToggle: () => void;
@@ -12,8 +12,8 @@ interface ToolbarProps {
   onSearchClick: () => void;
 }
 
-const MODES: Array<{ id: 'read' | 'edit' | 'diff'; label: string }> = [
-  { id: 'read', label: 'Read' },
+const MODES: Array<{ id: 'preview' | 'edit' | 'diff'; label: string }> = [
+  { id: 'preview', label: 'Preview' },
   { id: 'edit', label: 'Edit' },
   { id: 'diff', label: 'What changed' },
 ];

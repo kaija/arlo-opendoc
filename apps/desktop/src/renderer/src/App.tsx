@@ -10,7 +10,7 @@ const INITIAL_TABS = [
 ];
 
 const INITIAL_STATE: AppState = {
-  viewMode: 'read',
+  viewMode: 'preview',
   modal: null,
   showChat: false,
   draftStatus: null,
@@ -68,7 +68,7 @@ export function App(): React.ReactElement {
   const handleCloseSearch = useCallback(
     (noteId?: string) => {
       if (noteId) {
-        update({ modal: null, activeNoteId: noteId, viewMode: 'read' });
+        update({ modal: null, activeNoteId: noteId, viewMode: 'preview' });
       } else {
         update({ modal: null });
       }
@@ -117,7 +117,7 @@ export function App(): React.ReactElement {
       draftStatus: null,
       draftName: '',
       showChat: false,
-      viewMode: 'read',
+      viewMode: 'preview',
     });
   }, [update]);
 
@@ -128,7 +128,7 @@ export function App(): React.ReactElement {
   // Tabs
   const handleTabClick = useCallback(
     (id: string) => {
-      update({ activeTabId: id, activeNoteId: id, viewMode: 'read' });
+      update({ activeTabId: id, activeNoteId: id, viewMode: 'preview' });
     },
     [update],
   );
@@ -140,7 +140,7 @@ export function App(): React.ReactElement {
   // Sidebar
   const handleNoteClick = useCallback(
     (noteId: string) => {
-      update({ activeNoteId: noteId, activeTabId: noteId, viewMode: 'read' });
+      update({ activeNoteId: noteId, activeTabId: noteId, viewMode: 'preview' });
     },
     [update],
   );
@@ -200,6 +200,10 @@ export function App(): React.ReactElement {
     });
   }, []);
 
+  const handleContentChange = useCallback((content: string) => {
+    update({ fileContent: content });
+  }, [update]);
+
   if (!onboarded) {
     return (
       <Onboarding
@@ -231,6 +235,7 @@ export function App(): React.ReactElement {
       onNotebookToggle={handleNotebookToggle}
       onFileClick={handleFileClick}
       onDirectoryToggle={handleDirectoryToggle}
+      onContentChange={handleContentChange}
     />
   );
 }
