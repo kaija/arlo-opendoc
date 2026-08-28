@@ -26,9 +26,15 @@ importers:
       '@arlo-doc/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@fontsource/inter':
+        specifier: ^5.3.0
+        version: 5.3.0
       electron-updater:
         specifier: ^6.8.0
         version: 6.8.9
+      lucide-react:
+        specifier: ^1.35.0
+        version: 1.35.0(react@18.3.1)
     devDependencies:
       '@arlo-doc/config':
         specifier: workspace:*
@@ -789,6 +795,9 @@ packages:
 
   '@fastify/sensible@6.0.5':
     resolution: {integrity: sha512-v4mGejwT6EJA2zd2rS6XwlyUSva2ILsqzG0aGkyrlS7l2jIpUgFACclSPN3kDijX//cf8+GutRLhJVKx3ae2Cw==}
+
+  '@fontsource/inter@5.3.0':
+    resolution: {integrity: sha512-RofMylZmjlJEfELXeNHFWBRcSs75rGU/6bV2S2jfnvv/3rPXPGe0LgUJTklcHZ9lM4OZmAVFhcJPnACfb91A3g==}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -2683,6 +2692,11 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
+  lucide-react@1.35.0:
+    resolution: {integrity: sha512-yXCCWxGFYT6bLIPYC4SY6fPQPRs/d797rRIue+J9XP2Td6vQvD53gaQRBCnIVT1kTQRHtAtxlfOQNWAuIF8ELg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -4230,6 +4244,8 @@ snapshots:
       http-errors: 2.0.1
       type-is: 2.1.0
       vary: 1.1.2
+
+  '@fontsource/inter@5.3.0': {}
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -6252,6 +6268,10 @@ snapshots:
   lru-cache@6.0.0:
     dependencies:
       yallist: 4.0.0
+
+  lucide-react@1.35.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   magic-string@0.30.21:
     dependencies:

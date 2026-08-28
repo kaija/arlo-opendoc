@@ -1,0 +1,299 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "4.1 Add `OnboardingProps` interface with `onChooseLocal: () => void` and `onChooseGitHub: () => void`": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920181994
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920190108
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920335949
+      }
+    ],
+    "5.1 Replace hardcoded `isExpanded` with prop-driven `expandedNotebooks` array and add callbacks": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182059
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920190958
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920336993
+      }
+    ],
+    "6.1 Create the component file and implement `activeNoteId`-based content routing": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182107
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920341475
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920451447
+      }
+    ],
+    "7.1 Extract the editor and outline panel from `screens/Editing.tsx`": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182175
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920342008
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920452682
+      }
+    ],
+    "8.1 Extract the diff layout from `screens/WhatChanged.tsx`": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182222
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920342825
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920453508
+      }
+    ],
+    "9.1 Scaffold the component with full props interface and layout skeleton": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182264
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920458461
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920505144
+      }
+    ],
+    "9.2 Implement header with dynamic status badge and close button": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182313
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920509628
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920676562
+      }
+    ],
+    "9.3 Implement messages area with user bubble, tool call cards, response text, and conditional content": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182360
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920510411
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920677494
+      }
+    ],
+    "9.4 Implement footer with draft pill, controlled textarea, and send button": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182393
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920511176
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920678311
+      }
+    ],
+    "10.1 Implement the overlay, modal card, and backdrop dismiss": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182430
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920511947
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920679345
+      }
+    ],
+    "10.2 Implement modal card contents with result click and Esc dismiss handlers": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182494
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920684712
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920805997
+      }
+    ],
+    "11.1 Implement the overlay, modal card structure, and action button callbacks": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182539
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920683920
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920806970
+      }
+    ],
+    "12. Verify TypeScript compilation": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182576
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920811816
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920862339
+      }
+    ],
+    "13. Verify production build": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920182616
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920866705
+      },
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787921104678
+      }
+    ],
+    "4. Update `screens/Onboarding.tsx` — Add `onChooseLocal` and `onChooseGitHub` props": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920336010
+      }
+    ],
+    "5. Update `components/Sidebar.tsx` — Add expandedNotebooks/onNoteClick/onNotebookToggle props + hover state": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920337058
+      }
+    ],
+    "6. Create `components/DocumentView.tsx` — Note content renderer driven by `activeNoteId`": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920451495
+      }
+    ],
+    "7. Create `components/MarkdownEditor.tsx` — Monospace markdown editor with outline panel": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920452742
+      }
+    ],
+    "8. Create `components/DiffView.tsx` — Two-column side-by-side diff": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920453544
+      }
+    ],
+    "9. Create `components/ChatPanel.tsx` — Interactive AI chat panel (merges Agent + Approval states)": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920678346
+      }
+    ],
+    "10. Create `components/SearchModal.tsx` — Full-screen search overlay with result navigation": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920806057
+      }
+    ],
+    "11. Create `components/PublishModal.tsx` — Full-screen publish form overlay": [
+      {
+        "executionId": "e1c8048e-05f2-453e-95d5-5f7c4246be09",
+        "chatSessionId": "sess_750ce62e-694d-42ff-b7bb-9f7a82954fc1",
+        "timestamp": 1787920807006
+      }
+    ]
+  }
+}
