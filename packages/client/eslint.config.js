@@ -1,4 +1,4 @@
 // @ts-check
-import config from "@kb/config/eslint";
+import config from "@arlo-doc/config/eslint";
 
 export default config;

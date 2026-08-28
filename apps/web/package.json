@@ -1,5 +1,5 @@
 {
-  "name": "@kb/web",
+  "name": "@arlo-doc/web",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,9 +11,9 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@kb/client": "workspace:*",
-    "@kb/ui": "workspace:*",
-    "@kb/shared": "workspace:*",
+    "@arlo-doc/client": "workspace:*",
+    "@arlo-doc/ui": "workspace:*",
+    "@arlo-doc/shared": "workspace:*",
     "next": "^15.0.0",
     "next-auth": "5.0.0-beta.32",
     "react": "^18.3.0",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "typescript": "^5.0.0",
-    "@kb/config": "workspace:*",
+    "@arlo-doc/config": "workspace:*",
     "@types/node": "^22.0.0",
     "@types/react": "^18.3.0",
     "vitest": "^2.0.0"

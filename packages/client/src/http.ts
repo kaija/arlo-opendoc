@@ -1,4 +1,4 @@
-// NO imports from @kb/core (Requirement 4.3)
+// NO imports from @arlo-doc/core (Requirement 4.3)
 import type { ClientInterface, KbError, KbResult } from "./types.js";
 import type {
   KbDocument,
@@ -7,7 +7,7 @@ import type {
   GitStatus,
   GitCommit,
   ChatMessage,
-} from "@kb/shared";
+} from "@arlo-doc/shared";
 
 // ── apiFetch helper ────────────────────────────────────────────────────────
 

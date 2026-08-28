@@ -12,9 +12,9 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        "@kb/core": resolve("../../packages/core/src/index.ts"),
-        "@kb/shared": resolve("../../packages/shared/src/index.ts"),
-        "@kb/client": resolve("../../packages/client/src/types.ts"),
+        "@arlo-doc/core": resolve("../../packages/core/src/index.ts"),
+        "@arlo-doc/shared": resolve("../../packages/shared/src/index.ts"),
+        "@arlo-doc/client": resolve("../../packages/client/src/types.ts"),
       },
     },
   },
@@ -27,9 +27,9 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        "@kb/client": resolve("../../packages/client/src/types.ts"),
-        "@kb/client/ipc": resolve("../../packages/client/src/ipc.ts"),
-        "@kb/shared": resolve("../../packages/shared/src/index.ts"),
+        "@arlo-doc/client": resolve("../../packages/client/src/types.ts"),
+        "@arlo-doc/client/ipc": resolve("../../packages/client/src/ipc.ts"),
+        "@arlo-doc/shared": resolve("../../packages/shared/src/index.ts"),
       },
     },
   },
@@ -37,9 +37,9 @@ export default defineConfig({
     plugins: [react()],
     resolve: {
       alias: {
-        "@kb/shared": resolve("../../packages/shared/src/index.ts"),
-        "@kb/client": resolve("../../packages/client/src/types.ts"),
-        "@kb/ui": resolve("../../packages/ui/src/index.ts"),
+        "@arlo-doc/shared": resolve("../../packages/shared/src/index.ts"),
+        "@arlo-doc/client": resolve("../../packages/client/src/types.ts"),
+        "@arlo-doc/ui": resolve("../../packages/ui/src/index.ts"),
       },
     },
   },

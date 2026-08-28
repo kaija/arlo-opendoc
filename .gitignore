@@ -1,3 +1,6 @@
+# macOS
+.DS_Store
+
 # Dependencies
 node_modules
 
@@ -5,6 +8,10 @@ node_modules
 dist
 .next
 out
+
+# Electron build outputs
+apps/desktop/dist-electron
+apps/desktop/out
 
 # Turborepo
 .turbo

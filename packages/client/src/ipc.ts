@@ -6,36 +6,37 @@ import type {
   GitStatus,
   GitCommit,
   ChatMessage,
-} from "@kb/shared";
+} from "@arlo-doc/shared";
 
-// ── Ambient IPC declaration ────────────────────────────────────────────────
-// The actual ipcRenderer is injected by the Electron preload bridge.
-// This ambient declaration lets TypeScript understand its shape without
-// importing the `electron` package (which is not allowed in packages/client).
+// ── IpcRenderer interface ──────────────────────────────────────────────────
+// Declared here so packages/client stays free of direct Electron imports.
+// The actual ipcRenderer is injected by the preload via createIpcBinding().
 
-declare const ipcRenderer: {
+export interface ElectronIpcRenderer {
   invoke(channel: string, ...args: unknown[]): Promise<unknown>;
-};
+}
 
 // ── invoke helper ──────────────────────────────────────────────────────────
 
-async function invoke<T>(channel: string, ...args: unknown[]): Promise<KbResult<T>> {
-  try {
-    const result = await ipcRenderer.invoke(channel, ...args);
-    return { ok: true, data: result as T };
-  } catch (err) {
-    const raw = err as { kbError?: KbError; message?: string };
-    if (raw?.kbError != null) {
-      return { ok: false, error: raw.kbError };
+function makeInvoke(ipcRenderer: ElectronIpcRenderer) {
+  return async function invoke<T>(channel: string, ...args: unknown[]): Promise<KbResult<T>> {
+    try {
+      const result = await ipcRenderer.invoke(channel, ...args);
+      return { ok: true, data: result as T };
+    } catch (err) {
+      const raw = err as { kbError?: KbError; message?: string };
+      if (raw?.kbError != null) {
+        return { ok: false, error: raw.kbError };
+      }
+      return {
+        ok: false,
+        error: {
+          code: "UNKNOWN",
+          message: raw?.message ?? String(err),
+        },
+      };
     }
-    return {
-      ok: false,
-      error: {
-        code: "UNKNOWN",
-        message: raw?.message ?? String(err),
-      },
-    };
-  }
+  };
 }
 
 // ── Stream stub ────────────────────────────────────────────────────────────
@@ -48,39 +49,48 @@ async function* ipcStreamIterable(
   throw new Error("not yet implemented");
 }
 
-// ── IPC binding ────────────────────────────────────────────────────────────
+// ── createIpcBinding factory ───────────────────────────────────────────────
+// Called from the Electron preload script, passing in the real ipcRenderer.
 
-export const ipcBinding: ClientInterface = {
-  readDocument: (path: string) =>
-    invoke<KbDocument>("kb:readDocument", path),
+export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterface {
+  const invoke = makeInvoke(ipcRenderer);
 
-  writeDocument: (path: string, content: string) =>
-    invoke<KbDocument>("kb:writeDocument", path, content),
+  return {
+    readDocument: (path: string) =>
+      invoke<KbDocument>("arlo-doc:readDocument", path),
 
-  deleteDocument: (path: string) =>
-    invoke<void>("kb:deleteDocument", path),
+    writeDocument: (path: string, content: string) =>
+      invoke<KbDocument>("arlo-doc:writeDocument", path, content),
 
-  searchDocuments: (query: SearchQuery) =>
-    invoke<SearchResult[]>("kb:searchDocuments", query),
+    deleteDocument: (path: string) =>
+      invoke<void>("arlo-doc:deleteDocument", path),
 
-  gitClone: (url: string) =>
-    invoke<void>("kb:gitClone", url),
+    searchDocuments: (query: SearchQuery) =>
+      invoke<SearchResult[]>("arlo-doc:searchDocuments", query),
 
-  gitCommit: (message: string, paths: string[]) =>
-    invoke<GitCommit>("kb:gitCommit", message, paths),
+    gitClone: (url: string) =>
+      invoke<void>("arlo-doc:gitClone", url),
 
-  gitPush: () =>
-    invoke<void>("kb:gitPush"),
+    gitCommit: (message: string, paths: string[]) =>
+      invoke<GitCommit>("arlo-doc:gitCommit", message, paths),
 
-  gitPull: () =>
-    invoke<void>("kb:gitPull"),
+    gitPush: () =>
+      invoke<void>("arlo-doc:gitPush"),
 
-  gitStatus: () =>
-    invoke<GitStatus>("kb:gitStatus"),
+    gitPull: () =>
+      invoke<void>("arlo-doc:gitPull"),
 
-  agentChat: (message: string) =>
-    invoke<ChatMessage>("kb:agentChat", message),
+    gitStatus: () =>
+      invoke<GitStatus>("arlo-doc:gitStatus"),
 
-  agentChatStream: (message: string) =>
-    ipcStreamIterable("kb:agentChatStream", message),
-};
+    agentChat: (message: string) =>
+      invoke<ChatMessage>("arlo-doc:agentChat", message),
+
+    agentChatStream: (message: string) =>
+      ipcStreamIterable("arlo-doc:agentChatStream", message),
+  };
+}
+
+// ── Legacy export (kept for backwards compat, remove once preload is updated) ─
+// @deprecated use createIpcBinding(ipcRenderer) instead
+export const ipcBinding = null;

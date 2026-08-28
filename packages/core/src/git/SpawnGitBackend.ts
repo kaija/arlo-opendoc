@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import type { GitBackend } from "./GitBackend.js";
-import type { GitStatus, GitCommit } from "@kb/shared";
+import type { GitStatus, GitCommit } from "@arlo-doc/shared";
 
 // Derive GitStatusFile from the GitStatus type to avoid adding an export to @kb/shared
 type GitStatusFile = GitStatus["files"][number];

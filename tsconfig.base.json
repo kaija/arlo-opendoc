@@ -15,18 +15,18 @@
     "incremental": true,
     "skipLibCheck": true,
     "paths": {
-      "@kb/shared": ["./packages/shared/src/index.ts"],
-      "@kb/shared/*": ["./packages/shared/src/*"],
-      "@kb/config": ["./packages/config/index.ts"],
-      "@kb/config/*": ["./packages/config/*"],
-      "@kb/core": ["./packages/core/src/index.ts"],
-      "@kb/core/*": ["./packages/core/src/*"],
-      "@kb/client": ["./packages/client/src/types.ts"],
-      "@kb/client/ipc": ["./packages/client/src/ipc.ts"],
-      "@kb/client/http": ["./packages/client/src/http.ts"],
-      "@kb/client/*": ["./packages/client/src/*"],
-      "@kb/ui": ["./packages/ui/src/index.ts"],
-      "@kb/ui/*": ["./packages/ui/src/*"]
+      "@arlo-doc/shared": ["./packages/shared/src/index.ts"],
+      "@arlo-doc/shared/*": ["./packages/shared/src/*"],
+      "@arlo-doc/config": ["./packages/config/index.ts"],
+      "@arlo-doc/config/*": ["./packages/config/*"],
+      "@arlo-doc/core": ["./packages/core/src/index.ts"],
+      "@arlo-doc/core/*": ["./packages/core/src/*"],
+      "@arlo-doc/client": ["./packages/client/src/types.ts"],
+      "@arlo-doc/client/ipc": ["./packages/client/src/ipc.ts"],
+      "@arlo-doc/client/http": ["./packages/client/src/http.ts"],
+      "@arlo-doc/client/*": ["./packages/client/src/*"],
+      "@arlo-doc/ui": ["./packages/ui/src/index.ts"],
+      "@arlo-doc/ui/*": ["./packages/ui/src/*"]
     }
   }
 }

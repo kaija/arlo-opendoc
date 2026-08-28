@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 function App(): React.ReactElement {
   return (
     <div>
-      <h1>KB Desktop</h1>
+      <h1>Arlo Doc</h1>
       <p>Loading…</p>
     </div>
   );

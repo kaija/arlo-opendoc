@@ -1,6 +1,6 @@
-appId: com.kb.desktop
-productName: KB Desktop
-copyright: Copyright © 2024
+appId: com.arlo.doc
+productName: Arlo Doc
+copyright: Copyright © 2026
 
 directories:
   buildResources: build
@@ -14,7 +14,6 @@ mac:
   target:
     - target: dmg
       arch:
-        - x64
         - arm64
   icon: build/icon.icns
   entitlements: build/entitlements.mac.plist
@@ -40,10 +39,9 @@ nsis:
 dmg:
   artifactName: "${productName}-${version}.${ext}"
 
-publish:
-  provider: github
-  releaseType: release
+publish: null
 
 # Code signing placeholders (populated via CI secrets)
 # mac: certificate loaded from APPLE_CERT_BASE64 secret in CI
 # win: certificate decoded from WINDOWS_CERT_BASE64 secret in CI
+# In CI, override publish: [{provider: github, releaseType: release}]

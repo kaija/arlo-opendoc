@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "node:path";
-import type { CoreEngine } from "@kb/core";
+import type { CoreEngine } from "@arlo-doc/core";
 
 // ── Engine registry ────────────────────────────────────────────────────────
 // One CoreEngine per renderer window, keyed by webContents.id (Requirement 11.7).
@@ -31,7 +31,7 @@ function wrapError(err: unknown): never {
 // and on failure rethrow through wrapError so the IPC binding receives a
 // structured KbError rather than a plain string (Requirements 11.4–11.6).
 
-ipcMain.handle("kb:readDocument", async (event, path: string) => {
+ipcMain.handle("arlo-doc:readDocument", async (event, path: string) => {
   try {
     return await getEngine(event.sender.id).readDocument(path);
   } catch (err) {
@@ -39,7 +39,7 @@ ipcMain.handle("kb:readDocument", async (event, path: string) => {
   }
 });
 
-ipcMain.handle("kb:writeDocument", async (event, path: string, content: string) => {
+ipcMain.handle("arlo-doc:writeDocument", async (event, path: string, content: string) => {
   try {
     return await getEngine(event.sender.id).writeDocument(path, content);
   } catch (err) {
@@ -47,7 +47,7 @@ ipcMain.handle("kb:writeDocument", async (event, path: string, content: string) 
   }
 });
 
-ipcMain.handle("kb:deleteDocument", async (event, path: string) => {
+ipcMain.handle("arlo-doc:deleteDocument", async (event, path: string) => {
   try {
     return await getEngine(event.sender.id).deleteDocument(path);
   } catch (err) {
@@ -55,7 +55,7 @@ ipcMain.handle("kb:deleteDocument", async (event, path: string) => {
   }
 });
 
-ipcMain.handle("kb:searchDocuments", async (event, query: unknown) => {
+ipcMain.handle("arlo-doc:searchDocuments", async (event, query: unknown) => {
   try {
     return await getEngine(event.sender.id).searchDocuments(String(query));
   } catch (err) {
@@ -63,7 +63,7 @@ ipcMain.handle("kb:searchDocuments", async (event, query: unknown) => {
   }
 });
 
-ipcMain.handle("kb:gitClone", async (event, url: string) => {
+ipcMain.handle("arlo-doc:gitClone", async (event, url: string) => {
   try {
     return await getEngine(event.sender.id).gitClone(url);
   } catch (err) {
@@ -71,7 +71,7 @@ ipcMain.handle("kb:gitClone", async (event, url: string) => {
   }
 });
 
-ipcMain.handle("kb:gitCommit", async (event, message: string, paths: string[]) => {
+ipcMain.handle("arlo-doc:gitCommit", async (event, message: string, paths: string[]) => {
   try {
     return await getEngine(event.sender.id).gitCommit(message, paths);
   } catch (err) {
@@ -79,7 +79,7 @@ ipcMain.handle("kb:gitCommit", async (event, message: string, paths: string[]) =
   }
 });
 
-ipcMain.handle("kb:gitPush", async (event) => {
+ipcMain.handle("arlo-doc:gitPush", async (event) => {
   try {
     return await getEngine(event.sender.id).gitPush();
   } catch (err) {
@@ -87,7 +87,7 @@ ipcMain.handle("kb:gitPush", async (event) => {
   }
 });
 
-ipcMain.handle("kb:gitPull", async (event) => {
+ipcMain.handle("arlo-doc:gitPull", async (event) => {
   try {
     return await getEngine(event.sender.id).gitPull();
   } catch (err) {
@@ -95,7 +95,7 @@ ipcMain.handle("kb:gitPull", async (event) => {
   }
 });
 
-ipcMain.handle("kb:gitStatus", async (event) => {
+ipcMain.handle("arlo-doc:gitStatus", async (event) => {
   try {
     return await getEngine(event.sender.id).gitStatus();
   } catch (err) {
@@ -103,7 +103,7 @@ ipcMain.handle("kb:gitStatus", async (event) => {
   }
 });
 
-ipcMain.handle("kb:agentChat", async (event, message: string) => {
+ipcMain.handle("arlo-doc:agentChat", async (event, message: string) => {
   try {
     return await getEngine(event.sender.id).agentChat(message);
   } catch (err) {
@@ -137,8 +137,12 @@ function createWindow(): void {
     // "not implemented".
   });
 
+  // Capture the webContents id before the window is destroyed.
+  // The "closed" event fires after destruction, so win.webContents is gone by then.
+  const contentsId = win.webContents.id;
+
   win.on("closed", () => {
-    engines.delete(win.webContents.id);
+    engines.delete(contentsId);
   });
 
   if (process.env["NODE_ENV"] === "development") {

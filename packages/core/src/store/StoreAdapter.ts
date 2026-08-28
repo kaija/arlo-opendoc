@@ -2,7 +2,7 @@ import type {
   ChatRecord,
   ChatMessage,
   UserSettings,
-} from "@kb/shared";
+} from "@arlo-doc/shared";
 
 export interface StoreAdapter {
   // Chat operations

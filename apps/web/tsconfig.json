@@ -10,21 +10,11 @@
     "outDir": ".next",
     "baseUrl": ".",
     "paths": {
-      "@kb/shared": [
-        "../../packages/shared/src/index.ts"
-      ],
-      "@kb/client": [
-        "../../packages/client/src/types.ts"
-      ],
-      "@kb/client/ipc": [
-        "../../packages/client/src/ipc.ts"
-      ],
-      "@kb/client/http": [
-        "../../packages/client/src/http.ts"
-      ],
-      "@kb/ui": [
-        "../../packages/ui/src/index.ts"
-      ]
+      "@arlo-doc/shared": ["../../packages/shared/src/index.ts"],
+      "@arlo-doc/client": ["../../packages/client/src/types.ts"],
+      "@arlo-doc/client/ipc": ["../../packages/client/src/ipc.ts"],
+      "@arlo-doc/client/http": ["../../packages/client/src/http.ts"],
+      "@arlo-doc/ui": ["../../packages/ui/src/index.ts"]
     },
     "allowJs": true,
     "noEmit": true,

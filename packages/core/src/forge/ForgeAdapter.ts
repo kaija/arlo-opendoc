@@ -1,4 +1,4 @@
-import type { OAuthToken, ForgeRepo } from "@kb/shared";
+import type { OAuthToken, ForgeRepo } from "@arlo-doc/shared";
 
 export interface WebhookConfig {
   url: string;

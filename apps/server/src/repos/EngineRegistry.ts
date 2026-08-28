@@ -1,4 +1,4 @@
-import type { CoreEngine } from "@kb/core";
+import type { CoreEngine } from "@arlo-doc/core";
 import { RepoLockManager } from "./RepoLockManager.js";
 
 export interface EngineRegistryConfig {

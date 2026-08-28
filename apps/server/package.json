@@ -1,5 +1,5 @@
 {
-  "name": "@kb/server",
+  "name": "@arlo-doc/server",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -12,9 +12,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@kb/core": "workspace:*",
-    "@kb/client": "workspace:*",
-    "@kb/shared": "workspace:*",
+    "@arlo-doc/core": "workspace:*",
+    "@arlo-doc/client": "workspace:*",
+    "@arlo-doc/shared": "workspace:*",
     "fastify": "^5.0.0",
     "@fastify/cors": "^10.0.0",
     "@fastify/sensible": "^6.0.0",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "typescript": "^5.0.0",
-    "@kb/config": "workspace:*",
+    "@arlo-doc/config": "workspace:*",
     "@types/node": "^22.0.0",
     "@types/pg": "^8.11.0",
     "vitest": "^2.0.0",

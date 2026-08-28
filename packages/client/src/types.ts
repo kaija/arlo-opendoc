@@ -5,7 +5,7 @@ import type {
   ChatMessage,
   GitStatus,
   GitCommit,
-} from "@kb/shared";
+} from "@arlo-doc/shared";
 
 // ── Error types ────────────────────────────────────────────────────────────
 
@@ -51,10 +51,10 @@ export interface ClientInterface {
 }
 
 // ── Window augmentation ────────────────────────────────────────────────────
-// Exposes the preload-injected ClientInterface on window.kb in renderer code.
+// Exposes the preload-injected ClientInterface on window.arlodoc in renderer code.
 
 declare global {
   interface Window {
-    kb: ClientInterface;
+    arlodoc: ClientInterface;
   }
 }

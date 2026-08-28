@@ -62,7 +62,7 @@ export default [
     },
   },
 
-  // ── Rule 2: packages/core may only import @kb/shared from @kb/* ──────────
+  // ── Rule 2: packages/core may only import @arlo-doc/shared from @arlo-doc/* ──
   {
     files: [`${root}/packages/core/**/*.{ts,tsx}`],
     rules: {
@@ -71,8 +71,8 @@ export default [
         {
           patterns: [
             {
-              group: ["@kb/client", "@kb/client/*", "@kb/ui", "@kb/ui/*"],
-              message: "packages/core may only import from @kb/shared.",
+              group: ["@arlo-doc/client", "@arlo-doc/client/*", "@arlo-doc/ui", "@arlo-doc/ui/*"],
+              message: "packages/core may only import from @arlo-doc/shared.",
             },
           ],
         },
@@ -80,7 +80,7 @@ export default [
     },
   },
 
-  // ── Rule 3: packages/ui must not import @kb/core or IPC/HTTP bindings ────
+  // ── Rule 3: packages/ui must not import @arlo-doc/core or IPC/HTTP bindings ──
   {
     files: [`${root}/packages/ui/**/*.{ts,tsx}`],
     rules: {
@@ -88,11 +88,11 @@ export default [
         "error",
         {
           paths: [
-            { name: "@kb/core", message: "packages/ui must not import @kb/core." },
+            { name: "@arlo-doc/core", message: "packages/ui must not import @arlo-doc/core." },
           ],
           patterns: [
-            { group: ["@kb/client/ipc", "@kb/client/http"], message: "packages/ui must only use @kb/client types, not bindings." },
-            { group: ["@kb/core", "@kb/core/*"], message: "packages/ui must not import @kb/core." },
+            { group: ["@arlo-doc/client/ipc", "@arlo-doc/client/http"], message: "packages/ui must only use @arlo-doc/client types, not bindings." },
+            { group: ["@arlo-doc/core", "@arlo-doc/core/*"], message: "packages/ui must not import @arlo-doc/core." },
           ],
         },
       ],

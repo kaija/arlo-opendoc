@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@kb/ui", "@kb/shared", "@kb/client"],
+  transpilePackages: ["@arlo-doc/ui", "@arlo-doc/shared", "@arlo-doc/client"],
 };
 
 export default nextConfig;

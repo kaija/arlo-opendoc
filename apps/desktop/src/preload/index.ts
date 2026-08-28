@@ -1,11 +1,12 @@
-import { contextBridge } from "electron";
-import { ipcBinding } from "@kb/client/ipc";
-import type { ClientInterface } from "@kb/client";
+import { contextBridge, ipcRenderer } from "electron";
+import { createIpcBinding } from "@arlo-doc/client/ipc";
+import type { ClientInterface } from "@arlo-doc/client";
 
-// Expose the IPC binding on window.kb in the renderer process.
-// The `satisfies` check ensures ipcBinding implements every method of ClientInterface.
-// If types.ts gains a new method, TypeScript will error here until ipc.ts is updated.
-const kb = ipcBinding satisfies ClientInterface;
+// Expose the IPC binding on window.arlodoc in the renderer process.
+// The `satisfies` check ensures createIpcBinding returns every method of
+// ClientInterface. If types.ts gains a new method, TypeScript will error here
+// until ipc.ts is updated.
+const arlodoc = createIpcBinding(ipcRenderer) satisfies ClientInterface;
 
-// Single exposeInMainWorld call — "kb" matches the Window.kb declaration in @kb/client
-contextBridge.exposeInMainWorld("kb", kb);
+// Single exposeInMainWorld call — "arlodoc" matches the Window.arlodoc declaration in @arlo-doc/client
+contextBridge.exposeInMainWorld("arlodoc", arlodoc);

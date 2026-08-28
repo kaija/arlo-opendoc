@@ -1,5 +1,5 @@
 {
-  "name": "@kb/ui",
+  "name": "@arlo-doc/ui",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -12,14 +12,14 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@kb/client": "workspace:*",
-    "@kb/shared": "workspace:*",
+    "@arlo-doc/client": "workspace:*",
+    "@arlo-doc/shared": "workspace:*",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
-    "@kb/config": "workspace:*",
+    "@arlo-doc/config": "workspace:*",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0"
   }

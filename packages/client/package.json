@@ -1,5 +1,5 @@
 {
-  "name": "@kb/client",
+  "name": "@arlo-doc/client",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,10 +14,10 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@kb/shared": "workspace:*"
+    "@arlo-doc/shared": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
-    "@kb/config": "workspace:*"
+    "@arlo-doc/config": "workspace:*"
   }
 }

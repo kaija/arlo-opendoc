@@ -1,4 +1,4 @@
-import type { GitStatus, GitCommit } from "@kb/shared";
+import type { GitStatus, GitCommit } from "@arlo-doc/shared";
 
 export interface GitBackend {
   clone(url: string, targetDir: string): Promise<void>;

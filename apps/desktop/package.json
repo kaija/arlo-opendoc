@@ -1,28 +1,28 @@
 {
-  "name": "@kb/desktop",
+  "name": "@arlo-doc/desktop",
   "version": "0.0.0",
   "private": true,
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
-    "build": "electron-vite build && electron-builder",
+    "build": "electron-vite build && electron-builder --publish never",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "lint": "eslint src",
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@kb/core": "workspace:*",
-    "@kb/client": "workspace:*",
-    "@kb/ui": "workspace:*",
-    "@kb/shared": "workspace:*",
-    "electron-updater": "^6.3.0"
+    "@arlo-doc/core": "workspace:*",
+    "@arlo-doc/client": "workspace:*",
+    "@arlo-doc/ui": "workspace:*",
+    "@arlo-doc/shared": "workspace:*",
+    "electron-updater": "^6.8.0"
   },
   "devDependencies": {
-    "electron": "^31.0.0",
-    "electron-vite": "^2.3.0",
-    "electron-builder": "^24.13.0",
+    "electron": "^44.0.0",
+    "electron-vite": "^5.0.0",
+    "electron-builder": "^26.0.0",
     "typescript": "^5.0.0",
-    "@kb/config": "workspace:*",
+    "@arlo-doc/config": "workspace:*",
     "@vitejs/plugin-react": "^4.3.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
