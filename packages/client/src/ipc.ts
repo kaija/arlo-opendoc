@@ -6,6 +6,7 @@ import type {
   GitStatus,
   GitCommit,
   ChatMessage,
+  FileNode,
 } from "@arlo-doc/shared";
 
 // ── IpcRenderer interface ──────────────────────────────────────────────────
@@ -88,6 +89,19 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
 
     agentChatStream: (message: string) =>
       ipcStreamIterable("arlo-doc:agentChatStream", message),
+
+    // Folder browser
+    chooseFolder: () =>
+      invoke<string | null>("arlo-doc:chooseFolder"),
+
+    readFolder: (folderPath: string) =>
+      invoke<FileNode>("arlo-doc:readFolder", folderPath),
+
+    getLastFolder: () =>
+      invoke<string | null>("arlo-doc:getLastFolder"),
+
+    readFile: (filePath: string) =>
+      invoke<string>("arlo-doc:readFile", filePath),
   };
 }
 

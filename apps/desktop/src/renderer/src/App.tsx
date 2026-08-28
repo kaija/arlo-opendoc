@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import type { AppState, ViewMode } from './types';
 import { Onboarding } from './screens/Onboarding';
 import { MainLayout } from './screens/MainLayout';
@@ -20,18 +20,36 @@ const INITIAL_STATE: AppState = {
   activeNoteId: 'payments',
   expandedNotebooks: ['runbooks'],
   lastApprovalResult: null,
+  // Folder browser fields
+  folderPath: null,
+  fileTree: null,
+  activeFilePath: null,
+  fileContent: null,
+  fileLoading: false,
+  expandedPaths: [],
 };
 
 export function App(): React.ReactElement {
   const [onboarded, setOnboarded] = useState(false);
   const [state, setState] = useState<AppState>(INITIAL_STATE);
+  const [choosePending, setChoosePending] = useState(false);
+  const [chooseError, setChooseError] = useState<string | null>(null);
 
   const update = useCallback((patch: Partial<AppState>) => {
     setState((s) => ({ ...s, ...patch }));
   }, []);
 
-  const handleOnboard = useCallback(() => {
-    setOnboarded(true);
+  // Auto-onboard from persisted folder on mount
+  useEffect(() => {
+    if (onboarded) return;
+    void (async () => {
+      const lastResult = await window.arlodoc.getLastFolder();
+      if (!lastResult.ok || lastResult.data == null) return;
+      const treeResult = await window.arlodoc.readFolder(lastResult.data);
+      if (!treeResult.ok) return;
+      update({ folderPath: lastResult.data, fileTree: treeResult.data });
+      setOnboarded(true);
+    })();
   }, []);
 
   // Mode switching
@@ -136,8 +154,61 @@ export function App(): React.ReactElement {
     });
   }, []);
 
+  // Folder selection
+  const handleChooseFolder = useCallback(async () => {
+    setChoosePending(true);
+    setChooseError(null);
+    try {
+      const chosen = await window.arlodoc.chooseFolder();
+      if (!chosen.ok) {
+        setChooseError(chosen.error.message);
+        return;
+      }
+      if (chosen.data == null) return; // user cancelled — no state change
+      const tree = await window.arlodoc.readFolder(chosen.data);
+      if (!tree.ok) {
+        setChooseError(tree.error.message);
+        return;
+      }
+      update({ folderPath: chosen.data, fileTree: tree.data });
+      setOnboarded(true);
+    } finally {
+      setChoosePending(false);
+    }
+  }, [update]);
+
+  // File interactions
+  const handleFileClick = useCallback(async (filePath: string) => {
+    const lower = filePath.toLowerCase();
+    const supported = lower.endsWith('.md') || lower.endsWith('.mdx') || lower.endsWith('.txt');
+    if (!supported) return; // only markdown and text files are previewable
+    update({ fileLoading: true, activeFilePath: filePath });
+    const result = await window.arlodoc.readFile(filePath);
+    if (!result.ok) {
+      update({ fileLoading: false, activeFilePath: null, fileContent: null });
+      return;
+    }
+    update({ fileLoading: false, fileContent: result.data });
+  }, [update]);
+
+  const handleDirectoryToggle = useCallback((dirPath: string) => {
+    setState((s) => {
+      const next = s.expandedPaths.includes(dirPath)
+        ? s.expandedPaths.filter((p) => p !== dirPath)
+        : [...s.expandedPaths, dirPath];
+      return { ...s, expandedPaths: next };
+    });
+  }, []);
+
   if (!onboarded) {
-    return <Onboarding onChooseLocal={handleOnboard} onChooseGitHub={handleOnboard} />;
+    return (
+      <Onboarding
+        onChooseLocal={handleChooseFolder}
+        onChooseGitHub={handleChooseFolder}
+        isPending={choosePending}
+        error={chooseError}
+      />
+    );
   }
 
   return (
@@ -158,6 +229,8 @@ export function App(): React.ReactElement {
       onNewTab={handleNewTab}
       onNoteClick={handleNoteClick}
       onNotebookToggle={handleNotebookToggle}
+      onFileClick={handleFileClick}
+      onDirectoryToggle={handleDirectoryToggle}
     />
   );
 }

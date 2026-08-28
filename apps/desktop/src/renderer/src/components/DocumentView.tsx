@@ -2,9 +2,40 @@ import React from 'react';
 
 interface DocumentViewProps {
   activeNoteId: string;
+  /** When non-null, renders this content instead of the hardcoded demo note. */
+  fileContent?: string | null;
+  /** The absolute file path — used to determine rendering mode (.md vs other). */
+  activeFilePath?: string | null;
 }
 
-export function DocumentView({ activeNoteId }: DocumentViewProps): React.ReactElement {
+function isMarkdownPath(filePath: string): boolean {
+  const lower = filePath.toLowerCase();
+  return lower.endsWith('.md') || lower.endsWith('.mdx');
+}
+
+export function DocumentView({ activeNoteId, fileContent, activeFilePath }: DocumentViewProps): React.ReactElement {
+  if (fileContent != null && activeFilePath != null) {
+    if (isMarkdownPath(activeFilePath)) {
+      return (
+        <div style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ width: '100%', maxWidth: 720, padding: '48px 40px' }}>
+            <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)', fontSize: 15, lineHeight: 1.7, color: '#1a1a2e' }}>
+              {fileContent}
+            </pre>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ flex: 1, overflowY: 'auto', background: '#fff' }}>
+          <pre style={{ padding: '32px 40px', fontFamily: 'var(--font-mono)', fontSize: 13, color: '#1a1a2e', lineHeight: 1.6, overflowX: 'auto', margin: 0 }}>
+            {fileContent}
+          </pre>
+        </div>
+      );
+    }
+  }
+
   return (
     <div
       style={{

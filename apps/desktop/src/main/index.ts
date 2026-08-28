@@ -1,6 +1,9 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
+import { promises as fs } from "node:fs";
 import { join } from "node:path";
 import type { CoreEngine } from "@arlo-doc/core";
+import { readFolder } from "./folderReader.js";
+import { getLastFolder, saveLastFolder } from "./persistenceStore.js";
 
 // ── Engine registry ────────────────────────────────────────────────────────
 // One CoreEngine per renderer window, keyed by webContents.id (Requirement 11.7).
@@ -12,6 +15,16 @@ function getEngine(windowId: number): CoreEngine {
     throw new Error(`No CoreEngine registered for window ${windowId}`);
   }
   return engine;
+}
+
+// ── Node.js errno → KbErrorCode mapping ───────────────────────────────────
+// Used by readFolder and readFile handlers to produce structured KbError codes
+// instead of raw errno strings.
+function nodeErrCode(err: unknown): string {
+  const code = (err as NodeJS.ErrnoException).code;
+  if (code === "ENOENT") return "NOT_FOUND";
+  if (code === "EACCES" || code === "EPERM") return "PERMISSION_DENIED";
+  return "UNKNOWN";
 }
 
 // ── Error wrapper ──────────────────────────────────────────────────────────
@@ -108,6 +121,61 @@ ipcMain.handle("arlo-doc:agentChat", async (event, message: string) => {
     return await getEngine(event.sender.id).agentChat(message);
   } catch (err) {
     wrapError(err);
+  }
+});
+
+// ── Folder-browser IPC handlers ────────────────────────────────────────────
+// Tasks 5.1–5.4: native folder picker, recursive folder read, persistence,
+// and file content read. Follow the same KbResult error contract as the
+// existing handlers above (Requirements REQ-002.6, REQ-002.8).
+
+// Task 5.1 — native OS folder picker (REQ-001.1, REQ-002.6, REQ-002.8)
+// Returns null (not throws) when the user cancels — a cancelled dialog is a
+// legitimate success value, not an error.
+ipcMain.handle("arlo-doc:chooseFolder", async (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  const result = await dialog.showOpenDialog(win ?? BrowserWindow.getFocusedWindow()!, {
+    properties: ["openDirectory"],
+    title: "Choose a folder for your knowledge base",
+  });
+  if (result.canceled || result.filePaths.length === 0) return null;
+  return result.filePaths[0];
+});
+
+// Task 5.2 — recursive folder read + best-effort persistence (REQ-002.6,
+// REQ-002.8, REQ-003.7, REQ-003.8, REQ-007.1)
+ipcMain.handle("arlo-doc:readFolder", async (_event, folderPath: string) => {
+  try {
+    const tree = await readFolder(folderPath);
+    // Fire-and-forget: persistence failure must not block the IPC response.
+    void saveLastFolder(folderPath);
+    return tree;
+  } catch (err) {
+    const code = nodeErrCode(err);
+    const wrapped = new Error((err as Error).message) as Error & { kbError: unknown };
+    wrapped.kbError = { code, message: (err as Error).message };
+    throw wrapped;
+  }
+});
+
+// Task 5.3 — read persisted last folder path (REQ-002.6, REQ-007.2)
+ipcMain.handle("arlo-doc:getLastFolder", async () => {
+  try {
+    return await getLastFolder();
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// Task 5.4 — read UTF-8 file content (REQ-002.6, REQ-002.8, REQ-006.1)
+ipcMain.handle("arlo-doc:readFile", async (_event, filePath: string) => {
+  try {
+    return await fs.readFile(filePath, "utf-8");
+  } catch (err) {
+    const code = nodeErrCode(err);
+    const wrapped = new Error((err as Error).message) as Error & { kbError: unknown };
+    wrapped.kbError = { code, message: (err as Error).message };
+    throw wrapped;
   }
 });
 

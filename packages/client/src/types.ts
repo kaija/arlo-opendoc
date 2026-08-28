@@ -5,6 +5,7 @@ import type {
   ChatMessage,
   GitStatus,
   GitCommit,
+  FileNode,
 } from "@arlo-doc/shared";
 
 // ── Error types ────────────────────────────────────────────────────────────
@@ -48,6 +49,16 @@ export interface ClientInterface {
 
   // Agent — streaming
   agentChatStream(message: string): AsyncIterable<KbResult<string>>;
+
+  // Folder browser
+  /** Opens the OS native folder picker. Returns null when the user cancels. */
+  chooseFolder(): Promise<KbResult<string | null>>;
+  /** Reads a folder recursively and returns the FileNode tree. */
+  readFolder(folderPath: string): Promise<KbResult<FileNode>>;
+  /** Returns the last successfully opened folder path, or null if none stored. */
+  getLastFolder(): Promise<KbResult<string | null>>;
+  /** Returns the UTF-8 text content of the file at filePath. */
+  readFile(filePath: string): Promise<KbResult<string>>;
 }
 
 // ── Window augmentation ────────────────────────────────────────────────────

@@ -1,0 +1,662 @@
+{
+  "pbtResults": {
+    "3.2 Write property test for HiddenFilter and EXCLUDED_NAMES exclusion (Property 3)": {
+      "status": "passed",
+      "lastRunTimestamp": 1787925112422
+    },
+    "3.3 Write property test for tree sort invariant (Property 4)": {
+      "status": "passed",
+      "lastRunTimestamp": 1787925129275
+    },
+    "4.2 Write property test for persistence round-trip (Property 11 / CP-005)": {
+      "status": "passed",
+      "lastRunTimestamp": 1787925163251
+    },
+    "3.4 Write property test for max-depth bound (Property 5)": {
+      "status": "passed",
+      "lastRunTimestamp": 1787925164838
+    },
+    "8.2 Write property test for `FileTypeIcon` totality (Property 8 / CP-004)": {
+      "status": "passed",
+      "lastRunTimestamp": 1787925637756
+    },
+    "8.3 Write property test for `FileTypeIcon` case-insensitivity (Property 9)": {
+      "status": "passed",
+      "lastRunTimestamp": 1787925642099
+    },
+    "9.2 Write property test for `FileBrowser` expansion visibility (Property 7)": {
+      "status": "passed",
+      "lastRunTimestamp": 1787925813344
+    }
+  },
+  "executionHistory": {
+    "1.1 Create `packages/shared/src/filesystem.ts` with the `FileNode` interface (`name`, `path`, `kind`, `children`, `skippedPaths`) and the `EXCLUDED_NAMES` readonly string array (`node_modules`, `dist`, `out`, `.git`, `.turbo`)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924751677
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924763668
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924815030
+      }
+    ],
+    "1.2 Add `export * from './filesystem.js'` to `packages/shared/src/index.ts`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924751737
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924764498
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924815926
+      }
+    ],
+    "2.1 Add `chooseFolder`, `readFolder`, `getLastFolder`, and `readFile` to the `ClientInterface` in `packages/client/src/types.ts`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924751784
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924821463
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924964519
+      }
+    ],
+    "2.2 Implement the four bindings in `packages/client/src/ipc.ts` using the existing `makeInvoke` helper": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924751817
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924822328
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924965779
+      }
+    ],
+    "3.1 Create `apps/desktop/src/main/folderReader.ts` with the `readFolder(folderPath: string): Promise<FileNode>` export": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924751851
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924823195
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924966692
+      }
+    ],
+    "3.2 Write property test for HiddenFilter and EXCLUDED_NAMES exclusion (Property 3)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924751894
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924975763
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925197794
+      }
+    ],
+    "3.3 Write property test for tree sort invariant (Property 4)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924751932
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924976510
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925198658
+      }
+    ],
+    "3.4 Write property test for max-depth bound (Property 5)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924751967
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924977179
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925199389
+      }
+    ],
+    "3.5 Write property test for folder read determinism (CP-001)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752003
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924977911
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925200408
+      }
+    ],
+    "4.1 Create `apps/desktop/src/main/persistenceStore.ts` with `getLastFolder(): Promise<string | null>` and `saveLastFolder(folderPath: string | null): Promise<void>`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752051
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924824136
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924967818
+      }
+    ],
+    "4.2 Write property test for persistence round-trip (Property 11 / CP-005)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752084
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924978761
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925201533
+      }
+    ],
+    "5.1 Add the `arlo-doc:chooseFolder` handler in `apps/desktop/src/main/index.ts`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752131
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925206093
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925338659
+      }
+    ],
+    "5.2 Add the `arlo-doc:readFolder` handler in `apps/desktop/src/main/index.ts`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752182
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925207794
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925339477
+      }
+    ],
+    "5.3 Add the `arlo-doc:getLastFolder` handler in `apps/desktop/src/main/index.ts`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752218
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925207827
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925340307
+      }
+    ],
+    "5.4 Add the `arlo-doc:readFile` handler in `apps/desktop/src/main/index.ts`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752264
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925208576
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925341149
+      }
+    ],
+    "5.5 Write unit tests for IPC KbResult contract (CP-006 / REQ-002.8)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752312
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925346889
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925498472
+      }
+    ],
+    "6. Checkpoint — Verify shared, client, and main process layers": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752349
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926114560
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926282610
+      }
+    ],
+    "7.1 Update `apps/desktop/src/renderer/src/types.ts`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752394
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924824931
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924968601
+      }
+    ],
+    "8.1 Create `apps/desktop/src/renderer/src/components/FileTypeIcon.tsx`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752433
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925347732
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925499292
+      }
+    ],
+    "8.2 Write property test for `FileTypeIcon` totality (Property 8 / CP-004)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752477
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925505106
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925664042
+      }
+    ],
+    "8.3 Write property test for `FileTypeIcon` case-insensitivity (Property 9)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752520
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925506864
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925665893
+      }
+    ],
+    "9.1 Create `apps/desktop/src/renderer/src/components/FileBrowser.tsx`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752583
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925506041
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925665025
+      }
+    ],
+    "9.2 Write property test for `FileBrowser` expansion visibility (Property 7)": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752629
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925670701
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925965477
+      }
+    ],
+    "10.1 Update `apps/desktop/src/renderer/src/components/DocumentView.tsx`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752668
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925671508
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925966492
+      }
+    ],
+    "11.1 Update `apps/desktop/src/renderer/src/screens/Onboarding.tsx`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752712
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925672310
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925967314
+      }
+    ],
+    "12.1 Update `apps/desktop/src/renderer/src/screens/MainLayout.tsx`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752755
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925673145
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925968128
+      }
+    ],
+    "13.1 Add `onboarded`, `choosePending`, and `chooseError` state; add initial values for new `AppState` fields": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752799
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925974290
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926105467
+      }
+    ],
+    "13.2 Add `useEffect` mount hook for auto-onboard from persistence": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752834
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925975044
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926109195
+      }
+    ],
+    "13.3 Implement `handleChooseFolder` callback": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752881
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925975811
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926106261
+      }
+    ],
+    "13.4 Implement `handleFileClick` and `handleDirectoryToggle` callbacks": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752918
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925976593
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926108128
+      }
+    ],
+    "13.5 Pass new props to `Onboarding` and `MainLayout`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924752967
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925977425
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926107284
+      }
+    ],
+    "14. Final checkpoint — TypeScript compliance and production build": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924753013
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926289242
+      },
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926648763
+      }
+    ],
+    "1. Export `FileNode` interface and `EXCLUDED_NAMES` from `@arlo-doc/shared`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924815996
+      }
+    ],
+    "2. Extend `ClientInterface` and IPC binding with four folder methods": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924965845
+      }
+    ],
+    "7. Extend `AppState` with folder-browser fields": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787924968693
+      }
+    ],
+    "3. Implement `FolderReader` in the main process": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925200461
+      }
+    ],
+    "4. Implement `PersistenceStore` in the main process": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925201579
+      }
+    ],
+    "5. Register four IPC handlers in the main process": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925498512
+      }
+    ],
+    "8. Implement the `FileTypeIcon` renderer component": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925665928
+      }
+    ],
+    "9. Implement the `FileBrowser` renderer component": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925965527
+      }
+    ],
+    "10. Extend `DocumentView` to render real file content": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925966544
+      }
+    ],
+    "11. Update `Onboarding` to support pending and error states": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925967365
+      }
+    ],
+    "12. Add `FileBrowser` slot and `LoadingView` to `MainLayout`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787925968177
+      }
+    ],
+    "13. Wire all folder state and callbacks in `App.tsx`": [
+      {
+        "executionId": "b2a8d488-1457-44b8-8e18-20f5d0704fe5",
+        "chatSessionId": "sess_e1cde1ee-1e62-49db-9ca1-31d9e1ae4ff4",
+        "timestamp": 1787926109269
+      }
+    ]
+  }
+}

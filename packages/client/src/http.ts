@@ -7,6 +7,7 @@ import type {
   GitStatus,
   GitCommit,
   ChatMessage,
+  FileNode,
 } from "@arlo-doc/shared";
 
 // ── apiFetch helper ────────────────────────────────────────────────────────
@@ -159,5 +160,30 @@ export function createHttpBinding(baseUrl: string): ClientInterface {
       sseIterable(
         `${base}/api/agent/chat/stream?message=${encodeURIComponent(message)}`,
       ),
+
+    // Folder browser — Electron-only; not available in the HTTP client
+    chooseFolder: () =>
+      Promise.resolve<KbResult<string | null>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "chooseFolder is not available in the web client" },
+      }),
+
+    readFolder: (_folderPath: string) =>
+      Promise.resolve<KbResult<FileNode>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "readFolder is not available in the web client" },
+      }),
+
+    getLastFolder: () =>
+      Promise.resolve<KbResult<string | null>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "getLastFolder is not available in the web client" },
+      }),
+
+    readFile: (_filePath: string) =>
+      Promise.resolve<KbResult<string>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "readFile is not available in the web client" },
+      }),
   };
 }

@@ -9,9 +9,11 @@ type ElectronCSSProperties = React.CSSProperties & {
 interface OnboardingProps {
   onChooseLocal: () => void;
   onChooseGitHub: () => void;
+  isPending?: boolean;
+  error?: string | null;
 }
 
-export function Onboarding({ onChooseLocal, onChooseGitHub }: OnboardingProps): React.ReactElement {
+export function Onboarding({ onChooseLocal, onChooseGitHub, isPending, error }: OnboardingProps): React.ReactElement {
   return (
     <div
       style={{
@@ -164,7 +166,8 @@ export function Onboarding({ onChooseLocal, onChooseGitHub }: OnboardingProps): 
             icon={<FileText size={22} color="#5856D6" />}
             title="Personal knowledge base"
             description="Keep your notes and documents in a local folder. Everything stays on your machine, searchable instantly."
-            buttonLabel="Choose folder…"
+            buttonLabel={isPending ? 'Opening…' : 'Choose folder…'}
+            buttonDisabled={isPending === true}
             onClick={onChooseLocal}
           />
           <OnboardingCard
@@ -175,6 +178,20 @@ export function Onboarding({ onChooseLocal, onChooseGitHub }: OnboardingProps): 
             onClick={onChooseGitHub}
           />
         </div>
+
+        {error && (
+          <p
+            style={{
+              fontSize: 12.5,
+              color: '#c0392b',
+              fontFamily: 'var(--font-sans)',
+              textAlign: 'center',
+              marginTop: 8,
+            }}
+          >
+            {error}
+          </p>
+        )}
 
         {/* Footer note */}
         <p
@@ -197,12 +214,14 @@ function OnboardingCard({
   title,
   description,
   buttonLabel,
+  buttonDisabled,
   onClick,
 }: {
   icon: React.ReactNode;
   title: string;
   description: string;
   buttonLabel: string;
+  buttonDisabled?: boolean;
   onClick?: () => void;
 }): React.ReactElement {
   return (
@@ -264,6 +283,7 @@ function OnboardingCard({
       {/* CTA button */}
       <button
         onClick={onClick}
+        disabled={buttonDisabled}
         style={{
           height: 36,
           padding: '0 16px',
@@ -274,7 +294,8 @@ function OnboardingCard({
           fontWeight: 500,
           fontFamily: 'var(--font-sans)',
           color: '#1a1a2e',
-          cursor: 'pointer',
+          cursor: buttonDisabled ? 'not-allowed' : 'pointer',
+          opacity: buttonDisabled ? 0.6 : 1,
           textAlign: 'center',
         }}
       >

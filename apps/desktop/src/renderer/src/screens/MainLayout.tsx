@@ -3,6 +3,7 @@ import type { AppState, ViewMode } from '../types';
 import { TitleBar } from '../components/TitleBar';
 import { Toolbar } from '../components/Toolbar';
 import { Sidebar } from '../components/Sidebar';
+import { FileBrowser } from '../components/FileBrowser';
 import { DocumentView } from '../components/DocumentView';
 import { MarkdownEditor } from '../components/MarkdownEditor';
 import { DiffView } from '../components/DiffView';
@@ -27,7 +28,23 @@ export interface MainLayoutProps {
   onNewTab: () => void;
   onNoteClick: (noteId: string) => void;
   onNotebookToggle: (notebookId: string) => void;
+  onFileClick: (path: string) => void;
+  onDirectoryToggle: (path: string) => void;
 }
+
+// ── LoadingView ────────────────────────────────────────────────────────────
+
+function LoadingView(): React.ReactElement {
+  return (
+    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: 13, color: '#8e8eaa', fontFamily: 'var(--font-sans)' }}>
+        Loading…
+      </span>
+    </div>
+  );
+}
+
+// ── MainLayout ─────────────────────────────────────────────────────────────
 
 export function MainLayout({
   state,
@@ -46,6 +63,8 @@ export function MainLayout({
   onNewTab,
   onNoteClick,
   onNotebookToggle,
+  onFileClick,
+  onDirectoryToggle,
 }: MainLayoutProps): React.ReactElement {
   const hasDraft = state.draftStatus !== null;
   const sidebarVariant = hasDraft ? 'draft' : 'live';
@@ -80,13 +99,24 @@ export function MainLayout({
       />
 
       <div style={{ display: 'flex', flex: 1, minHeight: 0, position: 'relative' }}>
-        <Sidebar
-          variant={sidebarVariant}
-          activeNoteId={state.activeNoteId}
-          expandedNotebooks={state.expandedNotebooks}
-          onNoteClick={onNoteClick}
-          onNotebookToggle={onNotebookToggle}
-        />
+        {state.fileTree ? (
+          <FileBrowser
+            fileTree={state.fileTree}
+            expandedPaths={state.expandedPaths}
+            activeFilePath={state.activeFilePath}
+            onFileClick={onFileClick}
+            onDirectoryToggle={onDirectoryToggle}
+            isLoading={state.fileLoading}
+          />
+        ) : (
+          <Sidebar
+            variant={sidebarVariant}
+            activeNoteId={state.activeNoteId}
+            expandedNotebooks={state.expandedNotebooks}
+            onNoteClick={onNoteClick}
+            onNotebookToggle={onNotebookToggle}
+          />
+        )}
 
         {/* Main content area */}
         <div
@@ -99,7 +129,17 @@ export function MainLayout({
           }}
         >
           {state.viewMode === 'read' && (
-            <DocumentView activeNoteId={state.activeNoteId} />
+            state.fileLoading ? (
+              <LoadingView />
+            ) : state.fileContent != null && state.activeFilePath != null ? (
+              <DocumentView
+                activeNoteId={state.activeNoteId}
+                fileContent={state.fileContent}
+                activeFilePath={state.activeFilePath}
+              />
+            ) : (
+              <DocumentView activeNoteId={state.activeNoteId} />
+            )
           )}
           {state.viewMode === 'edit' && <MarkdownEditor />}
           {state.viewMode === 'diff' && <DiffView />}
