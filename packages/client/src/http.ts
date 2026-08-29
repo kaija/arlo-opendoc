@@ -185,5 +185,11 @@ export function createHttpBinding(baseUrl: string): ClientInterface {
         ok: false,
         error: { code: "UNKNOWN", message: "readFile is not available in the web client" },
       }),
+
+    gitDiff: (_filePath: string) =>
+      Promise.resolve<KbResult<string>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "gitDiff is not available in the web client" },
+      }),
   };
 }

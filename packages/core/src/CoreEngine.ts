@@ -31,6 +31,9 @@ export class CoreEngine {
   async gitPush(): Promise<void> { throw new Error("not implemented"); }
   async gitPull(): Promise<void> { throw new Error("not implemented"); }
   async gitStatus(): Promise<unknown> { throw new Error("not implemented"); }
+  async gitDiff(filePath: string): Promise<string> {
+    return this.config.git.diff(this.config.kbRoot, filePath);
+  }
 
   // Agent
   async agentChat(_message: string): Promise<unknown> { throw new Error("not implemented"); }

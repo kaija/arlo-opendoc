@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Search, MessageSquare } from 'lucide-react';
 
 interface ToolbarProps {
@@ -10,13 +10,8 @@ interface ToolbarProps {
   onChatToggle: () => void;
   onPublish: () => void;
   onSearchClick: () => void;
+  showDiffTab: boolean;
 }
-
-const MODES: Array<{ id: 'preview' | 'edit' | 'diff'; label: string }> = [
-  { id: 'preview', label: 'Preview' },
-  { id: 'edit', label: 'Edit' },
-  { id: 'diff', label: 'What changed' },
-];
 
 export function Toolbar({
   breadcrumb,
@@ -27,7 +22,22 @@ export function Toolbar({
   onChatToggle,
   onPublish,
   onSearchClick,
+  showDiffTab,
 }: ToolbarProps): React.ReactElement {
+  const modes = useMemo(
+    () =>
+      showDiffTab
+        ? [
+            { id: 'preview' as const, label: 'Preview' },
+            { id: 'edit'    as const, label: 'Edit'    },
+            { id: 'diff'    as const, label: 'What changed' },
+          ]
+        : [
+            { id: 'preview' as const, label: 'Preview' },
+            { id: 'edit'    as const, label: 'Edit'    },
+          ],
+    [showDiffTab],
+  );
   return (
     <div
       style={{
@@ -145,7 +155,7 @@ export function Toolbar({
           flexShrink: 0,
         }}
       >
-        {MODES.map(({ id, label }) => {
+        {modes.map(({ id, label }) => {
           const isActive = activeMode === id;
           return (
             <button

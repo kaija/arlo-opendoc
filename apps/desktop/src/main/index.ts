@@ -116,6 +116,14 @@ ipcMain.handle("arlo-doc:gitStatus", async (event) => {
   }
 });
 
+ipcMain.handle("arlo-doc:gitDiff", async (event, filePath: string) => {
+  try {
+    return await getEngine(event.sender.id).gitDiff(filePath);
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
 ipcMain.handle("arlo-doc:agentChat", async (event, message: string) => {
   try {
     return await getEngine(event.sender.id).agentChat(message);
@@ -185,6 +193,7 @@ function createWindow(): void {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
+    titleBarStyle: 'hiddenInset', // native traffic lights inset into custom title bar
     webPreferences: {
       // electron-vite outputs preload to out/preload/index.js (CJS) for packages
       // without "type": "module". Update to .mjs here if the package is ever

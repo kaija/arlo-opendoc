@@ -11,7 +11,8 @@ interface FileBrowserProps {
   activeFilePath: string | null;
   onFileClick: (path: string) => void;
   onDirectoryToggle: (path: string) => void;
-  isLoading?: boolean;
+  isLoading?: boolean | undefined;
+  gitStatusMap?: Map<string, string> | undefined;
 }
 
 interface FlatRow {
@@ -27,6 +28,7 @@ interface TreeRowProps {
   isHovered: boolean;
   isLoading: boolean;
   isPreviewable: boolean;
+  gitStatus?: string | undefined;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   onClick: () => void;
@@ -55,6 +57,38 @@ function flattenVisible(nodes: FileNode[], depth: number, expandedPaths: string[
   return rows;
 }
 
+// ── GitStatusBadge ─────────────────────────────────────────────────────────
+
+interface GitStatusBadgeProps {
+  status: string; // "M" | "A" | "D"
+}
+
+const STATUS_COLORS: Record<string, string> = {
+  M: '#d98000',
+  A: '#2da44e',
+  D: '#cf222e',
+};
+
+function GitStatusBadge({ status }: GitStatusBadgeProps): React.ReactElement {
+  const color = STATUS_COLORS[status] ?? '#8e8eaa';
+  return (
+    <span
+      style={{
+        fontSize: 10,
+        fontWeight: 600,
+        fontFamily: 'var(--font-mono)',
+        color,
+        lineHeight: 1,
+        flexShrink: 0,
+        letterSpacing: 0,
+      }}
+      aria-label={`git status: ${status}`}
+    >
+      {status}
+    </span>
+  );
+}
+
 // ── TreeRow ────────────────────────────────────────────────────────────────
 
 function TreeRow({
@@ -65,6 +99,7 @@ function TreeRow({
   isHovered,
   isLoading,
   isPreviewable,
+  gitStatus,
   onMouseEnter,
   onMouseLeave,
   onClick,
@@ -118,6 +153,7 @@ function TreeRow({
       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>
         {node.name}
       </span>
+      {gitStatus && <GitStatusBadge status={gitStatus} />}
     </div>
   );
 }
@@ -131,6 +167,7 @@ export function FileBrowser({
   onFileClick,
   onDirectoryToggle,
   isLoading = false,
+  gitStatusMap,
 }: FileBrowserProps): React.ReactElement {
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
@@ -203,6 +240,7 @@ export function FileBrowser({
               isHovered={hoveredPath === node.path}
               isLoading={isLoading}
               isPreviewable={previewable}
+              gitStatus={gitStatusMap?.get(node.path)}
               onMouseEnter={() => setHoveredPath(node.path)}
               onMouseLeave={() => setHoveredPath(null)}
               onClick={() => { if (node.kind === 'dir') onDirectoryToggle(node.path); }}

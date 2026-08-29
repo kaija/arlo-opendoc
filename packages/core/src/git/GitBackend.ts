@@ -6,4 +6,5 @@ export interface GitBackend {
   commit(repoDir: string, message: string, paths: string[]): Promise<GitCommit>;
   push(repoDir: string, remote?: string, branch?: string): Promise<void>;
   pull(repoDir: string, remote?: string, branch?: string): Promise<void>;
+  diff(repoDir: string, filePath: string): Promise<string>;
 }

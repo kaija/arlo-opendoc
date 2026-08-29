@@ -59,6 +59,8 @@ export interface ClientInterface {
   getLastFolder(): Promise<KbResult<string | null>>;
   /** Returns the UTF-8 text content of the file at filePath. */
   readFile(filePath: string): Promise<KbResult<string>>;
+  /** Returns the unified diff string for filePath relative to HEAD. */
+  gitDiff(filePath: string): Promise<KbResult<string>>;
 }
 
 // ── Window augmentation ────────────────────────────────────────────────────

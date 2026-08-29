@@ -6,13 +6,15 @@ import { Sidebar } from '../components/Sidebar';
 import { FileBrowser } from '../components/FileBrowser';
 import { DocumentView } from '../components/DocumentView';
 import { MarkdownEditor } from '../components/MarkdownEditor';
-import { DiffView } from '../components/DiffView';
+import { UnifiedDiffView } from '../components/UnifiedDiffView';
 import { ChatPanel } from '../components/ChatPanel';
 import { SearchModal } from '../components/SearchModal';
 import { PublishModal } from '../components/PublishModal';
 
 export interface MainLayoutProps {
   state: AppState;
+  gitStatusMap?: Map<string, string>;
+  showDiffTab?: boolean;
   onModeChange: (mode: ViewMode) => void;
   onOpenSearch: () => void;
   onCloseSearch: (noteId?: string) => void;
@@ -49,6 +51,8 @@ function LoadingView(): React.ReactElement {
 
 export function MainLayout({
   state,
+  gitStatusMap,
+  showDiffTab = false,
   onModeChange,
   onOpenSearch,
   onCloseSearch,
@@ -98,6 +102,7 @@ export function MainLayout({
         onChatToggle={onChatToggle}
         onPublish={onOpenPublish}
         onSearchClick={onOpenSearch}
+        showDiffTab={showDiffTab}
       />
 
       <div style={{ display: 'flex', flex: 1, minHeight: 0, position: 'relative' }}>
@@ -109,6 +114,7 @@ export function MainLayout({
             onFileClick={onFileClick}
             onDirectoryToggle={onDirectoryToggle}
             isLoading={state.fileLoading}
+            gitStatusMap={gitStatusMap}
           />
         ) : (
           <Sidebar
@@ -144,7 +150,7 @@ export function MainLayout({
             )
           )}
           {state.viewMode === 'edit' && <MarkdownEditor content={state.fileContent} onChange={onContentChange} />}
-          {state.viewMode === 'diff' && <DiffView />}
+          {state.viewMode === 'diff' && <UnifiedDiffView diff={state.fileDiff} />}
 
           {/* Chat panel — slides in from right */}
           {state.showChat && (

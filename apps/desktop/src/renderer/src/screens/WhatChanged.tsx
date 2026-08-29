@@ -266,6 +266,7 @@ export function WhatChanged(): React.ReactElement {
         onChatToggle={() => undefined}
         onPublish={() => undefined}
         onSearchClick={() => undefined}
+        showDiffTab={true}
       />
       <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
         <Sidebar variant="draft" activeNoteId="payments" />

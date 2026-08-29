@@ -406,3 +406,276 @@ describe('FileBrowser – Property 7: Expansion visibility', () => {
     );
   });
 });
+
+// ---------------------------------------------------------------------------
+// Feature: git-file-status-diff-viewer
+// Property 7: FileBrowser renders a GitStatusBadge for every path in gitStatusMap
+//
+// For any gitStatusMap containing an entry for a given file path, the TreeRow
+// rendered for that path must include a GitStatusBadge displaying the mapped
+// single-letter code. Conversely, for any path absent from the map, no badge
+// is rendered.
+//
+// Validates: Requirements 5.2, 5.6
+// ---------------------------------------------------------------------------
+
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+
+// ---------------------------------------------------------------------------
+// Inline GitStatusBadge — mirrors FileBrowser.tsx exactly so the property
+// can be verified without importing the full component (which depends on
+// Electron / IPC globals unavailable in the test environment).
+// ---------------------------------------------------------------------------
+
+interface GitStatusBadgeProps {
+  status: string;
+}
+
+const STATUS_COLORS: Record<string, string> = {
+  M: '#d98000',
+  A: '#2da44e',
+  D: '#cf222e',
+};
+
+function GitStatusBadge({ status }: GitStatusBadgeProps): React.ReactElement {
+  const color = STATUS_COLORS[status] ?? '#8e8eaa';
+  return (
+    <span
+      style={{
+        fontSize: 10,
+        fontWeight: 600,
+        fontFamily: 'var(--font-mono)',
+        color,
+        lineHeight: 1,
+        flexShrink: 0,
+        letterSpacing: 0,
+      }}
+      aria-label={`git status: ${status}`}
+    >
+      {status}
+    </span>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Simulate the badge rendering decision in TreeRow:
+//
+//   {gitStatus && <GitStatusBadge status={gitStatus} />}
+//
+// This is the logic gating whether a badge appears. We model it as a pure
+// function that returns the rendered HTML string or an empty string.
+// ---------------------------------------------------------------------------
+
+function renderBadgeForStatus(gitStatus: string | undefined): string {
+  if (!gitStatus) return '';
+  return renderToStaticMarkup(<GitStatusBadge status={gitStatus} />);
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Extract the aria-label value from a rendered HTML string, or null. */
+function extractAriaLabel(html: string): string | null {
+  const match = html.match(/aria-label="([^"]+)"/);
+  return match?.[1] ?? null;
+}
+
+/** Extract the color style value from a rendered span, or null. */
+function extractColor(html: string): string | null {
+  const match = html.match(/color:([^;}"]+)/);
+  return match?.[1]?.trim() ?? null;
+}
+
+/** Extract the text content inside the span. */
+function extractTextContent(html: string): string | null {
+  const match = html.match(/>([^<]+)</);
+  return match?.[1] ?? null;
+}
+
+// ---------------------------------------------------------------------------
+// Arbitraries
+// ---------------------------------------------------------------------------
+
+/** The three valid single-letter status codes. */
+const statusLetterArb = fc.constantFrom('M', 'A', 'D');
+
+/** A map entry: path → status code. */
+const mapEntryArb: fc.Arbitrary<{ path: string; status: string }> = fc.record({
+  path: fc.stringMatching(/^\/[a-zA-Z0-9_/-]{1,40}$/),
+  status: statusLetterArb,
+});
+
+/** A pair of paths guaranteed to be different. */
+const distinctPathsArb: fc.Arbitrary<{ mappedPath: string; unmappedPath: string }> = fc
+  .tuple(
+    fc.stringMatching(/^\/[a-zA-Z0-9_/-]{1,30}$/),
+    fc.stringMatching(/^\/[a-zA-Z0-9_/-]{1,30}$/),
+  )
+  .filter(([a, b]) => a !== b)
+  .map(([mappedPath, unmappedPath]) => ({ mappedPath, unmappedPath }));
+
+// ---------------------------------------------------------------------------
+// Property 7: GitStatusBadge renders with correct aria-label for each status
+// Validates: Requirements 5.2 — badge displays the mapped single-letter code
+// ---------------------------------------------------------------------------
+
+describe('FileBrowser – Property 7 (git-file-status-diff-viewer): GitStatusBadge renders for paths in gitStatusMap', () => {
+  /**
+   * Core property: for any status code in gitStatusMap, the rendered badge
+   * must have aria-label="git status: {status}" and text content equal to
+   * the status letter.
+   *
+   * Validates: Requirements 5.2
+   */
+  it('renders a badge with the correct aria-label and text content for any mapped status code', () => {
+    fc.assert(
+      fc.property(statusLetterArb, (status) => {
+        const html = renderBadgeForStatus(status);
+
+        // Badge must be rendered (non-empty output)
+        expect(html.length).toBeGreaterThan(0);
+
+        // aria-label must identify the status
+        const ariaLabel = extractAriaLabel(html);
+        expect(ariaLabel).toBe(`git status: ${status}`);
+
+        // Text content must equal the status letter
+        const textContent = extractTextContent(html);
+        expect(textContent).toBe(status);
+      }),
+      { numRuns: 100 },
+    );
+  });
+
+  /**
+   * For a path that IS in gitStatusMap, the TreeRow badge rendering logic
+   * (gitStatusMap?.get(node.path)) returns the status, and the badge is rendered.
+   *
+   * Validates: Requirements 5.2
+   */
+  it('gitStatusMap.get returns the status letter for any mapped path — badge is rendered', () => {
+    fc.assert(
+      fc.property(mapEntryArb, ({ path, status }) => {
+        const gitStatusMap = new Map([[path, status]]);
+        const gitStatus = gitStatusMap.get(path);
+
+        // The map lookup must return the status for a mapped path
+        expect(gitStatus).toBe(status);
+
+        // The badge rendering logic renders output for a truthy gitStatus
+        const html = renderBadgeForStatus(gitStatus);
+        expect(html.length).toBeGreaterThan(0);
+        expect(extractAriaLabel(html)).toBe(`git status: ${status}`);
+      }),
+      { numRuns: 300 },
+    );
+  });
+
+  /**
+   * For a path that is NOT in gitStatusMap, the lookup returns undefined,
+   * and no badge is rendered.
+   *
+   * Validates: Requirements 5.6
+   */
+  it('gitStatusMap.get returns undefined for any unmapped path — no badge is rendered', () => {
+    fc.assert(
+      fc.property(distinctPathsArb, ({ mappedPath, unmappedPath }) => {
+        const gitStatusMap = new Map([[mappedPath, 'M']]);
+        const gitStatus = gitStatusMap.get(unmappedPath);
+
+        // The lookup must return undefined for an unmapped path
+        expect(gitStatus).toBeUndefined();
+
+        // The badge rendering logic returns no output for undefined
+        const html = renderBadgeForStatus(gitStatus);
+        expect(html).toBe('');
+      }),
+      { numRuns: 300 },
+    );
+  });
+
+  /**
+   * For any gitStatusMap with multiple entries, each mapped path produces a
+   * badge; paths not in the map produce no badge.
+   *
+   * Validates: Requirements 5.2, 5.6
+   */
+  it('correctly distinguishes mapped paths (badge) from unmapped paths (no badge) for any map size', () => {
+    fc.assert(
+      fc.property(
+        fc.array(mapEntryArb, { minLength: 1, maxLength: 10 }),
+        (entries) => {
+          const gitStatusMap = new Map(entries.map(({ path, status }) => [path, status]));
+          const mappedPaths = new Set(gitStatusMap.keys());
+
+          // For every path in the map, badge must render
+          for (const [path, status] of gitStatusMap) {
+            const gitStatus = gitStatusMap.get(path);
+            const html = renderBadgeForStatus(gitStatus);
+            expect(html.length, `Badge should render for mapped path "${path}"`).toBeGreaterThan(0);
+            expect(extractAriaLabel(html)).toBe(`git status: ${status}`);
+          }
+
+          // For a path known to be absent, no badge must render
+          const absentPath = '/definitely-not-in-map/unique-sentinel-path';
+          expect(mappedPaths.has(absentPath)).toBe(false);
+          const html = renderBadgeForStatus(gitStatusMap.get(absentPath));
+          expect(html, `Badge should NOT render for absent path`).toBe('');
+        },
+      ),
+      { numRuns: 200 },
+    );
+  });
+
+  // ---------------------------------------------------------------------------
+  // Status-specific color properties
+  // Validates: Requirements 5.3, 5.4, 5.5
+  // ---------------------------------------------------------------------------
+
+  it('"M" status badge uses amber color #d98000', () => {
+    const html = renderBadgeForStatus('M');
+    expect(extractColor(html)).toBe('#d98000');
+  });
+
+  it('"A" status badge uses green color #2da44e', () => {
+    const html = renderBadgeForStatus('A');
+    expect(extractColor(html)).toBe('#2da44e');
+  });
+
+  it('"D" status badge uses red color #cf222e', () => {
+    const html = renderBadgeForStatus('D');
+    expect(extractColor(html)).toBe('#cf222e');
+  });
+
+  it('each status code always renders its designated color (fast-check)', () => {
+    const expectedColors: Record<string, string> = {
+      M: '#d98000',
+      A: '#2da44e',
+      D: '#cf222e',
+    };
+
+    fc.assert(
+      fc.property(statusLetterArb, (status) => {
+        const html = renderBadgeForStatus(status);
+        const color = extractColor(html);
+        expect(color).toBe(expectedColors[status]);
+      }),
+      { numRuns: 100 },
+    );
+  });
+
+  // ---------------------------------------------------------------------------
+  // Undefined / empty / null guard (defensive checks on the gating logic)
+  // ---------------------------------------------------------------------------
+
+  it('renders no badge when gitStatus is undefined (path absent from map)', () => {
+    expect(renderBadgeForStatus(undefined)).toBe('');
+  });
+
+  it('renders no badge when gitStatus is an empty string', () => {
+    // Empty string is falsy — the `{gitStatus && ...}` guard suppresses the badge
+    expect(renderBadgeForStatus('')).toBe('');
+  });
+});

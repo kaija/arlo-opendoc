@@ -84,6 +84,9 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
     gitStatus: () =>
       invoke<GitStatus>("arlo-doc:gitStatus"),
 
+    gitDiff: (filePath: string) =>
+      invoke<string>("arlo-doc:gitDiff", filePath),
+
     agentChat: (message: string) =>
       invoke<ChatMessage>("arlo-doc:agentChat", message),
 

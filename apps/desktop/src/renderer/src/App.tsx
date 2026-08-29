@@ -1,5 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { AppState, ViewMode } from './types';
+import { handleFileClickLogic } from './fileClickLogic';
+import { deriveGitStatusMap } from './gitStatusMapUtils';
 import { Onboarding } from './screens/Onboarding';
 import { MainLayout } from './screens/MainLayout';
 import './styles/globals.css';
@@ -27,6 +29,9 @@ const INITIAL_STATE: AppState = {
   fileContent: null,
   fileLoading: false,
   expandedPaths: [],
+  // Git
+  gitStatus: null,
+  fileDiff: null,
 };
 
 export function App(): React.ReactElement {
@@ -177,18 +182,12 @@ export function App(): React.ReactElement {
     }
   }, [update]);
 
-  // File interactions
+  // Race-condition guard: tracks the most recently requested file path
+  const latestFileRef = useRef<string | null>(null);
+
+  // File interactions — delegates to extracted logic for testability
   const handleFileClick = useCallback(async (filePath: string) => {
-    const lower = filePath.toLowerCase();
-    const supported = lower.endsWith('.md') || lower.endsWith('.mdx') || lower.endsWith('.txt');
-    if (!supported) return; // only markdown and text files are previewable
-    update({ fileLoading: true, activeFilePath: filePath });
-    const result = await window.arlodoc.readFile(filePath);
-    if (!result.ok) {
-      update({ fileLoading: false, activeFilePath: null, fileContent: null });
-      return;
-    }
-    update({ fileLoading: false, fileContent: result.data });
+    await handleFileClickLogic(filePath, latestFileRef, update, window.arlodoc);
   }, [update]);
 
   const handleDirectoryToggle = useCallback((dirPath: string) => {
@@ -204,6 +203,22 @@ export function App(): React.ReactElement {
     update({ fileContent: content });
   }, [update]);
 
+  // Derive git status map from AppState.gitStatus for FileBrowser badges
+  const gitStatusMap = useMemo(
+    () => deriveGitStatusMap(state.gitStatus, state.folderPath),
+    [state.gitStatus, state.folderPath],
+  );
+
+  // Requirements 6.4, 3.3 — null and "" both yield false
+  const showDiffTab = Boolean(state.fileDiff);
+
+  // Requirement 6.5 — reset viewMode when the diff tab disappears
+  useEffect(() => {
+    if (!showDiffTab && state.viewMode === 'diff') {
+      update({ viewMode: 'preview' });
+    }
+  }, [showDiffTab]);
+
   if (!onboarded) {
     return (
       <Onboarding
@@ -218,6 +233,8 @@ export function App(): React.ReactElement {
   return (
     <MainLayout
       state={state}
+      gitStatusMap={gitStatusMap}
+      showDiffTab={showDiffTab}
       onModeChange={handleModeChange}
       onOpenSearch={handleOpenSearch}
       onCloseSearch={handleCloseSearch}

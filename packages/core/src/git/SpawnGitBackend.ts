@@ -139,4 +139,8 @@ export class SpawnGitBackend implements GitBackend {
     const args = branch ? ["pull", remote, branch] : ["pull", remote];
     await runGit(args, repoDir);
   }
+
+  async diff(repoDir: string, filePath: string): Promise<string> {
+    return runGit(["diff", "HEAD", "--", filePath], repoDir);
+  }
 }

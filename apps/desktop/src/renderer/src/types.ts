@@ -1,4 +1,4 @@
-import type { FileNode } from '@arlo-doc/shared';
+import type { FileNode, GitStatus } from '@arlo-doc/shared';
 
 export type ViewMode = 'preview' | 'edit' | 'diff';
 export type DraftStatus = 'working' | 'needs-approval' | 'draft' | null;
@@ -58,4 +58,10 @@ export interface AppState {
   fileLoading: boolean;
   /** Directory paths currently expanded in FileBrowser. */
   expandedPaths: string[];
+
+  // ── Git ───────────────────────────────────────────────────────────────
+  /** Current git status for the open folder, or null if not fetched yet. */
+  gitStatus: GitStatus | null;
+  /** Unified diff string for the active file; null = not fetched, "" = no diff. */
+  fileDiff: string | null;
 }
