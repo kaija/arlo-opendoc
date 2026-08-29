@@ -33,6 +33,10 @@ export interface MainLayoutProps {
   onFileClick: (path: string) => void;
   onDirectoryToggle: (path: string) => void;
   onContentChange: (content: string) => void;
+  onSave: () => void;
+  fileSaving?: boolean;
+  fileSaveError?: string | null;
+  hasUnsavedChanges?: boolean | undefined;
 }
 
 // ── LoadingView ────────────────────────────────────────────────────────────
@@ -71,6 +75,10 @@ export function MainLayout({
   onFileClick,
   onDirectoryToggle,
   onContentChange,
+  onSave,
+  fileSaving,
+  fileSaveError,
+  hasUnsavedChanges,
 }: MainLayoutProps): React.ReactElement {
   const hasDraft = state.draftStatus !== null;
   const sidebarVariant = hasDraft ? 'draft' : 'live';
@@ -103,6 +111,9 @@ export function MainLayout({
         onPublish={onOpenPublish}
         onSearchClick={onOpenSearch}
         showDiffTab={showDiffTab}
+        hasUnsavedChanges={hasUnsavedChanges}
+        onSave={onSave}
+        isSaving={fileSaving}
       />
 
       <div style={{ display: 'flex', flex: 1, minHeight: 0, position: 'relative' }}>
@@ -149,7 +160,7 @@ export function MainLayout({
               <DocumentView activeNoteId={state.activeNoteId} />
             )
           )}
-          {state.viewMode === 'edit' && <MarkdownEditor content={state.fileContent} onChange={onContentChange} />}
+          {state.viewMode === 'edit' && <MarkdownEditor content={state.fileContent} onChange={onContentChange} onSave={onSave} isSaving={fileSaving} saveError={fileSaveError} />}
           {state.viewMode === 'diff' && <UnifiedDiffView diff={state.fileDiff} />}
 
           {/* Chat panel — slides in from right */}

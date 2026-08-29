@@ -1,7 +1,7 @@
-import { app, BrowserWindow, dialog, ipcMain } from "electron";
+import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 import { promises as fs } from "node:fs";
 import { join } from "node:path";
-import type { CoreEngine } from "@arlo-doc/core";
+import { CoreEngine, SpawnGitBackend } from "@arlo-doc/core";
 import { readFolder } from "./folderReader.js";
 import { getLastFolder, saveLastFolder } from "./persistenceStore.js";
 
@@ -124,6 +124,12 @@ ipcMain.handle("arlo-doc:gitDiff", async (event, filePath: string) => {
   }
 });
 
+ipcMain.handle("arlo-doc:openExternal", async (_event, url: string) => {
+  // Only open http/https URLs to prevent arbitrary protocol abuse
+  if (!url.startsWith("http://") && !url.startsWith("https://")) return;
+  await shell.openExternal(url);
+});
+
 ipcMain.handle("arlo-doc:agentChat", async (event, message: string) => {
   try {
     return await getEngine(event.sender.id).agentChat(message);
@@ -152,11 +158,22 @@ ipcMain.handle("arlo-doc:chooseFolder", async (event) => {
 
 // Task 5.2 — recursive folder read + best-effort persistence (REQ-002.6,
 // REQ-002.8, REQ-003.7, REQ-003.8, REQ-007.1)
-ipcMain.handle("arlo-doc:readFolder", async (_event, folderPath: string) => {
+ipcMain.handle("arlo-doc:readFolder", async (event, folderPath: string) => {
   try {
     const tree = await readFolder(folderPath);
     // Fire-and-forget: persistence failure must not block the IPC response.
     void saveLastFolder(folderPath);
+
+    // Register (or re-register) a CoreEngine for this window now that we know kbRoot.
+    // StoreAdapter, ForgeAdapter, and AgentKeyProvider are stubs until Phase 2.
+    engines.set(event.sender.id, new CoreEngine({
+      kbRoot: folderPath,
+      store: {} as never,
+      forge: {} as never,
+      agentKeyProvider: {} as never,
+      git: new SpawnGitBackend(),
+    }));
+
     return tree;
   } catch (err) {
     const code = nodeErrCode(err);
@@ -184,6 +201,34 @@ ipcMain.handle("arlo-doc:readFile", async (_event, filePath: string) => {
     const wrapped = new Error((err as Error).message) as Error & { kbError: unknown };
     wrapped.kbError = { code, message: (err as Error).message };
     throw wrapped;
+  }
+});
+
+// Write UTF-8 file content (atomic: write to .tmp then rename)
+ipcMain.handle("arlo-doc:writeFile", async (_event, filePath: string, content: string) => {
+  const tmpPath = filePath + ".tmp";
+  try {
+    await fs.writeFile(tmpPath, content, "utf-8");
+    await fs.rename(tmpPath, filePath);
+  } catch (err) {
+    // Clean up tmp on failure
+    await fs.unlink(tmpPath).catch(() => undefined);
+    const code = nodeErrCode(err);
+    const wrapped = new Error((err as Error).message) as Error & { kbError: unknown };
+    wrapped.kbError = { code, message: (err as Error).message };
+    throw wrapped;
+  }
+});
+
+// ── Window control IPC ────────────────────────────────────────────────────
+
+ipcMain.handle("arlo-doc:toggleMaximize", (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (!win) return;
+  if (win.isMaximized()) {
+    win.unmaximize();
+  } else {
+    win.maximize();
   }
 });
 

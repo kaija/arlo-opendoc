@@ -184,7 +184,20 @@ function renderInline(text: string): React.ReactNode[] {
     }
     const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (linkMatch) {
-      return <a key={i} href={linkMatch[2]} style={{ color: '#5856D6' }}>{linkMatch[1]}</a>;
+      const url = linkMatch[2]!;
+      return (
+        <a
+          key={i}
+          href={url}
+          style={{ color: '#5856D6', cursor: 'pointer' }}
+          onClick={(e) => {
+            e.preventDefault();
+            void window.arlodoc.openExternal(url);
+          }}
+        >
+          {linkMatch[1]}
+        </a>
+      );
     }
     return <React.Fragment key={i}>{part}</React.Fragment>;
   });

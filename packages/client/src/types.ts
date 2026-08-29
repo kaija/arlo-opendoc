@@ -59,8 +59,12 @@ export interface ClientInterface {
   getLastFolder(): Promise<KbResult<string | null>>;
   /** Returns the UTF-8 text content of the file at filePath. */
   readFile(filePath: string): Promise<KbResult<string>>;
+  /** Writes UTF-8 text content to the file at filePath (creates or overwrites). */
+  writeFile(filePath: string, content: string): Promise<KbResult<void>>;
   /** Returns the unified diff string for filePath relative to HEAD. */
   gitDiff(filePath: string): Promise<KbResult<string>>;
+  /** Opens a URL in the system default browser. */
+  openExternal(url: string): Promise<KbResult<void>>;
 }
 
 // ── Window augmentation ────────────────────────────────────────────────────
@@ -69,5 +73,9 @@ export interface ClientInterface {
 declare global {
   interface Window {
     arlodoc: ClientInterface;
+    windowControls?: {
+      /** Toggle the Electron window between maximized and normal state. */
+      toggleMaximize: () => Promise<void>;
+    };
   }
 }

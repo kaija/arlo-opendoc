@@ -10,3 +10,9 @@ const arlodoc = createIpcBinding(ipcRenderer) satisfies ClientInterface;
 
 // Single exposeInMainWorld call — "arlodoc" matches the Window.arlodoc declaration in @arlo-doc/client
 contextBridge.exposeInMainWorld("arlodoc", arlodoc);
+
+// Window control bridge — separate from the business-logic ClientInterface so
+// window management concerns stay isolated.
+contextBridge.exposeInMainWorld("windowControls", {
+  toggleMaximize: () => ipcRenderer.invoke("arlo-doc:toggleMaximize"),
+});

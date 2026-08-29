@@ -105,6 +105,12 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
 
     readFile: (filePath: string) =>
       invoke<string>("arlo-doc:readFile", filePath),
+
+    writeFile: (filePath: string, content: string) =>
+      invoke<void>("arlo-doc:writeFile", filePath, content),
+
+    openExternal: (url: string) =>
+      invoke<void>("arlo-doc:openExternal", url),
   };
 }
 

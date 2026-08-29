@@ -11,6 +11,9 @@ interface ToolbarProps {
   onPublish: () => void;
   onSearchClick: () => void;
   showDiffTab: boolean;
+  hasUnsavedChanges?: boolean | undefined;
+  onSave?: (() => void) | undefined;
+  isSaving?: boolean | undefined;
 }
 
 export function Toolbar({
@@ -23,6 +26,9 @@ export function Toolbar({
   onPublish,
   onSearchClick,
   showDiffTab,
+  hasUnsavedChanges = false,
+  onSave,
+  isSaving = false,
 }: ToolbarProps): React.ReactElement {
   const modes = useMemo(
     () =>
@@ -201,6 +207,30 @@ export function Toolbar({
       >
         Publish
       </button>
+
+      {/* Save button — visible only when there are unsaved changes */}
+      {hasUnsavedChanges && (
+        <button
+          onClick={onSave}
+          disabled={isSaving}
+          style={{
+            height: 28,
+            padding: '0 12px',
+            borderRadius: 6,
+            border: '1px solid rgba(88,86,214,.35)',
+            background: isSaving ? '#f0f0f8' : 'rgba(88,86,214,.08)',
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: 'var(--font-sans)',
+            color: isSaving ? '#8e8eaa' : '#5856D6',
+            cursor: isSaving ? 'default' : 'pointer',
+            flexShrink: 0,
+            transition: 'opacity 0.1s',
+          }}
+        >
+          {isSaving ? 'Saving…' : 'Save'}
+        </button>
+      )}
 
       {/* Chat toggle */}
       <button

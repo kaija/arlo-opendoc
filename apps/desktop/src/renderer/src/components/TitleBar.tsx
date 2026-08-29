@@ -52,8 +52,15 @@ export function TitleBar({
   onTabClick,
   onNewTab,
 }: TitleBarProps): React.ReactElement {
+  const handleDoubleClick = () => {
+    // Only available in the Electron context (window.windowControls is injected
+    // by the preload). In the browser / Storybook it will be undefined.
+    window.windowControls?.toggleMaximize();
+  };
+
   return (
     <div
+      onDoubleClick={handleDoubleClick}
       style={{
         // Chrome-style: taller title bar so tabs sit at traffic-light height
         height: 52,

@@ -64,4 +64,8 @@ export interface AppState {
   gitStatus: GitStatus | null;
   /** Unified diff string for the active file; null = not fetched, "" = no diff. */
   fileDiff: string | null;
+  /** True while a writeFile IPC call is in-flight. */
+  fileSaving: boolean;
+  /** Error message from the last failed save, or null. */
+  fileSaveError: string | null;
 }

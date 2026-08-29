@@ -32,6 +32,8 @@ const INITIAL_STATE: AppState = {
   // Git
   gitStatus: null,
   fileDiff: null,
+  fileSaving: false,
+  fileSaveError: null,
 };
 
 export function App(): React.ReactElement {
@@ -202,10 +204,19 @@ export function App(): React.ReactElement {
 
   // Race-condition guard: tracks the most recently requested file path
   const latestFileRef = useRef<string | null>(null);
+  // Keep a ref to the latest state so handleSave never closes over stale values
+  const stateRef = useRef(state);
+  useEffect(() => { stateRef.current = state; });
+  // Tracks the last-saved (or last-loaded) content to detect unsaved changes
+  const savedContentRef = useRef<string | null>(null);
 
   // File interactions — delegates to extracted logic for testability
   const handleFileClick = useCallback(async (filePath: string) => {
+    // Stamp savedContent before loading so the new content matches on first open
+    savedContentRef.current = null;
     await handleFileClickLogic(filePath, latestFileRef, update, window.arlodoc);
+    // After load, stamp savedContent to the freshly loaded content
+    savedContentRef.current = stateRef.current.fileContent;
   }, [update]);
 
   const handleDirectoryToggle = useCallback((dirPath: string) => {
@@ -220,6 +231,42 @@ export function App(): React.ReactElement {
   const handleContentChange = useCallback((content: string) => {
     update({ fileContent: content });
   }, [update]);
+
+
+  // ⌘S / Ctrl+S — save active file to disk, then refresh git diff + git status
+  const handleSave = useCallback(async () => {
+    const { activeFilePath, fileContent, fileSaving } = stateRef.current;
+    if (!activeFilePath || fileContent == null || fileSaving) return;
+
+    update({ fileSaving: true, fileSaveError: null });
+
+    const result = await window.arlodoc.writeFile(activeFilePath, fileContent);
+    if (!result.ok) {
+      update({ fileSaving: false, fileSaveError: result.error.message });
+      return;
+    }
+
+    // Refresh both git diff (What Changed tab) and git status (FileBrowser badges)
+    const [diffResult, statusResult] = await Promise.all([
+      window.arlodoc.gitDiff(activeFilePath),
+      window.arlodoc.gitStatus(),
+    ]);
+
+    // Stamp savedContent so the "unsaved" indicator clears
+    savedContentRef.current = fileContent;
+
+    update({
+      fileSaving: false,
+      fileSaveError: null,
+      ...(diffResult.ok   ? { fileDiff:   diffResult.data  } : {}),
+      ...(statusResult.ok ? { gitStatus:  statusResult.data } : {}),
+    });
+  }, [update]); // stable — reads latest state via stateRef
+
+  // True when the in-memory content differs from what was last saved/loaded
+  const hasUnsavedChanges =
+    state.fileContent != null &&
+    state.fileContent !== savedContentRef.current;
 
   // Derive git status map from AppState.gitStatus for FileBrowser badges
   const gitStatusMap = useMemo(
@@ -273,6 +320,10 @@ export function App(): React.ReactElement {
       onFileClick={handleFileClick}
       onDirectoryToggle={handleDirectoryToggle}
       onContentChange={handleContentChange}
+      onSave={handleSave}
+      fileSaving={state.fileSaving}
+      fileSaveError={state.fileSaveError}
+      hasUnsavedChanges={hasUnsavedChanges}
     />
   );
 }

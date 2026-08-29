@@ -1,6 +1,7 @@
 import type { StoreAdapter } from "./store/StoreAdapter.js";
 import type { ForgeAdapter } from "./forge/ForgeAdapter.js";
 import type { AgentKeyProvider } from "./agent/types.js";
+import type { GitStatus, GitCommit } from "@arlo-doc/shared";
 import type { GitBackend } from "./git/GitBackend.js";
 
 export interface CoreEngineConfig {
@@ -30,7 +31,9 @@ export class CoreEngine {
   async gitCommit(_message: string, _paths: string[]): Promise<unknown> { throw new Error("not implemented"); }
   async gitPush(): Promise<void> { throw new Error("not implemented"); }
   async gitPull(): Promise<void> { throw new Error("not implemented"); }
-  async gitStatus(): Promise<unknown> { throw new Error("not implemented"); }
+  async gitStatus(): Promise<GitStatus> {
+    return this.config.git.status(this.config.kbRoot);
+  }
   async gitDiff(filePath: string): Promise<string> {
     return this.config.git.diff(this.config.kbRoot, filePath);
   }

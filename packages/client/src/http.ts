@@ -191,5 +191,17 @@ export function createHttpBinding(baseUrl: string): ClientInterface {
         ok: false,
         error: { code: "UNKNOWN", message: "gitDiff is not available in the web client" },
       }),
+
+    writeFile: (_filePath: string, _content: string) =>
+      Promise.resolve<KbResult<void>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "writeFile is not available in the web client" },
+      }),
+
+    openExternal: (_url: string) =>
+      Promise.resolve<KbResult<void>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "openExternal is not available in the web client" },
+      }),
   };
 }

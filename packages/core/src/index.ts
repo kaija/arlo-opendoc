@@ -8,5 +8,8 @@ export type { ForgeAdapter, WebhookConfig, WebhookRecord } from "./forge/ForgeAd
 export type { AgentKeyProvider } from "./agent/types.js";
 export type { GitBackend } from "./git/GitBackend.js";
 
+// Git backend
+export { SpawnGitBackend } from "./git/SpawnGitBackend.js";
+
 // Containment check
 export { checkContainment, ContainmentError } from "./agent/PathContainmentCheck.js";
