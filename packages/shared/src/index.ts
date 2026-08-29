@@ -7,6 +7,7 @@ export * from "./schemas/forge.js";
 
 // Types
 export type { WorktreeInfo } from "./types/worktree.js";
+export type { FileNameMatch, ContentMatchLine, ContentMatch, SearchOptions } from "./types/search.js";
 
 // Constants
 export * from "./constants/index.js";

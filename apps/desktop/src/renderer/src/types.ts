@@ -26,6 +26,9 @@ export interface WorktreeTabState {
   fileSaveError: string | null;
   /** Content at last save — used for unsaved-changes detection. */
   savedContent: string | null;
+  /** Line to scroll to and highlight after a search result opens this file.
+   *  1-indexed. null = no scroll target. */
+  scrollToLine: number | null;
 }
 
 export const EMPTY_TAB_STATE: WorktreeTabState = {
@@ -39,6 +42,7 @@ export const EMPTY_TAB_STATE: WorktreeTabState = {
   fileSaving: false,
   fileSaveError: null,
   savedContent: null,
+  scrollToLine: null,
 };
 export type DraftStatus = 'working' | 'needs-approval' | 'draft' | null;
 

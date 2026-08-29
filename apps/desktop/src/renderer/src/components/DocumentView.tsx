@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface DocumentViewProps {
   fileContent: string;
   activeFilePath: string;
+  /** 1-indexed line to scroll to and highlight after render. null/undefined = no scroll. */
+  scrollToLine?: number | null | undefined;
+  /** Called after the scroll+highlight fires so App can reset scrollToLine to null. */
+  onScrollComplete?: (() => void) | undefined;
 }
 
 function isMarkdownPath(filePath: string): boolean {
@@ -420,6 +424,7 @@ function MarkdownView({ content }: { content: string }): React.ReactElement {
 
 function CodeView({ content, filePath }: { content: string; filePath: string }): React.ReactElement {
   const label = getLanguageLabel(filePath);
+  const lines = content.split('\n');
   return (
     <div style={{ borderRadius: 10, border: '1px solid rgba(0,0,0,.08)', overflow: 'hidden', margin: 0 }}>
       {label && (
@@ -451,7 +456,13 @@ function CodeView({ content, filePath }: { content: string; filePath: string }):
         margin: 0,
         padding: '20px 24px',
       }}>
-        <code>{content}</code>
+        <code>
+          {lines.map((line, i) => (
+            <span key={i} data-line={i + 1} style={{ display: 'block' }}>
+              {line}
+            </span>
+          ))}
+        </code>
       </pre>
     </div>
   );
@@ -459,12 +470,64 @@ function CodeView({ content, filePath }: { content: string; filePath: string }):
 
 // ── DocumentView ───────────────────────────────────────────────────────────
 
-export function DocumentView({ fileContent, activeFilePath }: DocumentViewProps): React.ReactElement {
+export function DocumentView({ fileContent, activeFilePath, scrollToLine, onScrollComplete }: DocumentViewProps): React.ReactElement {
   const isMd = isMarkdownPath(activeFilePath);
   const isTxt = activeFilePath.toLowerCase().endsWith('.txt');
 
+  // Ref to the outer scrollable container so we can find data-line elements within it
+  const containerRef = useRef<HTMLDivElement>(null);
+  // Track the last line we scrolled to, to avoid re-firing for the same value
+  const lastScrolledLineRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (scrollToLine == null) {
+      lastScrolledLineRef.current = null;
+      return;
+    }
+    if (scrollToLine === lastScrolledLineRef.current) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const target = container.querySelector<HTMLElement>(`[data-line="${scrollToLine}"]`);
+    if (!target) {
+      // Markdown/plain-text path — no data-line elements; just notify completion
+      onScrollComplete?.();
+      return;
+    }
+
+    lastScrolledLineRef.current = scrollToLine;
+
+    target.scrollIntoView({ block: 'center' });
+
+    // Transient highlight: inject a one-shot animation
+    const HIGHLIGHT_COLOR = 'rgba(88, 86, 214, 0.18)';
+    const prevBg = target.style.backgroundColor;
+    target.style.transition = 'background-color 0s';
+    target.style.backgroundColor = HIGHLIGHT_COLOR;
+
+    const fadeTimer = window.setTimeout(() => {
+      target.style.transition = 'background-color 1.2s ease';
+      target.style.backgroundColor = prevBg;
+    }, 300);
+
+    const cleanupTimer = window.setTimeout(() => {
+      target.style.transition = '';
+      target.style.backgroundColor = '';
+      onScrollComplete?.();
+    }, 1600);
+
+    return () => {
+      window.clearTimeout(fadeTimer);
+      window.clearTimeout(cleanupTimer);
+    };
+  }, [scrollToLine, onScrollComplete]);
+
   return (
-    <div style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}>
+    <div
+      ref={containerRef}
+      style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}
+    >
       <div style={{ width: '100%', maxWidth: isMd || isTxt ? 740 : 900, padding: '48px 40px' }}>
         {isMd
           ? <MarkdownView content={fileContent} />

@@ -7,6 +7,9 @@ import type {
   GitCommit,
   ChatMessage,
   FileNode,
+  SearchOptions,
+  FileNameMatch,
+  ContentMatch,
 } from "@arlo-doc/shared";
 
 // ── IpcRenderer interface ──────────────────────────────────────────────────
@@ -130,6 +133,13 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
 
     worktreeDirty: (worktreePath: string) =>
       invoke<boolean>("arlo-doc:worktreeDirty", worktreePath),
+
+    // Search operations
+    searchFiles: (repoDir: string, query: string, options: SearchOptions) =>
+      invoke<FileNameMatch[]>("arlo-doc:searchFiles", repoDir, query, options),
+
+    findInFiles: (repoDir: string, query: string, options: SearchOptions) =>
+      invoke<ContentMatch[]>("arlo-doc:findInFiles", repoDir, query, options),
   };
 }
 

@@ -7,6 +7,9 @@ import type {
   GitCommit,
   FileNode,
   WorktreeInfo,
+  SearchOptions,
+  FileNameMatch,
+  ContentMatch,
 } from "@arlo-doc/shared";
 
 // ── Error types ────────────────────────────────────────────────────────────
@@ -19,6 +22,7 @@ export type KbErrorCode =
   | "AGENT_ERROR"
   | "CONTAINMENT_ERROR"
   | "AUTH_ERROR"
+  | "TIMEOUT"
   | "UNKNOWN";
 
 export interface KbError {
@@ -99,6 +103,20 @@ export interface ClientInterface {
   worktreeList(repoDir: string): Promise<KbResult<WorktreeInfo[]>>;
   /** Returns true if the worktree at worktreePath has uncommitted changes. */
   worktreeDirty(worktreePath: string): Promise<KbResult<boolean>>;
+
+  // Search operations
+  /** Fuzzy file-name search against the active tab's in-memory FileNode tree. */
+  searchFiles(
+    repoDir: string,
+    query: string,
+    options: SearchOptions,
+  ): Promise<KbResult<FileNameMatch[]>>;
+  /** Full-text content search via ripgrep. */
+  findInFiles(
+    repoDir: string,
+    query: string,
+    options: SearchOptions,
+  ): Promise<KbResult<ContentMatch[]>>;
 }
 
 // ── Window augmentation ────────────────────────────────────────────────────

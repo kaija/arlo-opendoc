@@ -2,8 +2,9 @@ import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 import { promises as fs } from "node:fs";
 import { join } from "node:path";
 import { CoreEngine, SpawnGitBackend } from "@arlo-doc/core";
-import type { WorktreeInfo } from "@arlo-doc/shared";
+import type { WorktreeInfo, SearchOptions } from "@arlo-doc/shared";
 import { readFolder } from "./folderReader.js";
+import * as ripgrepRunner from "./ripgrepRunner.js";
 import { getLastFolder, getPersistedState, saveLastFolder, saveState } from "./persistenceStore.js";
 import type { PersistedState } from "./persistenceStore.js";
 
@@ -247,6 +248,64 @@ ipcMain.handle("arlo-doc:writeFile", async (_event, filePath: string, content: s
     const wrapped = new Error((err as Error).message) as Error & { kbError: unknown };
     wrapped.kbError = { code, message: (err as Error).message };
     throw wrapped;
+  }
+});
+
+// ── Search IPC handlers ────────────────────────────────────────────────────
+// Tasks 5.1–5.2: file-name search stub and full-text content search via ripgrep.
+// Both follow the same KbResult error contract: return raw data on success;
+// throw an Error with a `kbError` property on failure (REQ-006.4).
+
+// Task 5.1 — file-name search stub (REQ-006.4, REQ-006.6, REQ-006.7)
+// The renderer performs actual fuzzy matching against its in-memory fileTree;
+// this handler exists to satisfy the ClientInterface contract.
+ipcMain.handle("arlo-doc:searchFiles", async (_event, repoDir: string, query: string, _options: SearchOptions) => {
+  try {
+    // REQ-006.7: empty query → [] immediately, no filesystem work
+    if (!query) return [];
+    // REQ-006.6: validate repoDir exists
+    try {
+      await fs.access(repoDir);
+    } catch {
+      const wrapped = new Error(`repo directory not found: ${repoDir}`) as Error & { kbError: unknown };
+      wrapped.kbError = { code: "NOT_FOUND", message: `repo directory not found: ${repoDir}` };
+      throw wrapped;
+    }
+    // Renderer handles file-name matching; this is a valid no-op stub.
+    return [];
+  } catch (err) {
+    // Re-throw errors that already carry kbError (our NOT_FOUND above)
+    if ((err as { kbError?: unknown }).kbError) throw err;
+    wrapError(err);
+  }
+});
+
+// Task 5.2 — full-text content search via ripgrep (REQ-006.4, REQ-006.6, REQ-006.7)
+ipcMain.handle("arlo-doc:findInFiles", async (_event, repoDir: string, query: string, options: SearchOptions) => {
+  try {
+    // REQ-006.7: empty query → [] immediately
+    if (!query) return [];
+    // REQ-006.6: validate repoDir exists
+    try {
+      await fs.access(repoDir);
+    } catch {
+      const wrapped = new Error(`repo directory not found: ${repoDir}`) as Error & { kbError: unknown };
+      wrapped.kbError = { code: "NOT_FOUND", message: `repo directory not found: ${repoDir}` };
+      throw wrapped;
+    }
+    // Delegate to RipgrepRunner; it returns a KbResult — unwrap it here so
+    // the invoke() wrapper in packages/client receives raw data (not a nested KbResult).
+    const result = await ripgrepRunner.findInFiles(repoDir, query, options);
+    if (!result.ok) {
+      const wrapped = new Error(result.error.message) as Error & { kbError: unknown };
+      wrapped.kbError = { code: result.error.code, message: result.error.message };
+      throw wrapped;
+    }
+    return result.data;
+  } catch (err) {
+    // Re-throw errors that already carry kbError (our NOT_FOUND / ripgrep errors above)
+    if ((err as { kbError?: unknown }).kbError) throw err;
+    wrapError(err);
   }
 });
 

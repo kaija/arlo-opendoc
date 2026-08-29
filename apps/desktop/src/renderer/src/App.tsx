@@ -10,6 +10,20 @@ import { MainLayout } from './screens/MainLayout';
 import { Onboarding } from './screens/Onboarding';
 import './styles/globals.css';
 
+/**
+ * Returns all ancestor directory paths for a given file path.
+ * E.g. "/a/b/c/file.ts" → ["/a", "/a/b", "/a/b/c"]
+ * Used by handleSearchResultClick to expand ancestor directories in FileBrowser (REQ-009.4).
+ */
+export function getAncestorPaths(filePath: string): string[] {
+  const parts = filePath.split('/').filter(Boolean);
+  const ancestors: string[] = [];
+  for (let i = 1; i < parts.length; i++) {
+    ancestors.push('/' + parts.slice(0, i).join('/'));
+  }
+  return ancestors;
+}
+
 const INITIAL_STATE: AppState = {
   tabs: [],
   activeTabId: null,
@@ -201,6 +215,24 @@ export function App(): React.ReactElement {
   );
 
   // ── Search ──────────────────────────────────────────────────────────────
+
+  // REQ-001: Cmd+Shift+F (macOS) / Ctrl+Shift+F (Windows/Linux) opens the search modal.
+  // Guards: skip when another modal is open, or when no tab is active.
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent): void {
+      const isMac = navigator.platform.startsWith('Mac');
+      const modKey = isMac ? e.metaKey : e.ctrlKey;
+      if (modKey && e.shiftKey && e.key === 'F') {
+        if (state.modal !== null && state.modal !== 'search') return;
+        if (state.activeTabId === null) return;
+        e.preventDefault();
+        update({ modal: 'search' });
+      }
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [state.modal, state.activeTabId, update]);
+
   const handleOpenSearch = useCallback(() => {
     update({ modal: 'search' });
   }, [update]);
@@ -208,6 +240,65 @@ export function App(): React.ReactElement {
   const handleCloseSearch = useCallback(() => {
     update({ modal: null });
   }, [update]);
+
+  // REQ-009.2: Reset scrollToLine to null after DocumentView has scrolled,
+  // preventing re-scroll on subsequent re-renders.
+  const handleScrollComplete = useCallback(() => {
+    if (!state.activeTabId) return;
+    updateTabState(state.activeTabId, { scrollToLine: null });
+  }, [state.activeTabId, updateTabState]);
+
+  // REQ-009: Open a search result file in the active tab at the matching line.
+  const handleSearchResultClick = useCallback(
+    async (filePath: string, lineNumber?: number) => {
+      if (!state.activeTabId) return;
+      const tabId = state.activeTabId;
+
+      // Dismiss modal immediately (REQ-009.3)
+      update({ modal: null });
+
+      // Expand ancestors in FileBrowser (REQ-009.4)
+      const ancestorPaths = getAncestorPaths(filePath);
+      updateTabState(tabId, {
+        expandedPaths: Array.from(
+          new Set([...(state.tabStates[tabId]?.expandedPaths ?? []), ...ancestorPaths])
+        ),
+      });
+
+      // Open file — mirrors the handleFileClick pattern, reuses latestFileRef race guard
+      latestFileRef.current = filePath;
+      updateTabState(tabId, { fileLoading: true, activeFilePath: filePath, scrollToLine: null });
+
+      const [contentResult, statusResult, diffResult] = await Promise.all([
+        window.arlodoc.readFile(filePath),
+        window.arlodoc.gitStatus(),
+        window.arlodoc.gitDiff(filePath),
+      ]);
+
+      if (latestFileRef.current !== filePath) return; // race guard
+
+      if (!contentResult.ok) {
+        updateTabState(tabId, { fileLoading: false, activeFilePath: null, fileContent: null, scrollToLine: null });
+        return;
+      }
+
+      const totalLines = contentResult.data.split('\n').length;
+      const clampedLine =
+        lineNumber != null && lineNumber >= 1
+          ? Math.min(lineNumber, totalLines)
+          : null;
+
+      updateTabState(tabId, {
+        fileLoading: false,
+        fileContent: contentResult.data,
+        savedContent: contentResult.data,
+        scrollToLine: clampedLine,
+        ...(statusResult.ok ? { gitStatus: statusResult.data } : {}),
+        ...(diffResult.ok ? { fileDiff: diffResult.data } : {}),
+      });
+    },
+    [state.activeTabId, state.tabStates, update, updateTabState],
+  );
 
   // ── Chat ────────────────────────────────────────────────────────────────
   const handleChatToggle = useCallback(() => {
@@ -548,6 +639,7 @@ export function App(): React.ReactElement {
       onModeChange={handleModeChange}
       onOpenSearch={handleOpenSearch}
       onCloseSearch={handleCloseSearch}
+      onSearchResultClick={handleSearchResultClick}
       onChatToggle={handleChatToggle}
       onCloseChat={handleCloseChat}
       onNeedsApproval={handleNeedsApproval}
@@ -577,6 +669,8 @@ export function App(): React.ReactElement {
       showHiddenFiles={showHiddenFiles}
       onToggleHiddenFiles={handleToggleHiddenFiles}
       isCreatingTab={isCreatingTab}
+      scrollToLine={activeTabState?.scrollToLine}
+      onScrollComplete={handleScrollComplete}
     />
   );
 }

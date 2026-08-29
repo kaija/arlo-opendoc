@@ -22,7 +22,8 @@ export interface MainLayoutProps {
   showDiffTab?: boolean;
   onModeChange: (mode: ViewMode) => void;
   onOpenSearch: () => void;
-  onCloseSearch: (noteId?: string) => void;
+  onCloseSearch: () => void;
+  onSearchResultClick?: (filePath: string, lineNumber?: number) => void;
   onChatToggle: () => void;
   onCloseChat: () => void;
   onNeedsApproval: () => void;
@@ -51,6 +52,8 @@ export interface MainLayoutProps {
   showHiddenFiles?: boolean | undefined;
   onToggleHiddenFiles?: () => void;
   isCreatingTab?: boolean | undefined;
+  scrollToLine?: number | null | undefined;
+  onScrollComplete?: (() => void) | undefined;
 }
 
 // ── LoadingView ────────────────────────────────────────────────────────────
@@ -75,6 +78,7 @@ export function MainLayout({
   onModeChange,
   onOpenSearch,
   onCloseSearch,
+  onSearchResultClick,
   onChatToggle,
   onCloseChat,
   onNeedsApproval,
@@ -103,6 +107,8 @@ export function MainLayout({
   showHiddenFiles = false,
   onToggleHiddenFiles,
   isCreatingTab = false,
+  scrollToLine,
+  onScrollComplete,
 }: MainLayoutProps): React.ReactElement {
   const hasDraft = state.draftStatus !== null;
   const sidebarVariant = hasDraft ? 'draft' : 'live';
@@ -217,6 +223,8 @@ export function MainLayout({
                 <DocumentView
                   fileContent={fileContent}
                   activeFilePath={activeFilePath}
+                  scrollToLine={scrollToLine}
+                  onScrollComplete={onScrollComplete}
                 />
               ) : (
                 <NoFileSelected />
@@ -250,7 +258,14 @@ export function MainLayout({
       )}
 
       {/* Modals */}
-      {state.modal === 'search' && <SearchModal onClose={onCloseSearch} />}
+      {state.modal === 'search' && (
+        <SearchModal
+          repoDir={state.repoDir}
+          fileTree={activeTabState?.fileTree ?? null}
+          onClose={onCloseSearch}
+          onResultClick={onSearchResultClick ?? (() => {})}
+        />
+      )}
       {state.modal === 'publish' && (
         <PublishModal onPublish={onPublish} onCancel={onCancelPublish} />
       )}

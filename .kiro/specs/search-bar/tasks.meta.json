@@ -1,0 +1,731 @@
+{
+  "pbtResults": {
+    "7.3 Write property test for file name search result limit": {
+      "status": "passed",
+      "lastRunTimestamp": 1788008408569
+    },
+    "7.4 Write property test for file name search result ordering": {
+      "status": "passed",
+      "lastRunTimestamp": 1788008409317
+    },
+    "7.5 Write property test for case-insensitivity idempotence": {
+      "status": "passed",
+      "lastRunTimestamp": 1788008410106
+    },
+    "7.6 Write property test for regex mode results satisfy pattern": {
+      "status": "passed",
+      "lastRunTimestamp": 1788008410852
+    }
+  },
+  "executionHistory": {
+    "1.1 Create `packages/shared/src/types/search.ts` with four exported interfaces": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738431
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006748372
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006858903
+      }
+    ],
+    "1.2 Re-export all four new interfaces from `packages/shared/src/index.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738484
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006867006
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006990369
+      }
+    ],
+    "2.1 Add `scrollToLine: number | null` to `WorktreeTabState` and `EMPTY_TAB_STATE` in `apps/desktop/src/renderer/src/types.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738535
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006749271
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006859808
+      }
+    ],
+    "3.1 Declare `searchFiles` and `findInFiles` method signatures on `ClientInterface` in `packages/client/src/types.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738616
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006867867
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006991341
+      }
+    ],
+    "3.2 Implement `searchFiles` and `findInFiles` bindings in `packages/client/src/ipc.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738669
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006995568
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006999568
+      }
+    ],
+    "4.1 Create `apps/desktop/src/main/ripgrepRunner.ts` with binary resolution and process spawning": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738721
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788007003249
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788007160522
+      }
+    ],
+    "4.2 Implement NDJSON output parser in `ripgrepRunner.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738773
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788007164119
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788007167804
+      }
+    ],
+    "4.3 Write unit tests for `RipgrepRunner` in `apps/desktop/src/main/__tests__/ripgrepRunner.test.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738835
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008212581
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008216900
+      }
+    ],
+    "4.4 Write property test for `RipgrepRunner` file count upper bound": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738905
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008221083
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008232565
+      }
+    ],
+    "4.5 Write property test for `RipgrepRunner` total match line upper bound": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006738989
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008221816
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008233433
+      }
+    ],
+    "4.6 Write property test for `ContentMatchLine` line number monotonicity": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739040
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008222501
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008233999
+      }
+    ],
+    "5.1 Register `ipcMain.handle(\"arlo-doc:searchFiles\", …)` in `apps/desktop/src/main/index.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739088
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008186348
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008190390
+      }
+    ],
+    "5.2 Register `ipcMain.handle(\"arlo-doc:findInFiles\", …)` in `apps/desktop/src/main/index.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739133
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008194371
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008198353
+      }
+    ],
+    "5.3 Write property test for IPC handler error contract": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739171
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008223139
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008234857
+      }
+    ],
+    "6. Checkpoint — Ensure all back-end and shared-layer tests pass": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739235
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008448953
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008577412
+      }
+    ],
+    "7.1 Create `apps/desktop/src/renderer/src/fileNameMatcher.ts` with `flattenLeaves`, `scoreFileName`, and `matchFileNames`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739303
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788007174037
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008207685
+      }
+    ],
+    "7.2 Write unit tests for `fileNameMatcher` in `apps/desktop/src/renderer/src/__tests__/fileNameMatcher.test.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739349
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008224049
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008436499
+      }
+    ],
+    "7.3 Write property test for file name search result limit": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739391
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008224623
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008437312
+      }
+    ],
+    "7.4 Write property test for file name search result ordering": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739438
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008225266
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008439198
+      }
+    ],
+    "7.5 Write property test for case-insensitivity idempotence": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739484
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008225999
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008439405
+      }
+    ],
+    "7.6 Write property test for regex mode results satisfy pattern": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739523
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008226681
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008439599
+      }
+    ],
+    "8. Checkpoint — Ensure all file-name matcher tests pass": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739585
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008449748
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008576783
+      }
+    ],
+    "9.1 Replace `apps/desktop/src/renderer/src/components/SearchModal.tsx` with full implementation": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739633
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008582233
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008976291
+      }
+    ],
+    "9.2 Implement Search Files tab behaviour in `SearchModal`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739671
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008984730
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009035020
+      }
+    ],
+    "9.3 Implement Find in Files tab behaviour in `SearchModal`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739718
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008985370
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009034773
+      }
+    ],
+    "9.4 Implement search options toggles (**Aa** / **.\\***) in `SearchModal`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739768
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009019018
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009035778
+      }
+    ],
+    "9.5 Implement keyboard navigation in `SearchModal`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739817
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008987320
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009033606
+      }
+    ],
+    "9.6 Implement footer count display in `SearchModal`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739854
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008987685
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009039121
+      }
+    ],
+    "9.7 Write unit tests for `SearchModal` in `apps/desktop/src/renderer/src/__tests__/search.property.test.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739899
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009175430
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009497112
+      }
+    ],
+    "9.8 Write property test for footer count accuracy": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006739955
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009176943
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009497836
+      }
+    ],
+    "10.1 Add `Cmd+Shift+F` / `Ctrl+Shift+F` keyboard shortcut listener to `App.tsx`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006740056
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008988175
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009161373
+      }
+    ],
+    "10.2 Add `getAncestorPaths(filePath: string): string[]` pure helper to `App.tsx` (exported for testing)": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006740137
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008583281
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008974910
+      }
+    ],
+    "10.3 Implement `handleSearchResultClick(filePath, lineNumber?)` in `App.tsx`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006740201
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008989171
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009164673
+      }
+    ],
+    "10.4 Pass `SearchModal` props through `MainLayout` — add `onSearchResultClick` prop and render `SearchModal` when `state.modal === 'search'`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006740242
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009172830
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009185008
+      }
+    ],
+    "10.5 Write unit tests for `handleSearchResultClick` and keyboard shortcut in `apps/desktop/src/renderer/src/__tests__/search.property.test.ts`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006740290
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009176393
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009499344
+      }
+    ],
+    "10.6 Write property test for `scrollToLine` clamping": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006740340
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009176786
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009498453
+      }
+    ],
+    "11.1 Add `scrollToLine?: number | null` prop to `DocumentView` in `apps/desktop/src/renderer/src/components/DocumentView.tsx` (or wherever `DocumentView` is defined)": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006740390
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009505238
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009713578
+      }
+    ],
+    "12. Final checkpoint — Ensure all tests pass": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006740438
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009720095
+      },
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009801522
+      }
+    ],
+    "2. Extend `WorktreeTabState` with `scrollToLine`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006859882
+      }
+    ],
+    "1. Add shared search types to `packages/shared`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006990437
+      }
+    ],
+    "3. Add `ClientInterface` methods and IPC bindings in `packages/client`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788006999612
+      }
+    ],
+    "4. Implement `RipgrepRunner` in the main process": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008234069
+      }
+    ],
+    "5. Register IPC handlers in the main process": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008234906
+      }
+    ],
+    "7. Create `fileNameMatcher.ts` in the renderer": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788008439649
+      }
+    ],
+    "9. Replace `SearchModal` component": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009497890
+      }
+    ],
+    "10. Wire keyboard shortcut and `handleSearchResultClick` in `App.tsx`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009499406
+      }
+    ],
+    "11. Update `DocumentView` to consume `scrollToLine`": [
+      {
+        "executionId": "a8f7acdd-01aa-4bbb-b987-d9c2ed61ae81",
+        "chatSessionId": "sess_4b77c9dd-7610-42cd-9806-ae5c0943aa10",
+        "timestamp": 1788009713662
+      }
+    ]
+  }
+}
