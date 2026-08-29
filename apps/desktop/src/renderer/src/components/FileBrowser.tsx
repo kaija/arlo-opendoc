@@ -45,9 +45,39 @@ const DEFAULT_WIDTH = 240;
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
+/**
+ * Mirror of isSupportedFile() from fileClickLogic.ts — kept local to avoid
+ * importing renderer logic into a pure UI component.  Both lists must stay
+ * in sync.  Controls whether a file row is clickable in the sidebar.
+ */
+const PREVIEWABLE_EXTENSIONS = new Set([
+  '.md', '.mdx', '.txt', '.rst', '.adoc', '.tex',
+  '.html', '.htm', '.css', '.scss', '.sass', '.less',
+  '.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs',
+  '.json', '.jsonc', '.json5',
+  '.yaml', '.yml', '.toml', '.ini', '.env',
+  '.xml', '.svg',
+  '.py', '.rb', '.php', '.java', '.kt', '.kts',
+  '.go', '.rs', '.c', '.h', '.cpp', '.cc', '.cxx', '.hpp',
+  '.cs', '.swift', '.m', '.mm',
+  '.sh', '.bash', '.zsh', '.fish', '.ps1', '.bat', '.cmd',
+  '.sql', '.graphql', '.gql', '.proto',
+  '.dockerfile', '.tf', '.tfvars', '.hcl', '.nginx',
+  '.gradle', '.cmake', '.makefile',
+  '.csv', '.log', '.diff', '.patch', '.lock',
+  '.gitignore', '.gitattributes', '.editorconfig',
+  '.eslintrc', '.prettierrc', '.babelrc',
+]);
+
+const NO_EXT_PREVIEWABLE = new Set([
+  'makefile', 'dockerfile', 'jenkinsfile', 'gemfile', 'rakefile', 'procfile',
+]);
+
 function isPreviewable(fileName: string): boolean {
   const lower = fileName.toLowerCase();
-  return lower.endsWith('.md') || lower.endsWith('.mdx') || lower.endsWith('.txt');
+  const dotIdx = lower.lastIndexOf('.');
+  if (dotIdx === -1) return NO_EXT_PREVIEWABLE.has(lower.split('/').pop() ?? lower);
+  return PREVIEWABLE_EXTENSIONS.has(lower.slice(dotIdx));
 }
 
 function flattenVisible(nodes: FileNode[], depth: number, expandedPaths: string[]): FlatRow[] {

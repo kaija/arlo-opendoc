@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="Arlo Doc">
+  <title>Arlo Doc</title>
+  <!--
+    Full-bleed master (Linux, store listings, generic icon.png).
+    Flat #5856D6, square radius 25%. Glyph on the 24 grid.
+  -->
+  <rect width="1024" height="1024" rx="256" fill="#5856D6"/>
+  <g transform="translate(512 512) scale(25.13) translate(-12 -12)"
+     fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke-width="2.2">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/>
+      <path d="M14 2v6h6"/>
+    </g>
+    <g stroke-width="2.0">
+      <path d="M8.4 18.3 12 9.9l3.6 8.4"/>
+      <path d="M9.5 15.7h5"/>
+    </g>
+  </g>
+</svg>

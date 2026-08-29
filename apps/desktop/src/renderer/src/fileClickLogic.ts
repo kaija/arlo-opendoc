@@ -28,11 +28,51 @@ export interface LatestFileRef {
 export type TabStateUpdater = (tabId: string, patch: Partial<WorktreeTabState>) => void;
 
 /**
+ * Known text / code file extensions the app can open and preview.
+ * Any file with no recognised extension that also has no binary signature
+ * will be caught by the UTF-8 read in the main process anyway, but we
+ * gate the UI here to avoid attempting to load images or compiled binaries.
+ */
+const TEXT_EXTENSIONS = new Set([
+  // Documents
+  '.md', '.mdx', '.txt', '.rst', '.adoc', '.tex',
+  // Web
+  '.html', '.htm', '.css', '.scss', '.sass', '.less',
+  // Scripts / config
+  '.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs',
+  '.json', '.jsonc', '.json5',
+  '.yaml', '.yml', '.toml', '.ini', '.env',
+  '.xml', '.svg',
+  // Systems / backend
+  '.py', '.rb', '.php', '.java', '.kt', '.kts',
+  '.go', '.rs', '.c', '.h', '.cpp', '.cc', '.cxx', '.hpp',
+  '.cs', '.swift', '.m', '.mm',
+  '.sh', '.bash', '.zsh', '.fish', '.ps1', '.bat', '.cmd',
+  // Data / query
+  '.sql', '.graphql', '.gql', '.proto',
+  // Config / infra
+  '.dockerfile', '.tf', '.tfvars', '.hcl', '.nginx',
+  '.gradle', '.cmake', '.makefile',
+  // Misc text
+  '.csv', '.log', '.diff', '.patch', '.lock',
+  '.gitignore', '.gitattributes', '.editorconfig',
+  '.eslintrc', '.prettierrc', '.babelrc',
+]);
+
+/**
  * Returns true for file paths that the app can open and preview.
+ * Covers all common text, markup, and source-code file types.
  */
 export function isSupportedFile(filePath: string): boolean {
   const lower = filePath.toLowerCase();
-  return lower.endsWith('.md') || lower.endsWith('.mdx') || lower.endsWith('.txt');
+  const dotIdx = lower.lastIndexOf('.');
+  if (dotIdx === -1) {
+    // No extension — treat files like Makefile, Dockerfile, Jenkinsfile as text
+    const basename = lower.split('/').pop() ?? lower;
+    return ['makefile', 'dockerfile', 'jenkinsfile', 'gemfile', 'rakefile', 'procfile'].includes(basename);
+  }
+  const ext = lower.slice(dotIdx);
+  return TEXT_EXTENSIONS.has(ext);
 }
 
 /**

@@ -34,7 +34,7 @@ export function MarkdownEditor({
   }, [onSave]);
 
   const placeholder = content == null
-    ? 'No file open — double-click a .md or .txt file in the sidebar to edit it.'
+    ? 'No file open — double-click any text or code file in the sidebar to edit it.'
     : '';
 
   return (

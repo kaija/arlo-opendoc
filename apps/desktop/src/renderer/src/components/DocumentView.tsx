@@ -10,6 +10,62 @@ function isMarkdownPath(filePath: string): boolean {
   return lower.endsWith('.md') || lower.endsWith('.mdx');
 }
 
+/**
+ * Maps a file path to a human-readable language label shown above code files.
+ * Returns null for plain text files that need no label.
+ */
+function getLanguageLabel(filePath: string): string | null {
+  const lower = filePath.toLowerCase();
+  const basename = lower.split('/').pop() ?? lower;
+  const dotIdx = basename.lastIndexOf('.');
+  const ext = dotIdx === -1 ? '' : basename.slice(dotIdx);
+  const name = dotIdx === -1 ? basename : basename.slice(0, dotIdx);
+
+  // Well-known extensionless files
+  const NO_EXT: Record<string, string> = {
+    makefile: 'Makefile', dockerfile: 'Dockerfile',
+    jenkinsfile: 'Jenkinsfile', gemfile: 'Gemfile',
+    rakefile: 'Rakefile', procfile: 'Procfile',
+  };
+  if (!ext && NO_EXT[name]) return NO_EXT[name]!;
+
+  const EXT_MAP: Record<string, string> = {
+    '.ts': 'TypeScript', '.tsx': 'TypeScript (JSX)',
+    '.js': 'JavaScript', '.jsx': 'JavaScript (JSX)',
+    '.mjs': 'JavaScript', '.cjs': 'JavaScript',
+    '.py': 'Python', '.rb': 'Ruby', '.php': 'PHP',
+    '.java': 'Java', '.kt': 'Kotlin', '.kts': 'Kotlin Script',
+    '.go': 'Go', '.rs': 'Rust',
+    '.c': 'C', '.h': 'C Header', '.cpp': 'C++', '.cc': 'C++',
+    '.cxx': 'C++', '.hpp': 'C++ Header',
+    '.cs': 'C#', '.swift': 'Swift',
+    '.m': 'Objective-C', '.mm': 'Objective-C++',
+    '.sh': 'Shell', '.bash': 'Bash', '.zsh': 'Zsh',
+    '.fish': 'Fish', '.ps1': 'PowerShell',
+    '.bat': 'Batch', '.cmd': 'Batch',
+    '.html': 'HTML', '.htm': 'HTML',
+    '.css': 'CSS', '.scss': 'SCSS', '.sass': 'Sass', '.less': 'Less',
+    '.json': 'JSON', '.jsonc': 'JSON', '.json5': 'JSON5',
+    '.yaml': 'YAML', '.yml': 'YAML',
+    '.toml': 'TOML', '.ini': 'INI', '.env': 'Env',
+    '.xml': 'XML', '.svg': 'SVG',
+    '.sql': 'SQL', '.graphql': 'GraphQL', '.gql': 'GraphQL',
+    '.proto': 'Protocol Buffers',
+    '.tf': 'Terraform', '.tfvars': 'Terraform',
+    '.hcl': 'HCL', '.dockerfile': 'Dockerfile',
+    '.gradle': 'Gradle', '.cmake': 'CMake',
+    '.diff': 'Diff', '.patch': 'Diff',
+    '.rst': 'reStructuredText', '.adoc': 'AsciiDoc', '.tex': 'LaTeX',
+    '.csv': 'CSV', '.log': 'Log',
+    '.lock': 'Lock File',
+    '.gitignore': 'Git', '.gitattributes': 'Git',
+    '.editorconfig': 'EditorConfig',
+    '.eslintrc': 'ESLint Config', '.prettierrc': 'Prettier Config',
+    '.babelrc': 'Babel Config',
+  };
+  return EXT_MAP[ext] ?? null;
+}
+
 // ── Minimal Markdown renderer ──────────────────────────────────────────────
 
 interface TableToken {
@@ -360,16 +416,61 @@ function MarkdownView({ content }: { content: string }): React.ReactElement {
   );
 }
 
+// ── CodeView ───────────────────────────────────────────────────────────────
+
+function CodeView({ content, filePath }: { content: string; filePath: string }): React.ReactElement {
+  const label = getLanguageLabel(filePath);
+  return (
+    <div style={{ borderRadius: 10, border: '1px solid rgba(0,0,0,.08)', overflow: 'hidden', margin: 0 }}>
+      {label && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '6px 16px',
+          background: '#f0f0f8',
+          borderBottom: '1px solid rgba(0,0,0,.08)',
+          fontFamily: 'var(--font-mono)',
+          fontSize: 11,
+          fontWeight: 600,
+          color: '#52526b',
+          letterSpacing: '0.04em',
+          textTransform: 'uppercase',
+          userSelect: 'none',
+        }}>
+          {label}
+        </div>
+      )}
+      <pre style={{
+        whiteSpace: 'pre',
+        overflowX: 'auto',
+        fontFamily: 'var(--font-mono)',
+        fontSize: 13,
+        lineHeight: 1.65,
+        color: '#1a1a2e',
+        background: '#f8f8fc',
+        margin: 0,
+        padding: '20px 24px',
+      }}>
+        <code>{content}</code>
+      </pre>
+    </div>
+  );
+}
+
 // ── DocumentView ───────────────────────────────────────────────────────────
 
 export function DocumentView({ fileContent, activeFilePath }: DocumentViewProps): React.ReactElement {
   const isMd = isMarkdownPath(activeFilePath);
+  const isTxt = activeFilePath.toLowerCase().endsWith('.txt');
+
   return (
     <div style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}>
-      <div style={{ width: '100%', maxWidth: 740, padding: '48px 40px' }}>
+      <div style={{ width: '100%', maxWidth: isMd || isTxt ? 740 : 900, padding: '48px 40px' }}>
         {isMd
           ? <MarkdownView content={fileContent} />
-          : <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: '#1a1a2e', margin: 0 }}>{fileContent}</pre>
+          : isTxt
+            ? <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: '#1a1a2e', margin: 0 }}>{fileContent}</pre>
+            : <CodeView content={fileContent} filePath={activeFilePath} />
         }
       </div>
     </div>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" role="img" aria-label="Arlo Doc">
+  <title>Arlo Doc</title>
+  <!--
+    Family mark, 28 grid - drop-in sibling of the Arlo Rust / Arlo Lite /
+    AG-UI marks on arlo-ai.app. Flat #5856D6, rx 7.
+  -->
+  <rect width="28" height="28" rx="7" fill="#5856D6"/>
+  <g transform="translate(14 14) scale(0.739) translate(-12 -12)"
+     fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke-width="3.4">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/>
+      <path d="M14 2v6h6"/>
+    </g>
+    <g stroke-width="3.2">
+      <path d="M8.4 18.3 12 9.9l3.6 8.4"/>
+      <path d="M9.5 15.7h5"/>
+    </g>
+  </g>
+</svg>
