@@ -1,4 +1,4 @@
-import type { ClientInterface, KbError, KbResult } from "./types.js";
+import type { ClientInterface, KbError, KbResult, PersistedClientState } from "./types.js";
 import type {
   KbDocument,
   SearchQuery,
@@ -97,11 +97,17 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
     chooseFolder: () =>
       invoke<string | null>("arlo-doc:chooseFolder"),
 
-    readFolder: (folderPath: string) =>
-      invoke<FileNode>("arlo-doc:readFolder", folderPath),
+    readFolder: (folderPath: string, showHidden?: boolean) =>
+      invoke<FileNode>("arlo-doc:readFolder", folderPath, showHidden),
 
     getLastFolder: () =>
       invoke<string | null>("arlo-doc:getLastFolder"),
+
+    getPersistedState: () =>
+      invoke<PersistedClientState>("arlo-doc:getPersistedState"),
+
+    saveState: (state: PersistedClientState) =>
+      invoke<void>("arlo-doc:saveState", state),
 
     readFile: (filePath: string) =>
       invoke<string>("arlo-doc:readFile", filePath),
@@ -111,6 +117,19 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
 
     openExternal: (url: string) =>
       invoke<void>("arlo-doc:openExternal", url),
+
+    // Worktree operations
+    worktreeCreate: (repoDir: string) =>
+      invoke<import("@arlo-doc/shared").WorktreeInfo>("arlo-doc:worktreeCreate", repoDir),
+
+    worktreeDelete: (repoDir: string, worktreePath: string) =>
+      invoke<void>("arlo-doc:worktreeDelete", repoDir, worktreePath),
+
+    worktreeList: (repoDir: string) =>
+      invoke<import("@arlo-doc/shared").WorktreeInfo[]>("arlo-doc:worktreeList", repoDir),
+
+    worktreeDirty: (worktreePath: string) =>
+      invoke<boolean>("arlo-doc:worktreeDirty", worktreePath),
   };
 }
 

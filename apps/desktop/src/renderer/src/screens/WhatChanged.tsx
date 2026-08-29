@@ -236,8 +236,8 @@ function DiffColumn({
 
 export function WhatChanged(): React.ReactElement {
   const tabs = [
-    { id: 't1', title: 'Payments service runbook', type: 'document' as const },
-    { id: 't2', title: 'ADR-014: Idempotency strategy', type: 'document' as const },
+    { id: 't1', title: 'Payments service runbook', worktreePath: '', branch: 'main' },
+    { id: 't2', title: 'ADR-014: Idempotency strategy', worktreePath: '', branch: 'main' },
   ];
 
   return (
@@ -256,6 +256,7 @@ export function WhatChanged(): React.ReactElement {
         activeTabId="t1"
         onTabClick={() => undefined}
         onNewTab={() => undefined}
+        onTabClose={() => undefined}
       />
       <Toolbar
         breadcrumb={['Runbooks', 'Payments service runbook']}

@@ -12,14 +12,17 @@
 import { describe, it, expect } from 'vitest';
 import * as fc from 'fast-check';
 import type { GitStatus } from '@arlo-doc/shared';
-import type { AppState } from '../types';
+import type { WorktreeTabState } from '../types';
 import {
   handleFileClickLogic,
   isSupportedFile,
   type FileClickDeps,
   type LatestFileRef,
-  type StateUpdater,
+  type TabStateUpdater,
 } from '../fileClickLogic';
+
+/** Constant tabId used in all tests that call handleFileClickLogic. */
+const TEST_TAB_ID = 'test-tab-1';
 
 // ---------------------------------------------------------------------------
 // Arbitraries
@@ -64,15 +67,15 @@ const fileContentArb: fc.Arbitrary<string> = fc.string({ minLength: 0, maxLength
 // Test helpers
 // ---------------------------------------------------------------------------
 
-/** A simple accumulated state: tracks the last patch passed to update(). */
-function makeStateTracker(): { patches: Array<Partial<AppState>>; update: StateUpdater } {
-  const patches: Array<Partial<AppState>> = [];
-  const update: StateUpdater = (patch) => patches.push(patch);
+/** A simple accumulated state: tracks the last patch passed to updateTabState(). */
+function makeStateTracker(): { patches: Array<Partial<WorktreeTabState>>; update: TabStateUpdater } {
+  const patches: Array<Partial<WorktreeTabState>> = [];
+  const update: TabStateUpdater = (_tabId, patch) => patches.push(patch);
   return { patches, update };
 }
 
 /** Merge all patches in order (simulates React setState spreading). */
-function mergePatches(patches: Array<Partial<AppState>>): Partial<AppState> {
+function mergePatches(patches: Array<Partial<WorktreeTabState>>): Partial<WorktreeTabState> {
   return Object.assign({}, ...patches);
 }
 
@@ -109,7 +112,7 @@ describe('Property 5: handleFileClick updates both gitStatus and fileDiff for th
             gitDiff: () => Promise.resolve({ ok: true, data: diffValue }),
           });
 
-          await handleFileClickLogic(filePath, latestRef, update, deps);
+          await handleFileClickLogic(filePath, TEST_TAB_ID, latestRef, update, deps);
 
           const merged = mergePatches(patches);
 
@@ -138,7 +141,7 @@ describe('Property 5: handleFileClick updates both gitStatus and fileDiff for th
             gitDiff: () => Promise.resolve({ ok: true, data: diffValue }),
           });
 
-          await handleFileClickLogic(filePath, latestRef, update, deps);
+          await handleFileClickLogic(filePath, TEST_TAB_ID, latestRef, update, deps);
 
           const merged = mergePatches(patches);
 
@@ -166,7 +169,7 @@ describe('Property 5: handleFileClick updates both gitStatus and fileDiff for th
             },
           });
 
-          await handleFileClickLogic(filePath, latestRef, update, deps);
+          await handleFileClickLogic(filePath, TEST_TAB_ID, latestRef, update, deps);
 
           // gitDiff must be called with the exact filePath that was clicked
           expect(capturedPath).toBe(filePath);
@@ -189,7 +192,7 @@ describe('Property 5: handleFileClick updates both gitStatus and fileDiff for th
           gitDiff: () => Promise.resolve({ ok: true, data: 'diff' }),
         });
 
-        await handleFileClickLogic(filePath, latestRef, update, deps);
+        await handleFileClickLogic(filePath, TEST_TAB_ID, latestRef, update, deps);
 
         const merged = mergePatches(patches);
 
@@ -214,7 +217,7 @@ describe('Property 5: handleFileClick updates both gitStatus and fileDiff for th
             Promise.resolve({ ok: false, error: { code: 'GIT_ERROR', message: 'error' } }),
         });
 
-        await handleFileClickLogic(filePath, latestRef, update, deps);
+        await handleFileClickLogic(filePath, TEST_TAB_ID, latestRef, update, deps);
 
         const merged = mergePatches(patches);
 
@@ -238,7 +241,7 @@ describe('Property 5: handleFileClick updates both gitStatus and fileDiff for th
       const { patches, update } = makeStateTracker();
       const latestRef: LatestFileRef = { current: null };
 
-      await handleFileClickLogic(filePath, latestRef, update, makeDeps());
+      await handleFileClickLogic(filePath, TEST_TAB_ID, latestRef, update, makeDeps());
 
       expect(patches.length).toBe(0);
       expect(latestRef.current).toBeNull();
@@ -286,10 +289,10 @@ describe('Property 6: Race condition guard — only the last-opened file\'s diff
           };
 
           // Start file A (does not await — intentionally left in-flight)
-          const clickA = handleFileClickLogic(pathA, latestRef, update, depsA);
+          const clickA = handleFileClickLogic(pathA, TEST_TAB_ID, latestRef, update, depsA);
 
           // Immediately start file B — this stamps latestRef.current = pathB
-          const clickB = handleFileClickLogic(pathB, latestRef, update, depsB);
+          const clickB = handleFileClickLogic(pathB, TEST_TAB_ID, latestRef, update, depsB);
 
           // Resolve B first, then A
           resolveB({ ok: true, data: diffB });
@@ -335,10 +338,10 @@ describe('Property 6: Race condition guard — only the last-opened file\'s diff
     };
 
     // Start A — it's in-flight
-    const clickA = handleFileClickLogic(pathA, latestRef, update, depsA);
+    const clickA = handleFileClickLogic(pathA, TEST_TAB_ID, latestRef, update, depsA);
 
     // Start B — stamps latestRef = pathB; resolves immediately
-    const clickB = handleFileClickLogic(pathB, latestRef, update, depsB);
+    const clickB = handleFileClickLogic(pathB, TEST_TAB_ID, latestRef, update, depsB);
     await clickB;
 
     // Now resolve A late
@@ -367,8 +370,8 @@ describe('Property 6: Race condition guard — only the last-opened file\'s diff
           const deps: FileClickDeps = makeDeps();
 
           // Open A then B in sequence
-          await handleFileClickLogic(pathA, latestRef, update, deps);
-          await handleFileClickLogic(pathB, latestRef, update, deps);
+          await handleFileClickLogic(pathA, TEST_TAB_ID, latestRef, update, deps);
+          await handleFileClickLogic(pathB, TEST_TAB_ID, latestRef, update, deps);
 
           // After both complete, latestRef should hold pathB (the last one opened)
           expect(latestRef.current).toBe(pathB);
@@ -395,7 +398,7 @@ describe('Property 6: Race condition guard — only the last-opened file\'s diff
             gitDiff: () => Promise.resolve({ ok: true, data: diffValue }),
           });
 
-          await handleFileClickLogic(filePath, latestRef, update, deps);
+          await handleFileClickLogic(filePath, TEST_TAB_ID, latestRef, update, deps);
 
           const merged = mergePatches(patches);
 
@@ -551,7 +554,7 @@ describe('Property 9: viewMode resets to "preview" when showDiffTab transitions 
   function applyViewModeResetEffect(
     showDiffTab: boolean,
     viewMode: string,
-  ): Partial<AppState> | null {
+  ): { viewMode: string } | null {
     if (!showDiffTab && viewMode === 'diff') {
       return { viewMode: 'preview' };
     }

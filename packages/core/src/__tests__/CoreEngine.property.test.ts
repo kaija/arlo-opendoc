@@ -31,6 +31,11 @@ describe("CoreEngine", () => {
               push: vi.fn(),
               pull: vi.fn(),
               diff: mockDiff,
+              worktreeAdd: vi.fn(),
+              worktreeRemove: vi.fn(),
+              worktreeList: vi.fn(),
+              worktreeDirty: vi.fn(),
+              getRepoRoot: vi.fn(),
             };
 
             const kbRoot = "/test/repo/root";

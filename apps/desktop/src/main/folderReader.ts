@@ -5,13 +5,19 @@ import { EXCLUDED_NAMES } from '@arlo-doc/shared';
 
 const MAX_DEPTH = 10;
 
+export interface ReadFolderOptions {
+  /** When true, entries whose names start with "." are included. Default: false. */
+  showHidden?: boolean;
+}
+
 /**
  * Reads folderPath recursively up to MAX_DEPTH levels deep.
- * Hidden entries (name starts with '.') and EXCLUDED_NAMES directories are skipped.
+ * Hidden entries (name starts with '.') are skipped unless showHidden is true.
+ * EXCLUDED_NAMES directories are always skipped.
  * Permission errors on individual entries are caught; the entry is appended to
  * root.skippedPaths and processing continues with siblings.
  */
-export async function readFolder(folderPath: string): Promise<FileNode> {
+export async function readFolder(folderPath: string, options: ReadFolderOptions = {}): Promise<FileNode> {
   const root: FileNode = {
     name: folderPath.split('/').pop() ?? folderPath,
     path: folderPath,
@@ -19,7 +25,7 @@ export async function readFolder(folderPath: string): Promise<FileNode> {
     children: [],
     skippedPaths: [],
   };
-  await readDirInto(root, folderPath, 0, root.skippedPaths);
+  await readDirInto(root, folderPath, 0, root.skippedPaths, options);
   return root;
 }
 
@@ -28,6 +34,7 @@ async function readDirInto(
   dirPath: string,
   depth: number,
   skippedPaths: string[],
+  options: ReadFolderOptions,
 ): Promise<void> {
   if (depth >= MAX_DEPTH) return; // children stay []
 
@@ -43,7 +50,7 @@ async function readDirInto(
   const files: FileNode[] = [];
 
   for (const entry of entries) {
-    if (entry.name.startsWith('.')) continue;
+    if (!options.showHidden && entry.name.startsWith('.')) continue;
     if (entry.isDirectory() && (EXCLUDED_NAMES as readonly string[]).includes(entry.name)) continue;
 
     const entryPath = join(dirPath, entry.name);
@@ -57,7 +64,7 @@ async function readDirInto(
 
     try {
       if (entry.isDirectory()) {
-        await readDirInto(child, entryPath, depth + 1, skippedPaths);
+        await readDirInto(child, entryPath, depth + 1, skippedPaths, options);
         dirs.push(child);
       } else {
         files.push(child);

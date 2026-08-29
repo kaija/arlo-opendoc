@@ -242,8 +242,8 @@ function DocumentView(): React.ReactElement {
 
 export function Reading(): React.ReactElement {
   const tabs = [
-    { id: 't1', title: 'Payments service runbook', type: 'document' as const },
-    { id: 't2', title: 'Deploy rollback', type: 'document' as const },
+    { id: 't1', title: 'Payments service runbook', worktreePath: '', branch: 'main' },
+    { id: 't2', title: 'Deploy rollback', worktreePath: '', branch: 'main' },
   ];
 
   return (
@@ -262,6 +262,7 @@ export function Reading(): React.ReactElement {
         activeTabId="t1"
         onTabClick={() => undefined}
         onNewTab={() => undefined}
+        onTabClose={() => undefined}
       />
       <Toolbar
         breadcrumb={['Runbooks', 'Payments service runbook']}

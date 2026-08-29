@@ -12,6 +12,30 @@
 <link rel="stylesheet" href="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/tokens/colors.css">
 <script src="_ds/arlo-ai-design-system-6316a602-9c76-4ace-a739-fcff8b15ffa7/_ds_bundle.js"></script>
 </helmet>
+
+<!-- Tab Bar (worktree tabs, max 25, shrink to fit) -->
+<div style="height:38px;flex:none;display:flex;align-items:flex-end;padding:0 12px;background:#f0f0f7;border-bottom:1px solid rgba(0,0,0,.08);font-family:Inter,system-ui,sans-serif;gap:1px;overflow:hidden">
+  <!-- Active tab -->
+  <div style="height:30px;display:flex;align-items:center;gap:6px;padding:0 10px;border-radius:6px 6px 0 0;background:#f8f8fc;border:1px solid rgba(0,0,0,.1);border-bottom:1px solid #f8f8fc;font:500 12px/1 Inter,sans-serif;color:#1a1a2e;flex:0 1 auto;min-width:0;max-width:160px;cursor:default">
+    <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">Payments service runbook</div>
+    <div style="flex:none;color:#a8a8be;width:14px;height:14px;display:flex;align-items:center;justify-content:center;border-radius:3px;cursor:pointer" title="Close tab">
+      <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 1l6 6M7 1L1 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+  <!-- Inactive tab -->
+  <div style="height:30px;display:flex;align-items:center;gap:6px;padding:0 10px;border-radius:6px 6px 0 0;background:transparent;font:400 12px/1 Inter,sans-serif;color:#8e8eaa;flex:0 1 auto;min-width:0;max-width:160px;cursor:pointer">
+    <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">Deploy rollback</div>
+    <div style="flex:none;color:#c8c8d8;width:14px;height:14px;display:flex;align-items:center;justify-content:center;border-radius:3px;cursor:pointer">
+      <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 1l6 6M7 1L1 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+  <div style="flex:1"></div>
+  <!-- New tab button -->
+  <div style="height:28px;width:28px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:5px;color:#8e8eaa;cursor:pointer;margin-bottom:1px" title="New worktree tab">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+</div>
+
 <div style="width:240px;flex:none;height:100%;background:#f8f8fc;border-right:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;font-family:Inter,system-ui,sans-serif;box-sizing:border-box">
   <div style="padding:10px 10px 6px">
     <div style="height:34px;display:flex;align-items:center;gap:9px;padding:0 8px;border-radius:6px;background:#fff;border:1px solid rgba(0,0,0,.06)">
@@ -21,7 +45,13 @@
     </div>
   </div>
 
-  <div style="padding:12px 18px 6px;font:500 11px/1 Inter,sans-serif;letter-spacing:.06em;color:#8e8eaa;text-transform:uppercase">Notebooks</div>
+  <!-- Open Folder button (replaces old breadcrumb row) -->
+  <div style="padding:6px 10px">
+    <div style="height:30px;display:flex;align-items:center;gap:6px;padding:0 10px;border-radius:6px;border:1px dashed rgba(0,0,0,.12);color:#8e8eaa;cursor:pointer;font:500 12px/1 Inter,sans-serif" title="Open folder">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 3.5A1 1 0 0 1 2.5 2.5h2.382a1 1 0 0 1 .894.553L6.118 3.5H10.5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1V3.5Z" stroke="currentColor" stroke-width="1.1"/></svg>
+      <span>Open Folder</span>
+    </div>
+  </div>
   <div style="padding:0 8px;display:flex;flex-direction:column">
     <div style="height:26px;display:flex;align-items:center;gap:6px;padding:0 8px;border-radius:6px">
       <div style="color:#a8a8be;display:flex"><x-import component-from-global-scope="ArloAIDesignSystem_6316a6.Icon" name="chevron-right" size="12" hint-size="12px,12px"></x-import></div>

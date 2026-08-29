@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import type { GitBackend } from "./GitBackend.js";
-import type { GitStatus, GitCommit } from "@arlo-doc/shared";
+import type { GitStatus, GitCommit, WorktreeInfo } from "@arlo-doc/shared";
 
 // Derive GitStatusFile from the GitStatus type to avoid adding an export to @kb/shared
 type GitStatusFile = GitStatus["files"][number];
@@ -36,6 +36,45 @@ function runGit(args: string[], cwd?: string): Promise<string> {
 
     proc.on("error", reject);
   });
+}
+
+/**
+ * Parses the output of `git worktree list --porcelain` into `WorktreeInfo[]`.
+ *
+ * Porcelain format (one block per worktree, blank line between blocks):
+ *   worktree /absolute/path
+ *   HEAD <sha>
+ *   branch refs/heads/<name>   (or "detached" for detached HEAD)
+ */
+function parseWorktreeList(output: string): WorktreeInfo[] {
+  const worktrees: WorktreeInfo[] = [];
+  const blocks = output.trim().split(/\n\n+/);
+
+  for (const block of blocks) {
+    const lines = block.trim().split("\n");
+    let path = "";
+    let head = "";
+    let branch = "";
+
+    for (const line of lines) {
+      if (line.startsWith("worktree ")) {
+        path = line.slice("worktree ".length).trim();
+      } else if (line.startsWith("HEAD ")) {
+        head = line.slice("HEAD ".length).trim();
+      } else if (line.startsWith("branch ")) {
+        const ref = line.slice("branch ".length).trim();
+        branch = ref.replace(/^refs\/heads\//, "");
+      } else if (line === "detached") {
+        branch = "(detached)";
+      }
+    }
+
+    if (path) {
+      worktrees.push({ path, branch, head });
+    }
+  }
+
+  return worktrees;
 }
 
 export class SpawnGitBackend implements GitBackend {
@@ -142,5 +181,30 @@ export class SpawnGitBackend implements GitBackend {
 
   async diff(repoDir: string, filePath: string): Promise<string> {
     return runGit(["diff", "HEAD", "--", filePath], repoDir);
+  }
+
+  // ── Worktree methods (implemented in tasks 2.2–2.5) ──────────────────────
+
+  async worktreeAdd(repoDir: string, worktreePath: string, branch: string): Promise<void> {
+    await runGit(["-C", repoDir, "worktree", "add", worktreePath, "-b", branch]);
+  }
+
+  async worktreeRemove(repoDir: string, worktreePath: string): Promise<void> {
+    await runGit(["-C", repoDir, "worktree", "remove", "--force", worktreePath]);
+  }
+
+  async worktreeList(repoDir: string): Promise<WorktreeInfo[]> {
+    const output = await runGit(["-C", repoDir, "worktree", "list", "--porcelain"]);
+    return parseWorktreeList(output);
+  }
+
+  async worktreeDirty(worktreePath: string): Promise<boolean> {
+    const output = await runGit(["-C", worktreePath, "status", "--porcelain"]);
+    return output.trim().length > 0;
+  }
+
+  async getRepoRoot(cwd: string): Promise<string> {
+    const output = await runGit(["-C", cwd, "rev-parse", "--show-toplevel"]);
+    return output.trim();
   }
 }

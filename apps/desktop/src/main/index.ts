@@ -2,8 +2,15 @@ import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 import { promises as fs } from "node:fs";
 import { join } from "node:path";
 import { CoreEngine, SpawnGitBackend } from "@arlo-doc/core";
+import type { WorktreeInfo } from "@arlo-doc/shared";
 import { readFolder } from "./folderReader.js";
-import { getLastFolder, saveLastFolder } from "./persistenceStore.js";
+import { getLastFolder, getPersistedState, saveLastFolder, saveState } from "./persistenceStore.js";
+import type { PersistedState } from "./persistenceStore.js";
+
+// ── Git backend singleton ──────────────────────────────────────────────────
+// Shared across all worktree IPC handlers. Worktree operations are stateless
+// with respect to window identity — they receive repoDir/worktreePath as args.
+const gitBackend = new SpawnGitBackend();
 
 // ── Engine registry ────────────────────────────────────────────────────────
 // One CoreEngine per renderer window, keyed by webContents.id (Requirement 11.7).
@@ -158,9 +165,9 @@ ipcMain.handle("arlo-doc:chooseFolder", async (event) => {
 
 // Task 5.2 — recursive folder read + best-effort persistence (REQ-002.6,
 // REQ-002.8, REQ-003.7, REQ-003.8, REQ-007.1)
-ipcMain.handle("arlo-doc:readFolder", async (event, folderPath: string) => {
+ipcMain.handle("arlo-doc:readFolder", async (event, folderPath: string, showHidden?: boolean) => {
   try {
-    const tree = await readFolder(folderPath);
+    const tree = await readFolder(folderPath, { showHidden: showHidden ?? false });
     // Fire-and-forget: persistence failure must not block the IPC response.
     void saveLastFolder(folderPath);
 
@@ -171,7 +178,7 @@ ipcMain.handle("arlo-doc:readFolder", async (event, folderPath: string) => {
       store: {} as never,
       forge: {} as never,
       agentKeyProvider: {} as never,
-      git: new SpawnGitBackend(),
+      git: gitBackend,
     }));
 
     return tree;
@@ -189,6 +196,29 @@ ipcMain.handle("arlo-doc:getLastFolder", async () => {
     return await getLastFolder();
   } catch (err) {
     wrapError(err);
+  }
+});
+
+// Task 9.3 — read full persisted state (tabs + active tab + last folder).
+// Verifies each worktree path still exists on disk; drops missing ones silently.
+ipcMain.handle("arlo-doc:getPersistedState", async () => {
+  try {
+    return await getPersistedState();
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// Task 9.2 — persist full worktree list + active tab + last folder.
+// Called fire-and-forget from the renderer on every tab open/close.
+ipcMain.handle("arlo-doc:saveState", async (_event, persistedState: PersistedState) => {
+  // Validation: accept only if it looks like a PersistedState object
+  if (typeof persistedState !== "object" || persistedState === null) return;
+  try {
+    await saveState(persistedState);
+  } catch (err) {
+    // Non-fatal — log and continue (REQ-007.1)
+    console.error("[main] saveState failed:", err);
   }
 });
 
@@ -217,6 +247,93 @@ ipcMain.handle("arlo-doc:writeFile", async (_event, filePath: string, content: s
     const wrapped = new Error((err as Error).message) as Error & { kbError: unknown };
     wrapped.kbError = { code, message: (err as Error).message };
     throw wrapped;
+  }
+});
+
+// ── Worktree IPC handlers ──────────────────────────────────────────────────
+// Tasks 3.3–3.6: create, delete, list, and dirty-check git worktrees.
+// All handlers follow the same KbResult error contract as handlers above:
+// return the raw data value on success; throw an error with a `kbError` property
+// on failure so the invoke() wrapper in packages/client wraps it correctly.
+
+// Task 3.3 — create a new worktree + branch
+ipcMain.handle("arlo-doc:worktreeCreate", async (_event, repoDir: string) => {
+  try {
+    const repoRoot = await gitBackend.getRepoRoot(repoDir);
+
+    // Ensure .arlo/ container directory exists inside the repo (NOT inside .git/).
+    const arloDir = join(repoRoot, ".arlo");
+    await fs.mkdir(arloDir, { recursive: true });
+
+    const branch = `wt-${Date.now()}`;
+    const worktreePath = join(arloDir, branch);
+
+    // Add .arlo/ to the repo's .gitignore if not already present
+    const gitignorePath = join(repoRoot, ".gitignore");
+    try {
+      let content = "";
+      try {
+        content = await fs.readFile(gitignorePath, "utf-8");
+      } catch {
+        // .gitignore doesn't exist yet — will create it
+      }
+      const lines = content.split("\n");
+      const alreadyIgnored = lines.some(
+        (l) => l.trim() === ".arlo" || l.trim() === ".arlo/",
+      );
+      if (!alreadyIgnored) {
+        const entry = content.endsWith("\n") || content === ""
+          ? ".arlo/\n"
+          : "\n.arlo/\n";
+        await fs.writeFile(gitignorePath, content + entry, "utf-8");
+      }
+    } catch {
+      // Non-fatal: if we can't update .gitignore, continue anyway
+    }
+
+    await gitBackend.worktreeAdd(repoRoot, worktreePath, branch);
+
+    // Retrieve the actual HEAD after creation so the caller has a real SHA.
+    // Fallback to empty string if listing fails (non-fatal).
+    let head = "";
+    try {
+      const list = await gitBackend.worktreeList(repoRoot);
+      head = list.find((wt) => wt.path === worktreePath)?.head ?? "";
+    } catch {
+      // non-fatal: head stays as empty string
+    }
+
+    const info: WorktreeInfo = { path: worktreePath, branch, head };
+    return info;
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// Task 3.4 — remove a worktree
+ipcMain.handle("arlo-doc:worktreeDelete", async (_event, repoDir: string, worktreePath: string) => {
+  try {
+    await gitBackend.worktreeRemove(repoDir, worktreePath);
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// Task 3.5 — list all worktrees in a repo
+ipcMain.handle("arlo-doc:worktreeList", async (_event, repoDir: string) => {
+  try {
+    return await gitBackend.worktreeList(repoDir);
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// Task 3.6 — check whether a worktree has uncommitted changes
+ipcMain.handle("arlo-doc:worktreeDirty", async (_event, worktreePath: string) => {
+  try {
+    return await gitBackend.worktreeDirty(worktreePath);
+  } catch (err) {
+    wrapError(err);
   }
 });
 

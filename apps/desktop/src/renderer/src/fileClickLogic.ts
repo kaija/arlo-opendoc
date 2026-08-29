@@ -2,11 +2,11 @@
  * Pure async logic for handling a file click.
  *
  * Extracted from App.tsx so it can be unit-tested outside a React environment.
- * The React component wires `latestFileRef.current`, `update`, and
- * `window.arlodoc` to this function.
+ * The React component wires `activeTabId`, `latestFileRef`, `updateTabState`,
+ * and `window.arlodoc` to this function.
  */
 
-import type { AppState } from './types';
+import type { WorktreeTabState } from './types';
 import type { GitStatus } from '@arlo-doc/shared';
 
 /** Minimal result type matching KbResult<T> from @arlo-doc/client. */
@@ -24,8 +24,8 @@ export interface LatestFileRef {
   current: string | null;
 }
 
-/** State updater — only the fields touched by handleFileClick. */
-export type StateUpdater = (patch: Partial<AppState>) => void;
+/** Updater that patches a single tab's state by its ID. */
+export type TabStateUpdater = (tabId: string, patch: Partial<WorktreeTabState>) => void;
 
 /**
  * Returns true for file paths that the app can open and preview.
@@ -45,17 +45,20 @@ export function isSupportedFile(filePath: string): boolean {
  * 4. Discards results if another file was opened (race-condition guard).
  * 5. On read failure: clears loading + activeFilePath + fileContent.
  * 6. On read success: stores content; merges gitStatus / fileDiff if ok.
+ *
+ * All state updates go into `tabStates[activeTabId]` via `updateTabState`.
  */
 export async function handleFileClickLogic(
   filePath: string,
+  activeTabId: string,
   latestRef: LatestFileRef,
-  update: StateUpdater,
+  updateTabState: TabStateUpdater,
   deps: FileClickDeps,
 ): Promise<void> {
   if (!isSupportedFile(filePath)) return;
 
   latestRef.current = filePath;
-  update({ fileLoading: true, activeFilePath: filePath });
+  updateTabState(activeTabId, { fileLoading: true, activeFilePath: filePath });
 
   const [contentResult, statusResult, diffResult] = await Promise.all([
     deps.readFile(filePath),
@@ -67,13 +70,14 @@ export async function handleFileClickLogic(
   if (latestRef.current !== filePath) return;
 
   if (!contentResult.ok) {
-    update({ fileLoading: false, activeFilePath: null, fileContent: null });
+    updateTabState(activeTabId, { fileLoading: false, activeFilePath: null, fileContent: null });
     return;
   }
 
-  update({
+  updateTabState(activeTabId, {
     fileLoading: false,
     fileContent: contentResult.data,
+    savedContent: contentResult.data,
     ...(statusResult.ok ? { gitStatus: statusResult.data } : {}),
     ...(diffResult.ok ? { fileDiff: diffResult.data } : {}),
   });

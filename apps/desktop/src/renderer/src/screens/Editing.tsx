@@ -256,7 +256,7 @@ function MarkdownLine({
 
 export function Editing(): React.ReactElement {
   const tabs = [
-    { id: 't1', title: 'Payments service runbook', type: 'document' as const },
+    { id: 't1', title: 'Payments service runbook', worktreePath: '', branch: 'main' },
   ];
 
   const cursorLineIndex = MARKDOWN_LINES.findIndex(
@@ -279,6 +279,7 @@ export function Editing(): React.ReactElement {
         activeTabId="t1"
         onTabClick={() => undefined}
         onNewTab={() => undefined}
+        onTabClose={() => undefined}
       />
       <Toolbar
         breadcrumb={['Runbooks', 'Payments service runbook']}

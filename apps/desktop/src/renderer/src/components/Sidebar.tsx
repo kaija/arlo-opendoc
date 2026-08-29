@@ -45,7 +45,7 @@ const NOTEBOOKS: NotebookItem[] = [
 
 interface SidebarProps {
   variant: 'live' | 'draft';
-  activeNoteId: string;
+  activeNoteId?: string;
   expandedNotebooks?: string[];
   onNoteClick?: (noteId: string) => void;
   onNotebookToggle?: (notebookId: string) => void;

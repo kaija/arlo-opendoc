@@ -1,14 +1,54 @@
 import type { FileNode, GitStatus } from '@arlo-doc/shared';
 
 export type ViewMode = 'preview' | 'edit' | 'diff';
-export type DraftStatus = 'working' | 'needs-approval' | 'draft' | null;
-export type ModalKind = 'search' | 'publish' | null;
 
-export interface Tab {
+export interface WorktreeTab {
   id: string;
+  /** Display name. "Untitled" until set by AI chat or user. */
   title: string;
-  type: 'document' | 'search';
+  /** Absolute path of the worktree root on disk. */
+  worktreePath: string;
+  /** Git branch name checked out in this worktree. */
+  branch: string;
+  /** True for the initial folder tab opened via "Open Folder" — NOT a git worktree. */
+  isMainTab?: boolean;
 }
+
+export interface WorktreeTabState {
+  fileTree: FileNode | null;
+  activeFilePath: string | null;
+  fileContent: string | null;
+  fileLoading: boolean;
+  expandedPaths: string[];
+  gitStatus: GitStatus | null;
+  fileDiff: string | null;
+  fileSaving: boolean;
+  fileSaveError: string | null;
+  /** Content at last save — used for unsaved-changes detection. */
+  savedContent: string | null;
+}
+
+export const EMPTY_TAB_STATE: WorktreeTabState = {
+  fileTree: null,
+  activeFilePath: null,
+  fileContent: null,
+  fileLoading: false,
+  expandedPaths: [],
+  gitStatus: null,
+  fileDiff: null,
+  fileSaving: false,
+  fileSaveError: null,
+  savedContent: null,
+};
+export type DraftStatus = 'working' | 'needs-approval' | 'draft' | null;
+
+export interface CloseWorktreeModal {
+  kind: 'close-worktree';
+  tabId: string;
+  worktreePath: string;
+}
+
+export type ModalKind = 'search' | 'publish' | CloseWorktreeModal | null;
 
 export interface SidebarNote {
   id: string;
@@ -25,47 +65,18 @@ export interface NotebookItem {
 }
 
 export interface AppState {
-  // Routing
+  // ── Tab system ─────────────────────────────────────────────────────────
+  tabs: WorktreeTab[];
+  activeTabId: string | null;           // null → empty state
+  tabStates: Record<string, WorktreeTabState>;
+
+  // ── UI ─────────────────────────────────────────────────────────────────
   viewMode: ViewMode;
   modal: ModalKind;
   showChat: boolean;
-
-  // Draft
   draftStatus: DraftStatus;
   draftName: string;
-
-  // Tabs
-  tabs: Tab[];
-  activeTabId: string;
-
-  // Sidebar
-  activeNoteId: string;
-  expandedNotebooks: string[];
-
-  // Post-approval message
   lastApprovalResult: 'approved' | 'declined' | null;
-
-  // ── Folder browser ────────────────────────────────────────────────────
-  /** Absolute path of the currently open folder, or null in demo mode. */
-  folderPath: string | null;
-  /** FileNode root returned by the last successful readFolder call. */
-  fileTree: FileNode | null;
-  /** Absolute path of the file currently displayed in the main area. */
-  activeFilePath: string | null;
-  /** UTF-8 text content of the currently open file. */
-  fileContent: string | null;
-  /** True while arlo-doc:readFile is in-flight. */
-  fileLoading: boolean;
-  /** Directory paths currently expanded in FileBrowser. */
-  expandedPaths: string[];
-
-  // ── Git ───────────────────────────────────────────────────────────────
-  /** Current git status for the open folder, or null if not fetched yet. */
-  gitStatus: GitStatus | null;
-  /** Unified diff string for the active file; null = not fetched, "" = no diff. */
-  fileDiff: string | null;
-  /** True while a writeFile IPC call is in-flight. */
-  fileSaving: boolean;
-  /** Error message from the last failed save, or null. */
-  fileSaveError: string | null;
+  /** Absolute path of the git repo root; set when a folder is opened. */
+  repoDir: string | null;
 }

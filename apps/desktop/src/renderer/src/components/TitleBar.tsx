@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronDown, Plus } from 'lucide-react';
-import type { DraftStatus, Tab } from '../types';
+import { MAX_TABS } from '@arlo-doc/shared';
+import type { DraftStatus, WorktreeTab } from '../types';
 
 // Electron-specific CSS property not in React's type definitions
 type ElectronCSSProperties = React.CSSProperties & {
@@ -10,10 +11,12 @@ type ElectronCSSProperties = React.CSSProperties & {
 interface TitleBarProps {
   draftStatus: DraftStatus;
   draftName: string;
-  tabs: Tab[];
-  activeTabId: string;
+  tabs: WorktreeTab[];
+  activeTabId: string | null;
   onTabClick: (id: string) => void;
+  onTabClose: (tabId: string) => void;
   onNewTab: () => void;
+  isCreatingTab?: boolean | undefined;
 }
 
 function StatusDot({ status }: { status: DraftStatus }): React.ReactElement | null {
@@ -44,19 +47,60 @@ function StatusDot({ status }: { status: DraftStatus }): React.ReactElement | nu
   );
 }
 
+// ── Tab width calculation constants ────────────────────────────────────────
+const TAB_BAR_RESERVED = 120; // traffic lights + "+" button
+const MIN_TAB_WIDTH = 40;
+const MAX_TAB_WIDTH = 160;
+
 export function TitleBar({
   draftStatus,
   draftName,
   tabs,
   activeTabId,
   onTabClick,
+  onTabClose,
   onNewTab,
+  isCreatingTab = false,
 }: TitleBarProps): React.ReactElement {
-  const handleDoubleClick = () => {
-    // Only available in the Electron context (window.windowControls is injected
-    // by the preload). In the browser / Storybook it will be undefined.
+  const tabBarRef = useRef<HTMLDivElement>(null);
+  const [availableWidth, setAvailableWidth] = useState(600);
+
+  // Track the tab bar's width via ResizeObserver
+  useEffect(() => {
+    const el = tabBarRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (entry) {
+        setAvailableWidth(entry.contentRect.width);
+      }
+    });
+    observer.observe(el);
+    // Seed the initial width synchronously
+    setAvailableWidth(el.getBoundingClientRect().width);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Compute per-tab width from available space
+  const tabCount = tabs.length;
+  const usableWidth = availableWidth - TAB_BAR_RESERVED;
+
+  // Base width shared across all tabs; active tab gets +20px
+  const baseWidth =
+    tabCount === 0
+      ? MAX_TAB_WIDTH
+      : Math.max(MIN_TAB_WIDTH, Math.min(MAX_TAB_WIDTH, usableWidth / tabCount));
+
+  const showTitle = baseWidth > MIN_TAB_WIDTH;
+
+  const handleDoubleClick = useCallback(() => {
     window.windowControls?.toggleMaximize();
-  };
+  }, []);
+
+  const atMaxTabs = tabs.length >= MAX_TABS;
+  const newTabDisabled = atMaxTabs || isCreatingTab;
 
   return (
     <div
@@ -131,6 +175,7 @@ export function TitleBar({
 
       {/* Tabs — Chrome style: rounded top corners, flush with bottom border */}
       <div
+        ref={tabBarRef}
         style={{
           display: 'flex',
           alignItems: 'flex-end',
@@ -143,6 +188,9 @@ export function TitleBar({
       >
         {tabs.map((tab) => {
           const isActive = tab.id === activeTabId;
+          // Active tab gets an extra 20px budget; clamp to MAX_TAB_WIDTH
+          const tabWidth = Math.min(isActive ? baseWidth + 20 : baseWidth, MAX_TAB_WIDTH);
+
           return (
             <button
               key={tab.id}
@@ -150,9 +198,12 @@ export function TitleBar({
               style={{
                 // Tab sits flush with the bottom of the title bar
                 height: 36,
+                width: tabWidth,
+                minWidth: tabWidth,
+                maxWidth: tabWidth,
                 display: 'flex',
                 alignItems: 'center',
-                padding: '0 16px',
+                padding: '0 8px 0 12px',
                 fontSize: 12.5,
                 fontFamily: 'var(--font-sans)',
                 fontWeight: isActive ? 500 : 400,
@@ -165,21 +216,60 @@ export function TitleBar({
                   : '1px solid transparent',
                 borderBottom: isActive ? '1px solid #fff' : '1px solid transparent',
                 cursor: 'pointer',
-                whiteSpace: 'nowrap',
                 flexShrink: 0,
                 // Negative bottom margin so the tab bottom overlaps the border
                 marginBottom: -1,
                 transition: 'background 0.1s, color 0.1s',
+                overflow: 'hidden',
+                gap: 4,
               }}
             >
-              {tab.title}
+              {showTitle && (
+                <span
+                  style={{
+                    flex: 1,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    minWidth: 0,
+                  }}
+                >
+                  {tab.title}
+                </span>
+              )}
+
+              {/* Close (×) button */}
+              <span
+                role="button"
+                aria-label={`Close ${tab.title}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onTabClose(tab.id);
+                }}
+                style={{
+                  flexShrink: 0,
+                  color: '#a8a8be',
+                  padding: '0 2px',
+                  borderRadius: 3,
+                  lineHeight: 1,
+                  fontSize: 14,
+                  // Always reserve space so the tab doesn't reflow when hiding title
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                ×
+              </span>
             </button>
           );
         })}
 
-        {/* New tab button */}
+        {/* New tab button — disabled + tooltip when at MAX_TABS or creating */}
         <button
-          onClick={onNewTab}
+          onClick={newTabDisabled ? undefined : onNewTab}
+          disabled={newTabDisabled}
+          title={atMaxTabs ? `Maximum ${MAX_TABS} tabs open` : isCreatingTab ? '正在建立 Worktree…' : undefined}
           style={{
             width: 30,
             height: 36,
@@ -188,12 +278,27 @@ export function TitleBar({
             justifyContent: 'center',
             background: 'transparent',
             border: 'none',
-            cursor: 'pointer',
+            cursor: newTabDisabled ? 'not-allowed' : 'pointer',
             flexShrink: 0,
             marginBottom: -1,
+            opacity: newTabDisabled ? 0.4 : 1,
           }}
         >
-          <Plus size={13} color="#8e8eaa" />
+          {isCreatingTab ? (
+            <span
+              style={{
+                width: 12,
+                height: 12,
+                border: '1.5px solid #8e8eaa',
+                borderTopColor: 'transparent',
+                borderRadius: '50%',
+                display: 'inline-block',
+                animation: 'spin 0.7s linear infinite',
+              }}
+            />
+          ) : (
+            <Plus size={13} color="#8e8eaa" />
+          )}
         </button>
       </div>
     </div>

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useCallback } from 'react';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { ChevronDown, ChevronRight, Eye, EyeOff } from 'lucide-react';
 import type { FileNode } from '@arlo-doc/shared';
 import { FileTypeIcon } from './FileTypeIcon';
 
@@ -13,6 +13,10 @@ interface FileBrowserProps {
   onDirectoryToggle: (path: string) => void;
   isLoading?: boolean | undefined;
   gitStatusMap?: Map<string, string> | undefined;
+  branch?: string | undefined;
+  repoName?: string | undefined;
+  showHidden?: boolean | undefined;
+  onToggleHidden?: () => void;
 }
 
 interface FlatRow {
@@ -51,6 +55,10 @@ function flattenVisible(nodes: FileNode[], depth: number, expandedPaths: string[
   for (const node of nodes) {
     rows.push({ node, depth });
     if (node.kind === 'dir' && expandedPaths.includes(node.path)) {
+      // Debug: log when expanding deep nodes
+      if (depth >= 3) {
+        console.log('[FileBrowser] expanding depth', depth, 'path:', node.path, 'children:', node.children.length);
+      }
       rows.push(...flattenVisible(node.children, depth + 1, expandedPaths));
     }
   }
@@ -115,7 +123,7 @@ function TreeRow({
     display: 'flex',
     alignItems: 'center',
     height: 26,
-    paddingLeft: 8 + depth * 12,
+    paddingLeft: 8 + Math.min(depth, 8) * 10,
     paddingRight: 8,
     borderRadius: 6,
     background,
@@ -168,6 +176,10 @@ export function FileBrowser({
   onDirectoryToggle,
   isLoading = false,
   gitStatusMap,
+  branch,
+  repoName,
+  showHidden = false,
+  onToggleHidden,
 }: FileBrowserProps): React.ReactElement {
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
@@ -196,6 +208,15 @@ export function FileBrowser({
 
   const flatRows = flattenVisible(fileTree.children, 0, expandedPaths);
 
+  useEffect(() => {
+    if (expandedPaths.length > 0) {
+      console.log(
+        '[FileBrowser] expandedPaths count:', expandedPaths.length,
+        'deepest:', expandedPaths.reduce((acc, p) => Math.max(acc, p.split('/').length), 0), 'levels'
+      );
+    }
+  }, [expandedPaths]);
+
   return (
     <div
       style={{
@@ -213,7 +234,7 @@ export function FileBrowser({
       {/* Header */}
       <div
         style={{
-          padding: '10px 16px 6px',
+          padding: '10px 8px 6px 16px',
           fontSize: 11,
           fontWeight: 500,
           color: '#8e8eaa',
@@ -221,9 +242,42 @@ export function FileBrowser({
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
           flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        {fileTree.name}
+        <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {repoName ?? fileTree.name}
+        </span>
+        {branch && (
+          <span style={{ marginLeft: 6, fontSize: 10, color: '#8e8eaa', fontFamily: 'var(--font-mono)', textTransform: 'none', letterSpacing: 0, flexShrink: 0 }}>
+            {branch}
+          </span>
+        )}
+        {onToggleHidden && (
+          <button
+            onClick={onToggleHidden}
+            title={showHidden ? '隱藏隱藏檔案' : '顯示隱藏檔案'}
+            style={{
+              marginLeft: 6,
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: showHidden ? 'rgba(88,86,214,.12)' : 'transparent',
+              border: 'none',
+              borderRadius: 4,
+              cursor: 'pointer',
+              padding: '2px 3px',
+              color: showHidden ? '#5856D6' : '#8e8eaa',
+              lineHeight: 1,
+            }}
+            aria-label={showHidden ? '隱藏隱藏檔案' : '顯示隱藏檔案'}
+            aria-pressed={showHidden}
+          >
+            {showHidden ? <EyeOff size={12} /> : <Eye size={12} />}
+          </button>
+        )}
       </div>
 
       {/* Scrollable tree */}
@@ -243,8 +297,14 @@ export function FileBrowser({
               gitStatus={gitStatusMap?.get(node.path)}
               onMouseEnter={() => setHoveredPath(node.path)}
               onMouseLeave={() => setHoveredPath(null)}
-              onClick={() => { if (node.kind === 'dir') onDirectoryToggle(node.path); }}
-              onDoubleClick={() => { if (node.kind === 'file' && previewable) onFileClick(node.path); }}
+              onClick={() => {
+                if (node.kind === 'dir') {
+                  onDirectoryToggle(node.path);
+                } else if (node.kind === 'file' && previewable) {
+                  onFileClick(node.path);
+                }
+              }}
+              onDoubleClick={() => {}}
             />
           );
         })}

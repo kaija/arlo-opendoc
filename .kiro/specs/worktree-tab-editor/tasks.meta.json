@@ -1,0 +1,838 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "**1.1** Add `MAX_TABS = 25` export to `packages/shared/src/constants/index.ts`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987724742
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987737258
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987759993
+      }
+    ],
+    "**1.2** Create `packages/shared/src/types/worktree.ts` with `WorktreeInfo` interface (`path`, `branch`, `head`)": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987724808
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987763904
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987790606
+      }
+    ],
+    "**1.3** Export `WorktreeInfo` from `packages/shared/src/index.ts`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987724844
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987794516
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987826726
+      }
+    ],
+    "**2.1** Add `worktreeAdd`, `worktreeRemove`, `worktreeList`, `worktreeDirty` method signatures to `packages/core/src/git/GitBackend.ts`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987724876
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987834243
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987936744
+      }
+    ],
+    "**2.2** Implement `worktreeAdd(repoDir, worktreePath, branch)` in `SpawnGitBackend` — spawns `git -C <repoDir> worktree add <worktreePath> -b <branch>`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987724910
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987945258
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987976076
+      }
+    ],
+    "**2.3** Implement `worktreeRemove(repoDir, worktreePath)` in `SpawnGitBackend` — spawns `git -C <repoDir> worktree remove --force <worktreePath>`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987724942
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987980039
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988005989
+      }
+    ],
+    "**2.4** Implement `worktreeList(repoDir)` in `SpawnGitBackend` — spawns `git -C <repoDir> worktree list --porcelain` and parses output into `WorktreeInfo[]`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987724988
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988010271
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988061205
+      }
+    ],
+    "**2.5** Implement `worktreeDirty(worktreePath)` in `SpawnGitBackend` — spawns `git -C <worktreePath> status --porcelain` and returns `true` if output is non-empty": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725041
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988065223
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988105637
+      }
+    ],
+    "**2.6** Add a `getRepoRoot(cwd: string): Promise<string>` helper to `SpawnGitBackend` — spawns `git -C <cwd> rev-parse --show-toplevel`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725075
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988109473
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988173138
+      }
+    ],
+    "**3.1** Add `worktreeCreate`, `worktreeDelete`, `worktreeList`, `worktreeDirty` method signatures to `ClientInterface` in `packages/client/src/types.ts`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725108
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988177803
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988246208
+      }
+    ],
+    "**3.2** Register the four new IPC channels in the preload binding (`packages/client/src/ipc.ts` or the `createIpcBinding` factory) following the existing `KbResult` envelope pattern": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725142
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988254277
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988296289
+      }
+    ],
+    "**3.3** Implement `arlo-doc:worktreeCreate` handler in `apps/desktop/src/main/index.ts`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725175
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988304788
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988413401
+      }
+    ],
+    "**3.4** Implement `arlo-doc:worktreeDelete` handler — calls `SpawnGitBackend.worktreeRemove`, returns `KbResult<void>`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725209
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988417438
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988457269
+      }
+    ],
+    "**3.5** Implement `arlo-doc:worktreeList` handler — calls `SpawnGitBackend.worktreeList`, returns `KbResult<WorktreeInfo[]>`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725241
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988461238
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988495798
+      }
+    ],
+    "**3.6** Implement `arlo-doc:worktreeDirty` handler — calls `SpawnGitBackend.worktreeDirty`, returns `KbResult<boolean>`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725276
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988499967
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988540385
+      }
+    ],
+    "**4.1** Add `WorktreeTab`, `WorktreeTabState`, and `EMPTY_TAB_STATE` to `apps/desktop/src/renderer/src/types.ts`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725309
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988548967
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988585001
+      }
+    ],
+    "**4.2** Restructure `AppState` in `types.ts`: replace top-level `folderPath`, `fileTree`, `activeFilePath`, `fileContent`, `fileLoading`, `expandedPaths`, `gitStatus`, `fileDiff`, `fileSaving`, `fileSaveError` with `tabs: WorktreeTab[]`, `activeTabId: string | null`, and `tabStates: Record<string, WorktreeTabState>`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725360
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988589601
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988657579
+      }
+    ],
+    "**4.3** Update `INITIAL_STATE` in `App.tsx` to `tabs: [], activeTabId: null, tabStates: {}` (no hardcoded demo tabs)": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725392
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988666640
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988723148
+      }
+    ],
+    "**4.4** Remove `onboarded` / `choosePending` / `chooseError` / `lastFolder` local state from `App.tsx` — the empty tab bar replaces the Onboarding screen": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725424
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988727368
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988875663
+      }
+    ],
+    "**4.5** Add `repoDir: string | null` to `AppState` — set when the first folder is opened, used as the main git repo root for all worktree operations": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725459
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988879862
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988913851
+      }
+    ],
+    "**5.1** Write `handleNewTab` — guards on `MAX_TABS`, calls `window.arlodoc.worktreeCreate`, reads folder tree, appends `WorktreeTab` + `WorktreeTabState` to state": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725496
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988923790
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787988999223
+      }
+    ],
+    "**5.2** Write `handleCloseTab(tabId)` — calls `window.arlodoc.worktreeDirty`; if dirty, sets `modal: { kind: 'close-worktree', tabId, worktreePath }`; otherwise calls `doCloseTab` directly": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725547
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989003874
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989232052
+      }
+    ],
+    "**5.3** Write `doCloseTab(tabId)` — calls `window.arlodoc.worktreeDelete`, removes tab + tabState, shifts focus to left neighbour (or null if last tab)": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725610
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989236267
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989303256
+      }
+    ],
+    "**5.4** Write `handleTabClick(tabId)` — sets `activeTabId`, resets `viewMode` to `'preview'`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725643
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989307969
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989351534
+      }
+    ],
+    "**5.5** Write `handleOpenFolder` — opens OS folder picker, reads folder tree, sets `repoDir`, appends first `WorktreeTab` using folder name as title and folder path as `worktreePath`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725677
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989355924
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989440366
+      }
+    ],
+    "**5.6** Update all handlers that previously read `state.fileTree`, `state.activeFilePath`, etc. to instead read from `state.tabStates[state.activeTabId]` — includes `handleFileClick`, `handleDirectoryToggle`, `handleContentChange`, `handleSave`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725711
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989444851
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989887029
+      }
+    ],
+    "**5.7** Update `handleSave` to write back git diff + status into `tabStates[activeTabId]` rather than top-level scalars": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725758
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989891327
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989931113
+      }
+    ],
+    "**5.8** Update `gitStatusMap` `useMemo` to derive from `activeTabState.gitStatus` and `activeTab.worktreePath`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725794
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989935645
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989963710
+      }
+    ],
+    "**6.1** Add `onTabClose: (tabId: string) => void` prop to `TitleBar`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725829
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787989972960
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990113131
+      }
+    ],
+    "**6.2** Add a `×` close button inside each tab button; `onClick` must call `e.stopPropagation()` before invoking `onTabClose`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725876
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990117688
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990156777
+      }
+    ],
+    "**6.3** Implement shrink-to-fit tab width calculation using `ResizeObserver` on the tab bar container:": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725924
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990161275
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990197395
+      }
+    ],
+    "**6.4** Import and enforce `MAX_TABS` from `@arlo-doc/shared` — disable the `+` button and show a tooltip when `tabs.length >= MAX_TABS`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987725961
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990201792
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990239572
+      }
+    ],
+    "**6.5** Pass `onTabClose` through from `App.tsx` → `MainLayout` → `TitleBar`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726006
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990244892
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990285793
+      }
+    ],
+    "**7.1** Add optional `branch?: string` prop to `FileBrowserProps`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726043
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990295687
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990382299
+      }
+    ],
+    "**7.2** Render branch name as a monospace label beside the folder name in the header (e.g. `folderName  wt-1722000000` in muted grey)": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726077
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990386858
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990422994
+      }
+    ],
+    "**7.3** Pass `activeTab.branch` from `MainLayout` into `FileBrowser`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726125
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990427498
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990459644
+      }
+    ],
+    "**8.1** Create `apps/desktop/src/renderer/src/components/EmptyTabState.tsx`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726162
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990469347
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990593460
+      }
+    ],
+    "**8.2** Create `apps/desktop/src/renderer/src/components/CloseWorktreeDialog.tsx`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726206
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990597931
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990638373
+      }
+    ],
+    "**8.3** Update `ModalKind` in `types.ts` to include `{ kind: 'close-worktree'; tabId: string; worktreePath: string }` (or a union type alongside existing string literals)": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726243
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990642909
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990675388
+      }
+    ],
+    "**8.4** Render `CloseWorktreeDialog` in `MainLayout` when `state.modal` is a `close-worktree` object": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726276
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990680876
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990738316
+      }
+    ],
+    "**8.5** Update `MainLayout` to render `EmptyTabState` when `activeTabId === null` instead of the normal layout": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726310
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990743075
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990790678
+      }
+    ],
+    "**9.1** Extend `PersistedState` type in `persistenceStore.ts` to include `openWorktrees: Array<{ id, title, worktreePath, branch }>` and `activeTabId: string | null`": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726344
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787990800231
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991069458
+      }
+    ],
+    "**9.2** Update `saveLastFolder` (or add `saveState`) to persist the full worktree list on every tab open/close": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726389
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991074057
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991120273
+      }
+    ],
+    "**9.3** On startup, call `arlo-doc:getLastFolder` (or a new `arlo-doc:getPersistedState`) and restore tabs, verifying each `worktreePath` still exists on disk — drop missing paths silently": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726466
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991125275
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991173225
+      }
+    ],
+    "**9.4** Wire restored tabs into `INITIAL_STATE` before the first render (or dispatch into state immediately after mount)": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726506
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991178667
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991232720
+      }
+    ],
+    "**10.1** Build (`pnpm run build`) passes with no TypeScript errors": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726542
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991242916
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991428077
+      }
+    ],
+    "**10.2** Manual smoke test — open app, verify empty tab bar; click `+`, verify new tab + worktree created; switch tabs, verify file browser switches roots; close tab with no changes (no dialog); close dirty tab (dialog appears, shows path + warning); confirm delete, verify tab removed and worktree deleted from disk": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726576
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991437781
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991505243
+      }
+    ],
+    "**10.3** Test MAX_TABS guard — open 25 tabs, verify `+` button is disabled; close one tab, verify `+` re-enables": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726608
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991510109
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991554991
+      }
+    ],
+    "**10.4** Test persistence — open tabs, quit app, relaunch, verify tabs restore; verify a manually deleted worktree is silently dropped on restore": [
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787987726640
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991559508
+      },
+      {
+        "executionId": "b8eefe0d-0bc4-4666-9289-eb83afee0d68",
+        "chatSessionId": "sess_7607286e-f20f-482a-8a7f-b952054bd635",
+        "timestamp": 1787991602286
+      }
+    ]
+  }
+}

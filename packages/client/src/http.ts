@@ -203,5 +203,43 @@ export function createHttpBinding(baseUrl: string): ClientInterface {
         ok: false,
         error: { code: "UNKNOWN", message: "openExternal is not available in the web client" },
       }),
+
+    // Worktree operations — Electron-only; not available in the HTTP client
+    worktreeCreate: (_repoDir: string) =>
+      Promise.resolve<KbResult<import("@arlo-doc/shared").WorktreeInfo>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "worktreeCreate is not available in the web client" },
+      }),
+
+    worktreeDelete: (_repoDir: string, _worktreePath: string) =>
+      Promise.resolve<KbResult<void>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "worktreeDelete is not available in the web client" },
+      }),
+
+    worktreeList: (_repoDir: string) =>
+      Promise.resolve<KbResult<import("@arlo-doc/shared").WorktreeInfo[]>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "worktreeList is not available in the web client" },
+      }),
+
+    worktreeDirty: (_worktreePath: string) =>
+      Promise.resolve<KbResult<boolean>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "worktreeDirty is not available in the web client" },
+      }),
+
+    // Persistence — Electron-only; not available in the HTTP client
+    getPersistedState: () =>
+      Promise.resolve<KbResult<import("./types.js").PersistedClientState>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "getPersistedState is not available in the web client" },
+      }),
+
+    saveState: (_state: import("./types.js").PersistedClientState) =>
+      Promise.resolve<KbResult<void>>({
+        ok: false,
+        error: { code: "UNKNOWN", message: "saveState is not available in the web client" },
+      }),
   };
 }

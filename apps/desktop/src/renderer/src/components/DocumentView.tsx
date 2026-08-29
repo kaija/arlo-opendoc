@@ -1,9 +1,8 @@
 import React from 'react';
 
 interface DocumentViewProps {
-  activeNoteId: string;
-  fileContent?: string | null;
-  activeFilePath?: string | null;
+  fileContent: string;
+  activeFilePath: string;
 }
 
 function isMarkdownPath(filePath: string): boolean {
@@ -44,6 +43,27 @@ function parseAlignment(cell: string): 'left' | 'right' | 'center' | 'none' {
   if (t.endsWith(':')) return 'right';
   if (t.startsWith(':')) return 'left';
   return 'none';
+}
+
+/**
+ * Strips YAML front matter from the start of a markdown string.
+ * A front matter block starts with "---" on the very first line and ends
+ * with the next "---" (or "...") line. Returns the content after the block.
+ */
+function stripFrontMatter(md: string): string {
+  const lines = md.split('\n');
+  if (lines[0]?.trim() !== '---') return md;
+  for (let i = 1; i < lines.length; i++) {
+    const t = lines[i]!.trim();
+    if (t === '---' || t === '...') {
+      // Skip the closing delimiter line; drop any leading blank line after it
+      const rest = lines.slice(i + 1);
+      const firstNonBlank = rest.findIndex((l) => l.trim() !== '');
+      return rest.slice(firstNonBlank).join('\n');
+    }
+  }
+  // No closing delimiter found — treat the whole file as content
+  return md;
 }
 
 function tokenize(md: string): Token[] {
@@ -332,7 +352,7 @@ function renderToken(tok: Token, idx: number): React.ReactNode {
 }
 
 function MarkdownView({ content }: { content: string }): React.ReactElement {
-  const tokens = tokenize(content);
+  const tokens = tokenize(stripFrontMatter(content));
   return (
     <div style={{ fontFamily: 'var(--font-sans)', color: '#1a1a2e' }}>
       {tokens.map((tok, i) => renderToken(tok, i))}
@@ -342,58 +362,16 @@ function MarkdownView({ content }: { content: string }): React.ReactElement {
 
 // ── DocumentView ───────────────────────────────────────────────────────────
 
-export function DocumentView({ activeNoteId, fileContent, activeFilePath }: DocumentViewProps): React.ReactElement {
-  if (fileContent != null && activeFilePath != null) {
-    const isMd = isMarkdownPath(activeFilePath);
-    return (
-      <div style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}>
-        <div style={{ width: '100%', maxWidth: 740, padding: '48px 40px' }}>
-          {isMd
-            ? <MarkdownView content={fileContent} />
-            : <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: '#1a1a2e', margin: 0 }}>{fileContent}</pre>
-          }
-        </div>
-      </div>
-    );
-  }
-
-  // Demo mode
+export function DocumentView({ fileContent, activeFilePath }: DocumentViewProps): React.ReactElement {
+  const isMd = isMarkdownPath(activeFilePath);
   return (
     <div style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}>
-      <div style={{ width: '100%', maxWidth: 720, padding: '48px 40px' }}>
-        {activeNoteId === 'deploy-rollback' ? <DeployRollbackDoc /> : <PaymentsRunbookDoc />}
+      <div style={{ width: '100%', maxWidth: 740, padding: '48px 40px' }}>
+        {isMd
+          ? <MarkdownView content={fileContent} />
+          : <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: '#1a1a2e', margin: 0 }}>{fileContent}</pre>
+        }
       </div>
     </div>
-  );
-}
-
-// ── Demo docs ──────────────────────────────────────────────────────────────
-
-function DeployRollbackDoc(): React.ReactElement {
-  return (
-    <>
-      <h1 style={{ fontSize: 31, fontWeight: 700, color: '#1a1a2e', letterSpacing: '-0.025em', marginBottom: 18, fontFamily: 'var(--font-sans)', lineHeight: 1.2 }}>
-        Deploy rollback
-      </h1>
-      <h2 style={{ fontSize: 19, fontWeight: 600, color: '#1a1a2e', letterSpacing: '-0.015em', marginBottom: 12, fontFamily: 'var(--font-sans)' }}>
-        Prerequisites
-      </h2>
-      <pre style={{ background: '#f0f0f8', borderRadius: 8, padding: '16px 20px', fontFamily: 'var(--font-mono)', fontSize: 13, color: '#1a1a2e', overflowX: 'auto', lineHeight: 1.6 }}>
-        {`# Identify the last stable release tag\ngit log --oneline --tags --simplify-by-decoration`}
-      </pre>
-    </>
-  );
-}
-
-function PaymentsRunbookDoc(): React.ReactElement {
-  return (
-    <>
-      <h1 style={{ fontSize: 31, fontWeight: 700, color: '#1a1a2e', letterSpacing: '-0.025em', marginBottom: 18, fontFamily: 'var(--font-sans)', lineHeight: 1.2 }}>
-        Payments service runbook
-      </h1>
-      <p style={{ fontSize: 15, lineHeight: 1.7, color: '#1a1a2e', maxWidth: '68ch', marginBottom: 32, fontFamily: 'var(--font-sans)' }}>
-        This runbook covers the most common operational scenarios for the Payments service.
-      </p>
-    </>
   );
 }

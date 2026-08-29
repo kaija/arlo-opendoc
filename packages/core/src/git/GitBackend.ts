@@ -1,4 +1,4 @@
-import type { GitStatus, GitCommit } from "@arlo-doc/shared";
+import type { GitStatus, GitCommit, WorktreeInfo } from "@arlo-doc/shared";
 
 export interface GitBackend {
   clone(url: string, targetDir: string): Promise<void>;
@@ -7,4 +7,19 @@ export interface GitBackend {
   push(repoDir: string, remote?: string, branch?: string): Promise<void>;
   pull(repoDir: string, remote?: string, branch?: string): Promise<void>;
   diff(repoDir: string, filePath: string): Promise<string>;
+
+  /** `git worktree add <worktreePath> -b <branch>` — creates a new worktree + branch. */
+  worktreeAdd(repoDir: string, worktreePath: string, branch: string): Promise<void>;
+
+  /** `git worktree remove --force <worktreePath>` — removes the worktree directory. */
+  worktreeRemove(repoDir: string, worktreePath: string): Promise<void>;
+
+  /** `git worktree list --porcelain` — lists all worktrees. */
+  worktreeList(repoDir: string): Promise<WorktreeInfo[]>;
+
+  /** Returns true if the worktree at `worktreePath` has uncommitted changes. */
+  worktreeDirty(worktreePath: string): Promise<boolean>;
+
+  /** `git -C <cwd> rev-parse --show-toplevel` — returns the absolute path to the repo root. */
+  getRepoRoot(cwd: string): Promise<string>;
 }
