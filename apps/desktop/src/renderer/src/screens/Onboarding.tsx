@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Globe } from 'lucide-react';
+import { FileText, Globe, FolderOpen } from 'lucide-react';
 
 // Electron-specific CSS property not in React's type definitions
 type ElectronCSSProperties = React.CSSProperties & {
@@ -9,11 +9,25 @@ type ElectronCSSProperties = React.CSSProperties & {
 interface OnboardingProps {
   onChooseLocal: () => void;
   onChooseGitHub: () => void;
+  onResumeLastFolder?: () => void;
+  lastFolderPath?: string | null;
   isPending?: boolean;
   error?: string | null;
 }
 
-export function Onboarding({ onChooseLocal, onChooseGitHub, isPending, error }: OnboardingProps): React.ReactElement {
+export function Onboarding({
+  onChooseLocal,
+  onChooseGitHub,
+  onResumeLastFolder,
+  lastFolderPath,
+  isPending,
+  error,
+}: OnboardingProps): React.ReactElement {
+  // Derive a short display name from the full path (last path segment)
+  const lastFolderName = lastFolderPath
+    ? lastFolderPath.split('/').filter(Boolean).pop() ?? lastFolderPath
+    : null;
+
   return (
     <div
       style={{
@@ -23,46 +37,16 @@ export function Onboarding({ onChooseLocal, onChooseGitHub, isPending, error }: 
         background: '#f8f8fc',
       }}
     >
-      {/* Top bar: traffic lights only */}
+      {/* Top bar: spacer for native traffic-light buttons (hiddenInset) */}
       <div
         style={{
-          height: 38,
+          height: 52,
           display: 'flex',
           alignItems: 'center',
-          paddingLeft: 20,
-          gap: 8,
           flexShrink: 0,
           WebkitAppRegion: 'drag',
         } as ElectronCSSProperties}
-      >
-        <span
-          style={{
-            width: 11,
-            height: 11,
-            borderRadius: '50%',
-            background: '#ff5f57',
-            display: 'block',
-          }}
-        />
-        <span
-          style={{
-            width: 11,
-            height: 11,
-            borderRadius: '50%',
-            background: '#febc2e',
-            display: 'block',
-          }}
-        />
-        <span
-          style={{
-            width: 11,
-            height: 11,
-            borderRadius: '50%',
-            background: '#28c840',
-            display: 'block',
-          }}
-        />
-      </div>
+      />
 
       {/* Centered content */}
       <div
@@ -159,7 +143,9 @@ export function Onboarding({ onChooseLocal, onChooseGitHub, isPending, error }: 
           style={{
             display: 'flex',
             gap: 16,
-            marginBottom: 28,
+            marginBottom: lastFolderName ? 16 : 28,
+            flexWrap: 'wrap',
+            justifyContent: 'center',
           }}
         >
           <OnboardingCard
@@ -178,6 +164,56 @@ export function Onboarding({ onChooseLocal, onChooseGitHub, isPending, error }: 
             onClick={onChooseGitHub}
           />
         </div>
+
+        {/* Quick-resume banner — only shown when a last folder exists */}
+        {lastFolderName && onResumeLastFolder && (
+          <button
+            onClick={onResumeLastFolder}
+            disabled={isPending}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              height: 44,
+              padding: '0 18px',
+              borderRadius: 10,
+              border: '1px solid rgba(88,86,214,.25)',
+              background: 'rgba(88,86,214,.05)',
+              cursor: isPending ? 'not-allowed' : 'pointer',
+              opacity: isPending ? 0.6 : 1,
+              marginBottom: 28,
+              maxWidth: 480,
+              width: '100%',
+            }}
+          >
+            <FolderOpen size={16} color="#5856D6" style={{ flexShrink: 0 }} />
+            <span
+              style={{
+                fontSize: 13,
+                fontWeight: 500,
+                color: '#5856D6',
+                fontFamily: 'var(--font-sans)',
+                flex: 1,
+                textAlign: 'left',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Continue with <strong>{lastFolderName}</strong>
+            </span>
+            <span
+              style={{
+                fontSize: 11,
+                color: '#8e8eaa',
+                fontFamily: 'var(--font-sans)',
+                flexShrink: 0,
+              }}
+            >
+              Last opened
+            </span>
+          </button>
+        )}
 
         {error && (
           <p

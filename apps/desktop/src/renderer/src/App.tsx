@@ -39,21 +39,21 @@ export function App(): React.ReactElement {
   const [state, setState] = useState<AppState>(INITIAL_STATE);
   const [choosePending, setChoosePending] = useState(false);
   const [chooseError, setChooseError] = useState<string | null>(null);
+  // Last folder path loaded from persistence — shown as quick-resume option
+  const [lastFolder, setLastFolder] = useState<string | null>(null);
 
   const update = useCallback((patch: Partial<AppState>) => {
     setState((s) => ({ ...s, ...patch }));
   }, []);
 
-  // Auto-onboard from persisted folder on mount
+  // On mount: load the persisted last folder path so Onboarding can show it,
+  // but do NOT auto-onboard — always show Onboarding first.
   useEffect(() => {
-    if (onboarded) return;
     void (async () => {
-      const lastResult = await window.arlodoc.getLastFolder();
-      if (!lastResult.ok || lastResult.data == null) return;
-      const treeResult = await window.arlodoc.readFolder(lastResult.data);
-      if (!treeResult.ok) return;
-      update({ folderPath: lastResult.data, fileTree: treeResult.data });
-      setOnboarded(true);
+      const result = await window.arlodoc.getLastFolder();
+      if (result.ok && result.data != null) {
+        setLastFolder(result.data);
+      }
     })();
   }, []);
 
@@ -159,7 +159,19 @@ export function App(): React.ReactElement {
     });
   }, []);
 
-  // Folder selection
+  // Open a specific folder path (used by both "Choose folder" and "Resume last")
+  const openFolder = useCallback(async (folderPath: string) => {
+    const tree = await window.arlodoc.readFolder(folderPath);
+    if (!tree.ok) {
+      setChooseError(tree.error.message);
+      return false;
+    }
+    update({ folderPath, fileTree: tree.data });
+    setOnboarded(true);
+    return true;
+  }, [update]);
+
+  // Folder selection — native OS picker
   const handleChooseFolder = useCallback(async () => {
     setChoosePending(true);
     setChooseError(null);
@@ -169,18 +181,24 @@ export function App(): React.ReactElement {
         setChooseError(chosen.error.message);
         return;
       }
-      if (chosen.data == null) return; // user cancelled — no state change
-      const tree = await window.arlodoc.readFolder(chosen.data);
-      if (!tree.ok) {
-        setChooseError(tree.error.message);
-        return;
-      }
-      update({ folderPath: chosen.data, fileTree: tree.data });
-      setOnboarded(true);
+      if (chosen.data == null) return; // user cancelled
+      await openFolder(chosen.data);
     } finally {
       setChoosePending(false);
     }
-  }, [update]);
+  }, [openFolder]);
+
+  // Resume last folder — called from the Onboarding quick-resume card
+  const handleResumeLastFolder = useCallback(async () => {
+    if (!lastFolder) return;
+    setChoosePending(true);
+    setChooseError(null);
+    try {
+      await openFolder(lastFolder);
+    } finally {
+      setChoosePending(false);
+    }
+  }, [lastFolder, openFolder]);
 
   // Race-condition guard: tracks the most recently requested file path
   const latestFileRef = useRef<string | null>(null);
@@ -224,6 +242,8 @@ export function App(): React.ReactElement {
       <Onboarding
         onChooseLocal={handleChooseFolder}
         onChooseGitHub={handleChooseFolder}
+        onResumeLastFolder={handleResumeLastFolder}
+        lastFolderPath={lastFolder}
         isPending={choosePending}
         error={chooseError}
       />
