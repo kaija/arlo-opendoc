@@ -35,6 +35,16 @@ function allDirNodes(root: FileNode): FileNode[] {
   return result;
 }
 
+/**
+ * Compare two names exactly as folderReader.ts does (case-insensitive
+ * `localeCompare`). The hand-rolled invariant below must use the *same*
+ * collation as the implementation — a plain `>` compares by code point, which
+ * disagrees with `localeCompare` on punctuation (e.g. "-" vs "_"), so a
+ * code-point check spuriously fails on names like "w-" / "w_".
+ */
+const nameCmp = (a: string, b: string): number =>
+  a.toLowerCase().localeCompare(b.toLowerCase());
+
 /** Assert the sort invariant for a single dir node's children. */
 function assertSortInvariant(node: FileNode): void {
   const children = node.children;
@@ -45,9 +55,7 @@ function assertSortInvariant(node: FileNode): void {
   if (firstFileIdx === -1) {
     // All children are dirs — verify dir order
     for (let i = 1; i < children.length; i++) {
-      const prev = children[i - 1]!.name.toLowerCase();
-      const curr = children[i]!.name.toLowerCase();
-      if (prev > curr) {
+      if (nameCmp(children[i - 1]!.name, children[i]!.name) > 0) {
         throw new Error(
           `Dir-only children of "${node.name}" are not in case-insensitive order: ` +
             `"${children[i - 1]!.name}" before "${children[i]!.name}"`,
@@ -72,9 +80,7 @@ function assertSortInvariant(node: FileNode): void {
 
   // Dirs sub-array: case-insensitive ascending
   for (let i = 1; i < dirs.length; i++) {
-    const prev = dirs[i - 1]!.name.toLowerCase();
-    const curr = dirs[i]!.name.toLowerCase();
-    if (prev > curr) {
+    if (nameCmp(dirs[i - 1]!.name, dirs[i]!.name) > 0) {
       throw new Error(
         `Dirs in "${node.name}" are not sorted: "${dirs[i - 1]!.name}" before "${dirs[i]!.name}"`,
       );
@@ -83,9 +89,7 @@ function assertSortInvariant(node: FileNode): void {
 
   // Files sub-array: case-insensitive ascending
   for (let i = 1; i < files.length; i++) {
-    const prev = files[i - 1]!.name.toLowerCase();
-    const curr = files[i]!.name.toLowerCase();
-    if (prev > curr) {
+    if (nameCmp(files[i - 1]!.name, files[i]!.name) > 0) {
       throw new Error(
         `Files in "${node.name}" are not sorted: "${files[i - 1]!.name}" before "${files[i]!.name}"`,
       );

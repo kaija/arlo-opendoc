@@ -66,11 +66,21 @@ const entryNamesArb = fc
   .tuple(
     // At least one safe name so the folder is never entirely empty
     fc.array(safeNameArb, { minLength: 1, maxLength: 5 }),
-    // Zero or more dot-prefixed names (should be filtered)
+    // Zero or more dot-prefixed names (should be filtered).
+    // Guard against the suffix being "." or ".." — ".${suffix}" would then be
+    // ".." or "...", and writing "join(root, '..')" escapes into the parent
+    // temp dir (EISDIR on the tmpdir itself).
     fc.array(
       fc
         .string({ minLength: 1, maxLength: 16 })
-        .filter((s) => !s.includes('/') && !s.includes('\0'))
+        .filter(
+          (s) =>
+            !s.includes('/') &&
+            !s.includes('\\') &&
+            !s.includes('\0') &&
+            s !== '.' &&
+            s !== '..',
+        )
         .map((s) => `.${s}`),
       { minLength: 0, maxLength: 3 },
     ),

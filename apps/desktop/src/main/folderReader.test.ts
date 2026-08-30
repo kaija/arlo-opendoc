@@ -195,11 +195,16 @@ describe('CP-001: FileTree round-trip stability (REQ-003)', () => {
         // Generate 1–8 top-level entries; keep shallow to avoid slow FS operations
         fc.array(entrySpecArb, { minLength: 1, maxLength: 8 }),
         async (entries) => {
-          // De-duplicate names within the same directory to avoid FS conflicts
+          // De-duplicate names within the same directory to avoid FS conflicts.
+          // Case-insensitive, because macOS/APFS is case-insensitive: "Ab" and
+          // "aB" resolve to one entry there, so a case-sensitive de-dupe lets
+          // buildTree try to create both (e.g. a file where a dir already
+          // exists → EISDIR).
           const seen = new Set<string>();
           const unique = entries.filter((e) => {
-            if (seen.has(e.name)) return false;
-            seen.add(e.name);
+            const key = e.name.toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
             return true;
           });
           if (unique.length === 0) return true;
