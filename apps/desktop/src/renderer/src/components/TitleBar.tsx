@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown, Plus } from 'lucide-react';
 import { MAX_TABS } from '@arlo-doc/shared';
 import type { DraftStatus, WorktreeTab } from '../types';
@@ -62,6 +63,7 @@ export function TitleBar({
   onNewTab,
   isCreatingTab = false,
 }: TitleBarProps): React.ReactElement {
+  const { t } = useTranslation();
   const tabBarRef = useRef<HTMLDivElement>(null);
   const [availableWidth, setAvailableWidth] = useState(600);
 
@@ -241,7 +243,7 @@ export function TitleBar({
               {/* Close (×) button */}
               <span
                 role="button"
-                aria-label={`Close ${tab.title}`}
+                aria-label={t('titleBar.closeTab', { title: tab.title })}
                 onClick={(e) => {
                   e.stopPropagation();
                   onTabClose(tab.id);
@@ -269,7 +271,13 @@ export function TitleBar({
         <button
           onClick={newTabDisabled ? undefined : onNewTab}
           disabled={newTabDisabled}
-          title={atMaxTabs ? `Maximum ${MAX_TABS} tabs open` : isCreatingTab ? '正在建立 Worktree…' : undefined}
+          title={
+            atMaxTabs
+              ? t('titleBar.maxTabs', { count: MAX_TABS })
+              : isCreatingTab
+                ? t('titleBar.creatingWorktree')
+                : undefined
+          }
           style={{
             width: 30,
             height: 36,

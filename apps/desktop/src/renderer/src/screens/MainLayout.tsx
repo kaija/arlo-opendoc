@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { AppState, ViewMode, WorktreeTabState } from '../types';
 import { TitleBar } from '../components/TitleBar';
 import { Toolbar } from '../components/Toolbar';
@@ -65,10 +66,11 @@ export interface MainLayoutProps {
 // ── LoadingView ────────────────────────────────────────────────────────────
 
 function LoadingView(): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <span style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
-        Loading…
+        {t('common.loading')}
       </span>
     </div>
   );

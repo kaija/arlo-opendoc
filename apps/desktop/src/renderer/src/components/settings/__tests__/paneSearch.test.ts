@@ -1,12 +1,25 @@
 import { describe, it, expect } from 'vitest';
 import * as fc from 'fast-check';
+import i18next from 'i18next';
 import { searchPanes } from '../paneTypes';
 import type { PaneDef } from '../paneTypes';
-import { APPLICATION_PANES } from '../panes/application';
-import { KB_PANES } from '../panes/knowledgeBase';
-import { aboutPane } from '../panes/about';
+import { buildApplicationPanes } from '../panes/application';
+import { buildKbPanes } from '../panes/knowledgeBase';
+import { buildAboutPane } from '../panes/about';
+import en from '../../../i18n/locales/en.json';
 
-const ALL: PaneDef[] = [...APPLICATION_PANES, ...KB_PANES, aboutPane];
+// The panes are built from the real English catalogue, so these assertions
+// pin down the shipped English search index rather than a fixture of it.
+const i18n = i18next.createInstance();
+void i18n.init({
+  lng: 'en',
+  resources: { en: { translation: en } },
+  interpolation: { escapeValue: false },
+  initImmediate: false,
+});
+const t = i18n.getFixedT('en');
+
+const ALL: PaneDef[] = [...buildApplicationPanes(t), ...buildKbPanes(t), buildAboutPane(t)];
 
 /**
  * The header search is the only way to find a setting without knowing which of

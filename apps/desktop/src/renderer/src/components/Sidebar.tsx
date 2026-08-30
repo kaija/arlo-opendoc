@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { ChevronDown, ChevronRight, Settings } from 'lucide-react';
 
 interface SidebarNote {
@@ -52,6 +53,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteClick = () => {}, onNotebookToggle = () => {} }: SidebarProps): React.ReactElement {
+  const { t } = useTranslation();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   return (
     <div
@@ -134,7 +136,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
           textTransform: 'uppercase',
         }}
       >
-        Notebooks
+        {t('sidebar.notebooks')}
       </div>
 
       {/* Notebook list */}
@@ -290,7 +292,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
               lineHeight: 1.5,
             }}
           >
-            <em>(M)</em> changed in draft · <em>(N)</em> new
+            <Trans i18nKey="sidebar.draftLegend" components={{ em: <em /> }} />
           </p>
         </div>
       )}

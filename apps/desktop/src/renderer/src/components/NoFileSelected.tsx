@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FileText } from 'lucide-react';
 
 export function NoFileSelected(): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div
       style={{
@@ -37,7 +39,7 @@ export function NoFileSelected(): React.ReactElement {
           fontWeight: 400,
         }}
       >
-        Select a file to preview
+        {t('noFileSelected.message')}
       </p>
     </div>
   );

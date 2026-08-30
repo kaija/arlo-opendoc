@@ -4,6 +4,7 @@
     "outDir": "out",
     "baseUrl": ".",
     "jsx": "react-jsx",
+    "resolveJsonModule": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "paths": {
       "@arlo-doc/shared": ["../../packages/shared/src/index.ts"],

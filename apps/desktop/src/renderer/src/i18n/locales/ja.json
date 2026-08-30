@@ -1,0 +1,474 @@
+{
+  "common": {
+    "loading": "読み込み中…",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "close": "閉じる",
+    "working": "処理中…"
+  },
+  "onboarding": {
+    "brand": "Arlo",
+    "headline": "ナレッジの置き場所を選んでください",
+    "subtitle": "まずどちらかを選びましょう。Arlo はどちらでも同じように動作します。",
+    "personalTitle": "個人用ナレッジベース",
+    "personalDescription": "メモやドキュメントをローカルフォルダーに保管します。すべてがこの端末に残り、すぐに検索できます。",
+    "chooseFolder": "フォルダーを選択…",
+    "opening": "開いています…",
+    "teamTitle": "チーム用ナレッジベース",
+    "teamDescription": "GitHub リポジトリに接続し、チーム全体で唯一の情報源を共有・更新します。",
+    "continueWithGitHub": "GitHub で続ける",
+    "continueWith": "<strong>{{name}}</strong> で続ける",
+    "lastOpened": "前回開いた項目",
+    "footerNote": "ナレッジベースは後からいくつでも追加できます。"
+  },
+  "titleBar": {
+    "closeTab": "{{title}} を閉じる",
+    "maxTabs": "開けるタブは最大 {{count}} 個です",
+    "creatingWorktree": "ワークツリーを作成中…"
+  },
+  "toolbar": {
+    "preview": "プレビュー",
+    "edit": "編集",
+    "whatChanged": "変更点",
+    "searchPlaceholder": "Platform Handbook を検索",
+    "publish": "公開",
+    "saving": "保存中…",
+    "save": "保存"
+  },
+  "sidebar": {
+    "notebooks": "ノートブック",
+    "draftLegend": "<em>(M)</em> ドラフトで変更 · <em>(N)</em> 新規"
+  },
+  "fileBrowser": {
+    "gitStatus": "git ステータス: {{status}}",
+    "showHidden": "隠しファイルを表示",
+    "hideHidden": "隠しファイルを非表示",
+    "settings": "設定",
+    "dragToResize": "ドラッグしてサイズを変更"
+  },
+  "emptyTab": {
+    "noFolder": "フォルダーが開かれていません",
+    "continueWith": "<strong>{{name}}</strong> で続ける",
+    "lastOpened": "前回開いた項目",
+    "openFolder": "フォルダーを開く…"
+  },
+  "noFileSelected": {
+    "message": "プレビューするファイルを選択してください"
+  },
+  "closeWorktree": {
+    "title": "ワークツリーを閉じますか？",
+    "body": "このワークツリー内の未保存の編集はすべて完全に削除されます。",
+    "cancel": "キャンセル",
+    "confirm": "ワークツリーを削除 ⚠"
+  },
+  "markdownEditor": {
+    "placeholder": "ファイルが開かれていません — サイドバーのテキストファイルやコードファイルをダブルクリックすると編集できます。"
+  },
+  "unifiedDiff": {
+    "noChanges": "表示する変更はありません",
+    "live": "ライブ",
+    "workingCopy": "作業コピー"
+  },
+  "chat": {
+    "title": "Arlo",
+    "statusWorking": "処理中",
+    "statusNeedsApproval": "承認が必要です",
+    "userMessageSample": "先週の INC-2291 にあった idempotency-key の障害モードに関するセクションを追加し、障害モード一覧からリンクしてください。",
+    "toolSearchedKb": "ナレッジベースを検索 — 結果 {{count}} 件",
+    "toolReadRunbook": "Payments service runbook を読み込みました",
+    "arloResponseSample": "INC-2291 は、クライアントが idempotency key を付けずに請求をリトライしたことが原因でした。障害モードに追加するセクションの案は次のとおりです。",
+    "approvalTitle": "Arlo がこのノートを編集しようとしています",
+    "approvalFile": "Payments service runbook",
+    "approvalHint": "Arlo がこの変更を下書きしました。承認する前に差分を確認してください — 承認後もいつでも編集できます。",
+    "decline": "却下",
+    "approve": "承認",
+    "alwaysAllow": "常に許可 · このドラフトのみ",
+    "changeApproved": "変更が承認され、適用されました。",
+    "changeDeclined": "変更が却下されました。",
+    "draftLabel": "ドラフト: {{name}}",
+    "inputPlaceholder": "Arlo に質問…"
+  },
+  "search": {
+    "tabSearchFiles": "ファイルを検索",
+    "tabFindInFiles": "ファイル内を検索",
+    "noFolderOpen": "フォルダーが開かれていません",
+    "searchFileNamesPlaceholder": "ファイル名を検索…",
+    "findInFilesPlaceholder": "ファイル内を検索…（Enter で検索）",
+    "caseSensitive": "大文字と小文字を区別",
+    "regularExpression": "正規表現",
+    "invalidRegex": "正規表現が無効です",
+    "searching": "検索中…",
+    "searchFailed": "検索に失敗しました",
+    "unknownError": "不明なエラー",
+    "fileCount_one": "{{count}} 件のファイル",
+    "fileCount_other": "{{count}} 件のファイル",
+    "matchCount_one": "{{count}} 件の一致",
+    "matchCount_other": "{{count}} 件の一致",
+    "zeroMatches": "一致 0 件",
+    "summary_one": "{{count}} 件のファイルで {{matchText}}",
+    "summary_other": "{{count}} 件のファイルで {{matchText}}",
+    "noFilesInFolder": "このフォルダーにファイルはありません",
+    "noFilesMatching": "「{{query}}」に一致するファイルはありません",
+    "noResultsFound": "「{{query}}」の結果は見つかりませんでした",
+    "pressEnterToSearch": "Enter を押してファイル内容を検索",
+    "showingFirst20": "最初の 20 件のファイルのみ表示しています — さらに表示するには検索条件を絞り込んでください"
+  },
+  "publish": {
+    "title": "レビュー用に公開",
+    "fieldTitle": "タイトル",
+    "titleSample": "payments runbook に idempotency-key の障害モードを追加",
+    "fieldSummary": "概要",
+    "summaryDraftedByArlo": "Arlo が下書き — 自由に編集できます",
+    "summaryWriteYourOwn": "自分で記入 — エージェントの下書きはオフです",
+    "fieldDescription": "説明",
+    "mergingInto": "{{target}} へマージ",
+    "opensAsDraft": "ドラフトのプルリクエストとして作成されます。",
+    "notesChanged": "{{count}} 件のノートを変更",
+    "fieldReviewers": "レビュアー",
+    "addReviewer": "＋ 追加",
+    "aiAttribution": "この内容の作成を Arlo が支援したことを明記する",
+    "saveAndFinishLater": "保存して後で完了する"
+  },
+  "settings": {
+    "title": "設定",
+    "searchPlaceholder": "設定を検索",
+    "closeAria": "設定を閉じる",
+    "loading": "読み込み中…",
+    "resultCount_one": "{{count}} 件の結果",
+    "resultCount_other": "{{count}} 件の結果",
+    "noMatch": "「{{query}}」に一致する設定はありません。",
+    "openKbToConfigure": "設定するにはナレッジベースを開いてください。",
+    "rail": {
+      "application": "アプリケーション",
+      "knowledgeBase": "ナレッジベース",
+      "noFolderOpen": "フォルダーが開かれていません"
+    },
+    "fields": {
+      "stillUsing": "現在の値:",
+      "mustBeWholeNumber": "整数で入力してください。",
+      "mustBeBetween": "{{min}} から {{max}} の間で入力してください。",
+      "patternAlreadyExcluded": "そのパターンはすでに除外されています。",
+      "nothingExcluded": "除外項目はありません — すべてのファイルが検索対象です。",
+      "addPattern": "＋ パターンを追加",
+      "stopExcluding": "{{value}} の除外を解除",
+      "working": "処理中…"
+    },
+    "general": {
+      "label": "一般",
+      "sections": {
+        "onLaunch": "起動時",
+        "updates": "アップデート",
+        "privacy": "プライバシー"
+      },
+      "startup": {
+        "label": "起動時",
+        "restoreAll": "前回のナレッジベースとそのドラフトを再度開く",
+        "restoreAllHint": "ワークツリーがディスク上に存在しないドラフトは通知なく破棄されます。",
+        "restoreKb": "ナレッジベースのみ再度開く",
+        "restoreKbHint": "ドラフトは開くまで閉じたままになります。",
+        "startScreen": "常にスタート画面を表示",
+        "startScreenHint": "毎回ナレッジベースを選択します。"
+      },
+      "autoCheck": {
+        "label": "アップデートを自動的に確認",
+        "hint": "Arlo Doc は GitHub Releases に新しいビルドがあるか問い合わせます。",
+        "pending": "保存済み — このビルドでは自動アップデートは有効になっていません"
+      },
+      "autoInstall": {
+        "label": "バックグラウンドでダウンロードしてインストール",
+        "hint": "アップデートは次回終了時に適用されます。"
+      },
+      "privacy": {
+        "p1": "Arlo Doc は分析データを収集せず、クラッシュも報告しません。Arlo のサーバーは存在しません。",
+        "p2": "ネットワークに接続するのは次の 2 つの場合だけです:",
+        "li1": "— エージェントを使用するとき",
+        "li2": "— アップデート時、およびあなたが要求したプッシュのとき",
+        "p3": "あなたのドキュメントは、自分で設定した git リモートを通じる場合を除き、この端末から出ることはありません。"
+      }
+    },
+    "appearance": {
+      "label": "外観",
+      "sections": {
+        "theme": "テーマ",
+        "language": "言語"
+      },
+      "theme": {
+        "label": "テーマ",
+        "light": "ライト",
+        "dark": "ダーク",
+        "system": "システム",
+        "systemHint": "OS の設定に従います。"
+      },
+      "language": {
+        "label": "表示言語",
+        "hint": "メニュー・ボタン・メッセージ。エージェントが書く内容とは無関係です。変更はすぐに反映されます。",
+        "followSystem": "システムに従う"
+      }
+    },
+    "editor": {
+      "label": "エディター",
+      "sections": {
+        "saving": "保存",
+        "openingFile": "ファイルを開くとき",
+        "typography": "タイポグラフィ"
+      },
+      "autosave": {
+        "label": "自動的に保存",
+        "hint": "どちらの設定でも ⌘S ですぐに保存されます。すべてのバージョンは git から復元できます。"
+      },
+      "autosaveDelay": {
+        "label": "自動保存の遅延",
+        "suffix": "ミリ秒（入力停止後）"
+      },
+      "openFilesIn": {
+        "preview": "プレビュー",
+        "previewHint": "通常は閲覧が中心です。",
+        "edit": "編集",
+        "lastUsed": "前回使用したモード"
+      },
+      "frontMatter": {
+        "label": "フロントマター",
+        "hide": "プレビューで非表示",
+        "table": "表として表示"
+      },
+      "font": {
+        "label": "エディターのフォント",
+        "hint": "空欄にするとプラットフォームの等幅フォントを使用します。",
+        "placeholder": "SF Mono"
+      },
+      "fontSize": {
+        "label": "フォントサイズ"
+      },
+      "lineWidth": {
+        "label": "行幅"
+      },
+      "wrapLines": {
+        "label": "長い行を折り返す"
+      },
+      "lineNumbers": {
+        "label": "行番号を表示",
+        "hintWrapping": "長い行を折り返している間は使用できません — 行番号欄は折り返したテキストと揃えられません。"
+      }
+    },
+    "agent": {
+      "label": "AI エージェント",
+      "sections": {
+        "model": "モデル",
+        "autonomy": "自律性"
+      },
+      "model": {
+        "mostCapable": "最も高性能",
+        "mostCapableHint": "長いドキュメントや複数ファイルの編集に最適。",
+        "balanced": "バランス型",
+        "balancedHint": "日常的な編集。",
+        "fastest": "最速",
+        "fastestHint": "簡単な調べ物や小さな変更。",
+        "pending": "保存済み — このビルドではエージェントは接続されていません",
+        "billed": "料金はご自身の Anthropic アカウントに請求されます。",
+        "console": "コンソール"
+      },
+      "autonomy": {
+        "label": "エージェントの自律性",
+        "reviewEach": "変更ごとに確認する",
+        "reviewEachHint": "編集のたびにあなたの承認を待ちます。",
+        "draftFreely": "ドラフトに適用し、公開前に確認する",
+        "draftFreelyHint": "編集はワークツリーに入り、プルリクエストが関門になります。",
+        "full": "完全な自律",
+        "fullHint": "確認せずに編集・コミットします。",
+        "fullBadge": "注意",
+        "alwaysConfirmed": "どのレベルでも常に確認されます: ファイルの削除 · リモートへのプッシュ。"
+      }
+    },
+    "connections": {
+      "label": "接続",
+      "blurb": "認証情報は OS のキーチェーンに保存されます。Arlo Doc が保存するのは暗号文のみです。",
+      "sections": {
+        "anthropic": "Anthropic API キー",
+        "github": "GitHub"
+      },
+      "anthropic": {
+        "encryptionOff": "このシステムは暗号化ストレージを提供していないため、Arlo Doc はキーを保存しません — 平文で書き込むことになるためです。代わりに環境変数 <code>ANTHROPIC_API_KEY</code> を設定してください。",
+        "test": "テスト",
+        "remove": "削除",
+        "verifiedJustNow": "たった今検証しました",
+        "couldNotVerify": "検証できませんでした",
+        "verifiedAt": "検証済み · {{date}}",
+        "notVerifiedYet": "未検証",
+        "save": "保存",
+        "storedNote": "OS のキーチェーンに保存されます。Arlo Doc は api.anthropic.com 以外には送信せず、保存後はキーがアプリの画面に再表示されることはありません。"
+      },
+      "github": {
+        "connected": "接続済み",
+        "disconnect": "接続を解除",
+        "notConnected": "未接続。ドラフトを公開する際にサインインを求められます。"
+      }
+    },
+    "keyboard": {
+      "label": "キーボード",
+      "blurb": "これは参照用であり、再割り当てツールではありません — 現時点では固定です。",
+      "filterPlaceholder": "ショートカットを絞り込む",
+      "noMatch": "「{{filter}}」に一致するショートカットはありません。",
+      "groups": {
+        "navigation": "ナビゲーション",
+        "draft": "ドラフト",
+        "application": "アプリケーション"
+      },
+      "actions": {
+        "searchFilesAndContent": "ファイルと内容を検索",
+        "nextTab": "次のタブ",
+        "previousTab": "前のタブ",
+        "toggleChatPanel": "チャットパネルの切り替え",
+        "newDraft": "新しいドラフト（ワークツリー）",
+        "saveFile": "ファイルを保存",
+        "previewEditWhatChanged": "プレビュー / 編集 / 変更点",
+        "publish": "公開…",
+        "settings": "設定",
+        "closeTab": "タブを閉じる"
+      }
+    },
+    "about": {
+      "label": "情報",
+      "versionLine": "Arlo Doc {{version}}",
+      "linkSource": "ソース",
+      "linkReportIssue": "問題を報告",
+      "encryptionUnavailable": "このシステムは暗号化ストレージを提供していないため、認証情報を保存できません。",
+      "sections": {
+        "files": "ファイル",
+        "reset": "リセット"
+      },
+      "files": {
+        "entryLabel": "設定ファイルとログ",
+        "fieldLabel": "この端末上",
+        "revealSettings": "設定ファイルをファイルマネージャーで表示",
+        "openLogs": "ログを開く"
+      },
+      "reset": {
+        "cancel": "キャンセル",
+        "resetPreferencesEntry": "環境設定をリセット",
+        "resetPreferencesButton": "環境設定をリセット…",
+        "resetPreferencesConfirm": "環境設定をリセット",
+        "resetPreferencesDetail": "このナレッジベースおよびすべてのナレッジベースのすべての設定を既定値に戻します。認証情報・リポジトリ・ドキュメントはそのまま残ります。",
+        "forgetEntry": "サインアウトして認証情報を消去",
+        "forgetButton": "サインアウトして認証情報を消去…",
+        "forgetConfirm": "認証情報を消去",
+        "forgetDetail": "Anthropic API キーと GitHub トークンをキーチェーンから削除します。ディスク上のデータは削除されず、リポジトリにも影響しません。"
+      }
+    },
+    "repository": {
+      "label": "リポジトリ",
+      "branch": {
+        "required": "ブランチ名は必須です。",
+        "noSpaces": "有効なブランチ名ではありません — スペースは使用できません。",
+        "noDotDash": "先頭や末尾をピリオドやハイフンにはできません。",
+        "illegalChars": "git が許可しない文字が含まれています。"
+      },
+      "sections": {
+        "location": "場所",
+        "branches": "ブランチ",
+        "commitIdentity": "コミット時の署名"
+      },
+      "repoPath": {
+        "entryLabel": "リポジトリのパス",
+        "fieldLabel": "リポジトリ",
+        "fallbackValue": "このナレッジベース",
+        "hint": "このページの設定はこのリポジトリにのみ適用されます。"
+      },
+      "defaultBranch": {
+        "label": "既定のブランチ",
+        "hint": "新しいドラフトの分岐元となるブランチ。"
+      },
+      "identity": {
+        "entryLabel": "コミット時の署名",
+        "fromGitConfig": "あなたの git 設定から — まずリポジトリローカル、次にグローバル。",
+        "noGitConfig": "このリポジトリには git の user.name または user.email が設定されていません。",
+        "name": "名前",
+        "email": "メールアドレス",
+        "nameRequired": "名前は必須です。",
+        "emailInvalid": "有効なメールアドレスではありません。",
+        "override": "このナレッジベース用に上書きする",
+        "useGitConfig": "自分の git 設定を使う",
+        "overrideNote": "ここで行うコミットには、git が解決する署名ではなくこの署名が使われます。"
+      },
+      "markAgentCommits": {
+        "label": "エージェントが書いたコミットに印を付ける",
+        "hint": "作者はあなたのままです — あなたがその変更を承認したからです。",
+        "pending": "保存済み — エージェントがコミットできるようになると適用されます"
+      }
+    },
+    "publishing": {
+      "label": "公開",
+      "sections": {
+        "target": "対象",
+        "pullRequests": "プルリクエスト",
+        "afterMerge": "マージ後"
+      },
+      "mergeInto": {
+        "label": "マージ先",
+        "hint": "空欄にすると既定のブランチ（{{branch}}）を使用します。"
+      },
+      "agentDraftsPr": {
+        "label": "タイトルと説明の下書きをエージェントに任せる",
+        "hint": "実際の差分から作成されます。プルリクエストが作成される前に必ず確認・編集できます。"
+      },
+      "openAsDraft": {
+        "label": "ドラフトのプルリクエストとして作成する"
+      },
+      "prTemplate": {
+        "label": "説明のテンプレート",
+        "hint": "プルリクエストの下書き時に <code>{{summary}}</code> と <code>{{files}}</code> が置き換えられます。"
+      },
+      "deleteAfterMerge": {
+        "label": "プルリクエストがマージされたら、そのドラフトのワークツリーとブランチを削除する",
+        "hint": "放置されたワークツリーは、このアプリが放っておくとたまっていく散らかりです。",
+        "pending": "保存済み — このビルドではマージをまだ検出できません"
+      }
+    },
+    "searchIndex": {
+      "label": "検索とインデックス",
+      "sections": {
+        "excluded": "検索から除外",
+        "defaults": "検索の既定値"
+      },
+      "excludes": {
+        "hint": "両方の検索モードでスキップされるディレクトリ名またはファイル名。"
+      },
+      "respectGitignore": {
+        "label": "このリポジトリの .gitignore も尊重する"
+      },
+      "includeHidden": {
+        "label": "隠しファイル（dotfiles）を含める"
+      },
+      "caseSensitive": {
+        "label": "大文字と小文字を区別",
+        "hint": "⇧⌘F の初期状態。検索ごとに変更できます。"
+      },
+      "useRegex": {
+        "label": "正規表現"
+      },
+      "maxResults": {
+        "label": "最大結果数",
+        "suffix": "検索ごと"
+      }
+    },
+    "instructions": {
+      "label": "指示",
+      "blurb": "このリポジトリをクローンした人全員と共有されます。",
+      "sections": {
+        "agentInstructions": "エージェントへの指示",
+        "language": "言語"
+      },
+      "editor": {
+        "editingPrefix": "編集中:",
+        "editingSuffix": "（リポジトリのルート）",
+        "placeholder": "# エージェントはここでどう書くべきか\n\n- Runbook は INC-#### プレフィックスを使う\n- すべての ADR には Consequences セクションが必要",
+        "savedToArlo": "ARLO.md に保存しました",
+        "committedNote": "このファイルはコミットされます — 変更は次のプルリクエストに表れます。"
+      },
+      "writingLanguage": {
+        "label": "執筆言語",
+        "hint": "エージェントがファイルに書き込む言語。表示言語とは無関係です。保存されますが、このビルドではエージェントは接続されていません。",
+        "matchDocument": "ドキュメントに合わせる"
+      }
+    }
+  }
+}

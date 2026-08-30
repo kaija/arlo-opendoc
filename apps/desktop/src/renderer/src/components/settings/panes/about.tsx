@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { ExternalLink } from 'lucide-react';
 import type { PaneDef } from '../paneTypes';
 import type { SettingsApi } from '../useSettings';
@@ -22,6 +24,7 @@ function ConfirmButton({
   detail: React.ReactNode;
   onConfirm: () => void | Promise<void>;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const [armed, setArmed] = React.useState(false);
   const [busy, setBusy] = React.useState(false);
 
@@ -43,7 +46,7 @@ function ConfirmButton({
             >
               {confirmLabel}
             </Button>
-            <Button onClick={() => setArmed(false)}>Cancel</Button>
+            <Button onClick={() => setArmed(false)}>{t('settings.about.reset.cancel')}</Button>
           </>
         ) : (
           <Button variant="danger" onClick={() => setArmed(true)}>
@@ -67,6 +70,7 @@ function ConfirmButton({
 }
 
 function AboutHeader({ s }: { s: SettingsApi }): React.ReactElement {
+  const { t } = useTranslation();
   const info = s.appInfo;
   return (
     <div style={{ marginBottom: 28 }}>
@@ -79,7 +83,7 @@ function AboutHeader({ s }: { s: SettingsApi }): React.ReactElement {
           marginBottom: 6,
         }}
       >
-        Arlo Doc {info?.version ?? '—'}
+        {t('settings.about.versionLine', { version: info?.version ?? '—' })}
         <span style={{ color: 'var(--text-faint)' }}>
           {' · '}Electron {info?.electronVersion ?? '—'}
           {' · '}
@@ -90,8 +94,8 @@ function AboutHeader({ s }: { s: SettingsApi }): React.ReactElement {
         MIT ·{' '}
         {[
           ['arlo-ai.app', 'https://arlo-ai.app'],
-          ['Source', 'https://github.com/kaija/arlo-opendoc'],
-          ['Report an issue', 'https://github.com/kaija/arlo-opendoc/issues'],
+          [t('settings.about.linkSource'), 'https://github.com/kaija/arlo-opendoc'],
+          [t('settings.about.linkReportIssue'), 'https://github.com/kaija/arlo-opendoc/issues'],
         ].map(([label, url], i) => (
           <React.Fragment key={url}>
             {i > 0 && ' · '}
@@ -117,80 +121,79 @@ function AboutHeader({ s }: { s: SettingsApi }): React.ReactElement {
       </p>
       {s.appInfo?.encryptionAvailable === false && (
         <div style={{ marginTop: 12 }}>
-          <StatusLine tone="warning">
-            This system offers no encrypted storage, so credentials cannot be saved.
-          </StatusLine>
+          <StatusLine tone="warning">{t('settings.about.encryptionUnavailable')}</StatusLine>
         </div>
       )}
     </div>
   );
 }
 
-export const aboutPane: PaneDef = {
-  id: 'about',
-  label: 'About',
-  scope: 'about',
-  custom: (s) => <AboutHeader s={s} />,
-  sections: [
-    {
-      title: 'Files',
-      entries: [
-        {
-          id: 'files',
-          label: 'Settings file and logs',
-          keywords: ['reveal', 'finder', 'explorer', 'logs', 'json', 'debug'],
-          render: (s) => (
-            <Field
-              label="On this machine"
-              hint={s.appInfo?.userDataPath ?? ''}
-            >
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                <Button onClick={() => void window.arlodoc.revealSettingsFile()}>
-                  Reveal settings file
-                </Button>
-                <Button onClick={() => void window.arlodoc.openLogsFolder()}>Open logs</Button>
-              </div>
-            </Field>
-          ),
-        },
-      ],
-    },
-    {
-      title: 'Reset',
-      entries: [
-        {
-          id: 'reset-preferences',
-          label: 'Reset preferences',
-          keywords: ['default', 'restore', 'clear', 'wipe'],
-          render: (s) => (
-            <ConfirmButton
-              label="Reset preferences…"
-              confirmLabel="Reset preferences"
-              detail="Restores every default, for this and every knowledge base. Keeps your credentials, your repositories and your documents."
-              onConfirm={async () => {
-                await window.arlodoc.resetPreferences();
-                await s.reload();
-              }}
-            />
-          ),
-        },
-        {
-          id: 'forget-credentials',
-          label: 'Sign out and forget credentials',
-          keywords: ['sign out', 'logout', 'api key', 'token', 'keychain', 'disconnect'],
-          render: (s) => (
-            <ConfirmButton
-              label="Sign out and forget credentials…"
-              confirmLabel="Forget credentials"
-              detail="Removes the Anthropic API key and the GitHub token from your keychain. Nothing on disk is deleted and no repository is touched."
-              onConfirm={async () => {
-                await window.arlodoc.forgetCredentials();
-                await s.refreshSecrets();
-              }}
-            />
-          ),
-        },
-      ],
-    },
-  ],
-};
+export function buildAboutPane(t: TFunction): PaneDef {
+  return {
+    id: 'about',
+    label: t('settings.about.label'),
+    scope: 'about',
+    custom: (s) => <AboutHeader s={s} />,
+    sections: [
+      {
+        title: t('settings.about.sections.files'),
+        entries: [
+          {
+            id: 'files',
+            label: t('settings.about.files.entryLabel'),
+            keywords: ['reveal', 'finder', 'explorer', 'logs', 'json', 'debug'],
+            render: (s) => (
+              <Field label={t('settings.about.files.fieldLabel')} hint={s.appInfo?.userDataPath ?? ''}>
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  <Button onClick={() => void window.arlodoc.revealSettingsFile()}>
+                    {t('settings.about.files.revealSettings')}
+                  </Button>
+                  <Button onClick={() => void window.arlodoc.openLogsFolder()}>
+                    {t('settings.about.files.openLogs')}
+                  </Button>
+                </div>
+              </Field>
+            ),
+          },
+        ],
+      },
+      {
+        title: t('settings.about.sections.reset'),
+        entries: [
+          {
+            id: 'reset-preferences',
+            label: t('settings.about.reset.resetPreferencesEntry'),
+            keywords: ['default', 'restore', 'clear', 'wipe'],
+            render: (s) => (
+              <ConfirmButton
+                label={t('settings.about.reset.resetPreferencesButton')}
+                confirmLabel={t('settings.about.reset.resetPreferencesConfirm')}
+                detail={t('settings.about.reset.resetPreferencesDetail')}
+                onConfirm={async () => {
+                  await window.arlodoc.resetPreferences();
+                  await s.reload();
+                }}
+              />
+            ),
+          },
+          {
+            id: 'forget-credentials',
+            label: t('settings.about.reset.forgetEntry'),
+            keywords: ['sign out', 'logout', 'api key', 'token', 'keychain', 'disconnect'],
+            render: (s) => (
+              <ConfirmButton
+                label={t('settings.about.reset.forgetButton')}
+                confirmLabel={t('settings.about.reset.forgetConfirm')}
+                detail={t('settings.about.reset.forgetDetail')}
+                onConfirm={async () => {
+                  await window.arlodoc.forgetCredentials();
+                  await s.refreshSecrets();
+                }}
+              />
+            ),
+          },
+        ],
+      },
+    ],
+  };
+}

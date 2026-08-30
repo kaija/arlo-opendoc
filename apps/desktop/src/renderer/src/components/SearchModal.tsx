@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import type { ContentMatch, FileNameMatch, FileNode, SearchOptions } from '@arlo-doc/shared';
 import { matchFileNames } from '../fileNameMatcher';
 import { FileTypeIcon } from './FileTypeIcon';
@@ -99,6 +101,7 @@ export function SearchModal({
   onClose,
   onResultClick,
 }: SearchModalProps): React.ReactElement {
+  const { t } = useTranslation();
   // ── State ────────────────────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState<ActiveTab>('search-files');
   const [fileQuery, setFileQuery] = useState('');
@@ -242,12 +245,12 @@ export function SearchModal({
         setContentResults([]);
       }
     } catch (err) {
-      setContentError(err instanceof Error ? err.message : 'Unknown error');
+      setContentError(err instanceof Error ? err.message : t('search.unknownError'));
       setContentResults([]);
     } finally {
       setIsSearching(false);
     }
-  }, [repoDir, contentQuery, searchOptions]);
+  }, [repoDir, contentQuery, searchOptions, t]);
 
   // ── Option toggle handlers ────────────────────────────────────────────
   const toggleCaseSensitive = useCallback(() => {
@@ -351,19 +354,22 @@ export function SearchModal({
     if (activeTab === 'search-files') {
       if (noFolder || !fileQuery) return '';
       if (regexError) return '';
-      return `${fileResults.length} file${fileResults.length !== 1 ? 's' : ''}`;
+      return t('search.fileCount', { count: fileResults.length });
     }
     // find-in-files
-    if (isSearching) return 'Searching…';
-    if (contentError) return 'Search failed';
+    if (isSearching) return t('search.searching');
+    if (contentError) return t('search.searchFailed');
     if (!contentQuery) return '';
     const totalMatches = contentResults.reduce(
       (sum, cm) => sum + cm.lines.filter((l) => l.isMatch).length,
       0,
     );
     const fileCount = contentResults.length;
-    if (fileCount === 0 && !isSearching) return contentQuery ? '0 matches' : '';
-    return `${totalMatches} match${totalMatches !== 1 ? 'es' : ''} across ${fileCount} file${fileCount !== 1 ? 's' : ''}`;
+    if (fileCount === 0 && !isSearching) return contentQuery ? t('search.zeroMatches') : '';
+    return t('search.summary', {
+      count: fileCount,
+      matchText: t('search.matchCount', { count: totalMatches }),
+    });
   })();
 
   // ── Render ─────────────────────────────────────────────────────────────
@@ -411,7 +417,7 @@ export function SearchModal({
             }}
           >
             {(['search-files', 'find-in-files'] as const).map((tab) => {
-              const label = tab === 'search-files' ? 'Search Files' : 'Find in Files';
+              const label = tab === 'search-files' ? t('search.tabSearchFiles') : t('search.tabFindInFiles');
               const isActive = activeTab === tab;
               return (
                 <button
@@ -459,7 +465,7 @@ export function SearchModal({
                   onChange={handleFileQueryChange}
                   onKeyDown={handleFileInputKeyDown}
                   disabled={noFolder}
-                  placeholder={noFolder ? 'No folder open' : 'Search file names…'}
+                  placeholder={noFolder ? t('search.noFolderOpen') : t('search.searchFileNamesPlaceholder')}
                   style={inputStyle(noFolder)}
                 />
               ) : (
@@ -470,7 +476,7 @@ export function SearchModal({
                   onChange={handleContentQueryChange}
                   onKeyDown={handleContentInputKeyDown}
                   disabled={noFolder || isSearching}
-                  placeholder={noFolder ? 'No folder open' : 'Find in files… (Enter to search)'}
+                  placeholder={noFolder ? t('search.noFolderOpen') : t('search.findInFilesPlaceholder')}
                   style={inputStyle(noFolder || isSearching)}
                 />
               )}
@@ -481,14 +487,14 @@ export function SearchModal({
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               <OptionToggle
                 label="Aa"
-                title="Case sensitive"
+                title={t('search.caseSensitive')}
                 active={searchOptions.caseSensitive}
                 onToggle={toggleCaseSensitive}
                 testId="toggle-case-sensitive"
               />
               <OptionToggle
                 label=".*"
-                title="Regular expression"
+                title={t('search.regularExpression')}
                 active={searchOptions.useRegex}
                 onToggle={toggleRegex}
                 testId="toggle-regex"
@@ -501,7 +507,7 @@ export function SearchModal({
                 data-testid="regex-error"
                 style={{ fontSize: 11.5, color: 'var(--color-error-text)', fontFamily: 'var(--font-sans)' }}
               >
-                Invalid regex
+                {t('search.invalidRegex')}
               </div>
             )}
           </div>
@@ -522,6 +528,7 @@ export function SearchModal({
                   onResultClick,
                   onClose,
                   selectedRowRef,
+                  t,
                 })
               : renderFindInFilesResults({
                   noFolder,
@@ -536,6 +543,7 @@ export function SearchModal({
                   onResultClick,
                   onClose,
                   selectedRowRef,
+                  t,
                 })}
           </div>
 
@@ -598,6 +606,7 @@ interface SearchFilesResultsProps {
   onResultClick: (filePath: string) => void;
   onClose: () => void;
   selectedRowRef: React.MutableRefObject<HTMLDivElement | null>;
+  t: TFunction;
 }
 
 function renderSearchFilesResults({
@@ -610,12 +619,13 @@ function renderSearchFilesResults({
   onResultClick,
   onClose,
   selectedRowRef,
+  t,
 }: SearchFilesResultsProps): React.ReactElement {
   if (noFolder) {
-    return <EmptyMessage text="No folder open" />;
+    return <EmptyMessage text={t('search.noFolderOpen')} />;
   }
   if (!hasLeaves) {
-    return <EmptyMessage text="No files in this folder" />;
+    return <EmptyMessage text={t('search.noFilesInFolder')} />;
   }
   if (regexError) {
     return <EmptyMessage text="" />;
@@ -624,7 +634,7 @@ function renderSearchFilesResults({
     return <div style={{ minHeight: 60 }} />;
   }
   if (fileResults.length === 0) {
-    return <EmptyMessage text={`No files matching «${fileQuery}»`} />;
+    return <EmptyMessage text={t('search.noFilesMatching', { query: fileQuery })} />;
   }
   return (
     <>
@@ -694,6 +704,7 @@ interface FindInFilesResultsProps {
   onResultClick: (filePath: string, lineNumber: number) => void;
   onClose: () => void;
   selectedRowRef: React.MutableRefObject<HTMLDivElement | null>;
+  t: TFunction;
 }
 
 function renderFindInFilesResults({
@@ -709,9 +720,10 @@ function renderFindInFilesResults({
   onResultClick,
   onClose,
   selectedRowRef,
+  t,
 }: FindInFilesResultsProps): React.ReactElement {
   if (noFolder) {
-    return <EmptyMessage text="No folder open" />;
+    return <EmptyMessage text={t('search.noFolderOpen')} />;
   }
   if (isSearching) {
     return (
@@ -726,7 +738,7 @@ function renderFindInFilesResults({
       >
         <Spinner />
         <span style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
-          Searching…
+          {t('search.searching')}
         </span>
       </div>
     );
@@ -748,7 +760,7 @@ function renderFindInFilesResults({
   }
   if (!contentQuery || contentResults.length === 0) {
     if (contentQuery && contentResults.length === 0) {
-      return <EmptyMessage text={`No results found for «${contentQuery}»`} />;
+      return <EmptyMessage text={t('search.noResultsFound', { query: contentQuery })} />;
     }
     return (
       <div
@@ -763,7 +775,7 @@ function renderFindInFilesResults({
         <span
           style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--font-sans)' }}
         >
-          {contentQuery ? '' : 'Press Enter to search file contents'}
+          {contentQuery ? '' : t('search.pressEnterToSearch')}
         </span>
       </div>
     );
@@ -817,7 +829,7 @@ function renderFindInFilesResults({
                   flexShrink: 0,
                 }}
               >
-                {matchCount} match{matchCount !== 1 ? 'es' : ''}
+                {t('search.matchCount', { count: matchCount })}
               </span>
             </div>
 
@@ -908,7 +920,7 @@ function renderFindInFilesResults({
             background: 'var(--surface-section)',
           }}
         >
-          Showing first 20 files — refine your query to see more
+          {t('search.showingFirst20')}
         </div>
       )}
     </>

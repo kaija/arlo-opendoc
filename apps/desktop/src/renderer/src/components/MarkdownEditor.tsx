@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface MarkdownEditorProps {
   content?: string | null;
@@ -27,6 +28,7 @@ export function MarkdownEditor({
   wrapLines,
   lineNumbers,
 }: MarkdownEditorProps): React.ReactElement {
+  const { t } = useTranslation();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const gutterRef = useRef<HTMLDivElement>(null);
 
@@ -69,9 +71,7 @@ export function MarkdownEditor({
   const editorSize = fontSize ?? 13.5;
   const lineCount = (content ?? '').split('\n').length;
 
-  const placeholder = content == null
-    ? 'No file open — double-click any text or code file in the sidebar to edit it.'
-    : '';
+  const placeholder = content == null ? t('markdownEditor.placeholder') : '';
 
   return (
     <div style={{ flex: 1, display: 'flex', background: 'var(--surface-card)', position: 'relative' }}>

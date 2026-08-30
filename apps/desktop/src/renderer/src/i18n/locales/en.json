@@ -1,0 +1,474 @@
+{
+  "common": {
+    "loading": "Loading…",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "working": "Working…"
+  },
+  "onboarding": {
+    "brand": "Arlo",
+    "headline": "Where should your knowledge live?",
+    "subtitle": "Pick one to start. Arlo works the same way in both.",
+    "personalTitle": "Personal knowledge base",
+    "personalDescription": "Keep your notes and documents in a local folder. Everything stays on your machine, searchable instantly.",
+    "chooseFolder": "Choose folder…",
+    "opening": "Opening…",
+    "teamTitle": "Team knowledge base",
+    "teamDescription": "Connect to a GitHub repository so your whole team shares and contributes to a single source of truth.",
+    "continueWithGitHub": "Continue with GitHub",
+    "continueWith": "Continue with <strong>{{name}}</strong>",
+    "lastOpened": "Last opened",
+    "footerNote": "You can add more knowledge bases later."
+  },
+  "titleBar": {
+    "closeTab": "Close {{title}}",
+    "maxTabs": "Maximum {{count}} tabs open",
+    "creatingWorktree": "Creating worktree…"
+  },
+  "toolbar": {
+    "preview": "Preview",
+    "edit": "Edit",
+    "whatChanged": "What changed",
+    "searchPlaceholder": "Search Platform Handbook",
+    "publish": "Publish",
+    "saving": "Saving…",
+    "save": "Save"
+  },
+  "sidebar": {
+    "notebooks": "Notebooks",
+    "draftLegend": "<em>(M)</em> changed in draft · <em>(N)</em> new"
+  },
+  "fileBrowser": {
+    "gitStatus": "git status: {{status}}",
+    "showHidden": "Show hidden files",
+    "hideHidden": "Hide hidden files",
+    "settings": "Settings",
+    "dragToResize": "Drag to resize"
+  },
+  "emptyTab": {
+    "noFolder": "No folder open",
+    "continueWith": "Continue with <strong>{{name}}</strong>",
+    "lastOpened": "Last opened",
+    "openFolder": "Open Folder…"
+  },
+  "noFileSelected": {
+    "message": "Select a file to preview"
+  },
+  "closeWorktree": {
+    "title": "Close worktree?",
+    "body": "All unsaved edits in this worktree will be permanently deleted.",
+    "cancel": "Cancel",
+    "confirm": "Delete worktree ⚠"
+  },
+  "markdownEditor": {
+    "placeholder": "No file open — double-click any text or code file in the sidebar to edit it."
+  },
+  "unifiedDiff": {
+    "noChanges": "No changes to display",
+    "live": "Live",
+    "workingCopy": "Working copy"
+  },
+  "chat": {
+    "title": "Arlo",
+    "statusWorking": "working",
+    "statusNeedsApproval": "needs your approval",
+    "userMessageSample": "Add a section on the idempotency-key failure mode from INC-2291 last week, and link it from the failure modes list.",
+    "toolSearchedKb": "Searched knowledge base — {{count}} results",
+    "toolReadRunbook": "Read Payments service runbook",
+    "arloResponseSample": "INC-2291 was caused by clients retrying charges without an idempotency key. Here is the section I would add under Failure modes.",
+    "approvalTitle": "Arlo wants to edit this note",
+    "approvalFile": "Payments service runbook",
+    "approvalHint": "Arlo drafted this change. Review the diff before approving — you can always edit after.",
+    "decline": "Decline",
+    "approve": "Approve",
+    "alwaysAllow": "Always allow · this draft only",
+    "changeApproved": "Change approved and applied.",
+    "changeDeclined": "Change declined.",
+    "draftLabel": "Draft: {{name}}",
+    "inputPlaceholder": "Ask Arlo…"
+  },
+  "search": {
+    "tabSearchFiles": "Search Files",
+    "tabFindInFiles": "Find in Files",
+    "noFolderOpen": "No folder open",
+    "searchFileNamesPlaceholder": "Search file names…",
+    "findInFilesPlaceholder": "Find in files… (Enter to search)",
+    "caseSensitive": "Case sensitive",
+    "regularExpression": "Regular expression",
+    "invalidRegex": "Invalid regex",
+    "searching": "Searching…",
+    "searchFailed": "Search failed",
+    "unknownError": "Unknown error",
+    "fileCount_one": "{{count}} file",
+    "fileCount_other": "{{count}} files",
+    "matchCount_one": "{{count}} match",
+    "matchCount_other": "{{count}} matches",
+    "zeroMatches": "0 matches",
+    "summary_one": "{{matchText}} across {{count}} file",
+    "summary_other": "{{matchText}} across {{count}} files",
+    "noFilesInFolder": "No files in this folder",
+    "noFilesMatching": "No files matching «{{query}}»",
+    "noResultsFound": "No results found for «{{query}}»",
+    "pressEnterToSearch": "Press Enter to search file contents",
+    "showingFirst20": "Showing first 20 files — refine your query to see more"
+  },
+  "publish": {
+    "title": "Publish for review",
+    "fieldTitle": "Title",
+    "titleSample": "Add idempotency-key failure mode to payments runbook",
+    "fieldSummary": "Summary",
+    "summaryDraftedByArlo": "Drafted by Arlo — edit freely",
+    "summaryWriteYourOwn": "Write your own — agent drafting is off",
+    "fieldDescription": "Description",
+    "mergingInto": "Merging into {{target}}",
+    "opensAsDraft": "Opens as a draft pull request.",
+    "notesChanged": "{{count}} notes changed",
+    "fieldReviewers": "Reviewers",
+    "addReviewer": "+ Add",
+    "aiAttribution": "Note that Arlo helped write this",
+    "saveAndFinishLater": "Save and finish later"
+  },
+  "settings": {
+    "title": "Settings",
+    "searchPlaceholder": "Search settings",
+    "closeAria": "Close settings",
+    "loading": "Loading…",
+    "resultCount_one": "{{count}} result",
+    "resultCount_other": "{{count}} results",
+    "noMatch": "No setting matches “{{query}}”.",
+    "openKbToConfigure": "Open a knowledge base to configure it.",
+    "rail": {
+      "application": "Application",
+      "knowledgeBase": "Knowledge base",
+      "noFolderOpen": "No folder open"
+    },
+    "fields": {
+      "stillUsing": "Still using:",
+      "mustBeWholeNumber": "Must be a whole number.",
+      "mustBeBetween": "Must be between {{min}} and {{max}}.",
+      "patternAlreadyExcluded": "That pattern is already excluded.",
+      "nothingExcluded": "Nothing excluded — every file is searched.",
+      "addPattern": "+ add pattern",
+      "stopExcluding": "Stop excluding {{value}}",
+      "working": "Working…"
+    },
+    "general": {
+      "label": "General",
+      "sections": {
+        "onLaunch": "On launch",
+        "updates": "Updates",
+        "privacy": "Privacy"
+      },
+      "startup": {
+        "label": "On launch",
+        "restoreAll": "Reopen my last knowledge base and its drafts",
+        "restoreAllHint": "Drafts whose worktree no longer exists on disk are dropped silently.",
+        "restoreKb": "Reopen the knowledge base only",
+        "restoreKbHint": "Drafts stay closed until you open them.",
+        "startScreen": "Always show the start screen",
+        "startScreenHint": "Choose a knowledge base each time."
+      },
+      "autoCheck": {
+        "label": "Check for updates automatically",
+        "hint": "Arlo Doc asks GitHub Releases whether a newer build exists.",
+        "pending": "Saved — automatic updates are not switched on in this build"
+      },
+      "autoInstall": {
+        "label": "Download and install in the background",
+        "hint": "Updates apply the next time you quit."
+      },
+      "privacy": {
+        "p1": "Arlo Doc collects no analytics and reports no crashes. There is no Arlo server.",
+        "p2": "It reaches the network in exactly two cases:",
+        "li1": "— when you use the agent",
+        "li2": "— for updates, and for pushes you ask for",
+        "p3": "Your documents never leave this machine except through git remotes you configured yourself."
+      }
+    },
+    "appearance": {
+      "label": "Appearance",
+      "sections": {
+        "theme": "Theme",
+        "language": "Language"
+      },
+      "theme": {
+        "label": "Theme",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System",
+        "systemHint": "Follow your operating system."
+      },
+      "language": {
+        "label": "Interface language",
+        "hint": "Menus, buttons and messages. Independent of what the agent writes. Changes apply immediately.",
+        "followSystem": "Follow system"
+      }
+    },
+    "editor": {
+      "label": "Editor",
+      "sections": {
+        "saving": "Saving",
+        "openingFile": "Opening a file",
+        "typography": "Typography"
+      },
+      "autosave": {
+        "label": "Save automatically",
+        "hint": "⌘S saves immediately either way. Every version stays recoverable from git."
+      },
+      "autosaveDelay": {
+        "label": "Autosave delay",
+        "suffix": "ms after you stop typing"
+      },
+      "openFilesIn": {
+        "preview": "Preview",
+        "previewHint": "Reading is the common case.",
+        "edit": "Edit",
+        "lastUsed": "Whichever you used last"
+      },
+      "frontMatter": {
+        "label": "Front matter",
+        "hide": "Hide in preview",
+        "table": "Show as a table"
+      },
+      "font": {
+        "label": "Editor font",
+        "hint": "Leave empty to use the platform monospace stack.",
+        "placeholder": "SF Mono"
+      },
+      "fontSize": {
+        "label": "Font size"
+      },
+      "lineWidth": {
+        "label": "Line width"
+      },
+      "wrapLines": {
+        "label": "Wrap long lines"
+      },
+      "lineNumbers": {
+        "label": "Show line numbers",
+        "hintWrapping": "Unavailable while long lines wrap — a gutter cannot line up with wrapped text."
+      }
+    },
+    "agent": {
+      "label": "AI agent",
+      "sections": {
+        "model": "Model",
+        "autonomy": "Autonomy"
+      },
+      "model": {
+        "mostCapable": "Most capable",
+        "mostCapableHint": "Best for long documents and multi-file edits.",
+        "balanced": "Balanced",
+        "balancedHint": "Everyday editing.",
+        "fastest": "Fastest",
+        "fastestHint": "Quick lookups and small changes.",
+        "pending": "Saved — the agent is not connected in this build",
+        "billed": "Billed to your own Anthropic account.",
+        "console": "Console"
+      },
+      "autonomy": {
+        "label": "Agent autonomy",
+        "reviewEach": "Review each change",
+        "reviewEachHint": "Every edit waits for your approval.",
+        "draftFreely": "Apply in the draft, review before publishing",
+        "draftFreelyHint": "Edits land in the worktree; the pull request is the gate.",
+        "full": "Full autonomy",
+        "fullHint": "Edits and commits without asking.",
+        "fullBadge": "Careful",
+        "alwaysConfirmed": "Always confirmed, at every level: deleting a file · pushing to a remote."
+      }
+    },
+    "connections": {
+      "label": "Connections",
+      "blurb": "Credentials live in your operating system keychain. Arlo Doc stores only ciphertext.",
+      "sections": {
+        "anthropic": "Anthropic API key",
+        "github": "GitHub"
+      },
+      "anthropic": {
+        "encryptionOff": "This system does not offer encrypted storage, so Arlo Doc will not save your key — it would have to be written in plain text. Set <code>ANTHROPIC_API_KEY</code> in your environment instead.",
+        "test": "Test",
+        "remove": "Remove",
+        "verifiedJustNow": "Verified just now",
+        "couldNotVerify": "Could not verify",
+        "verifiedAt": "Verified · {{date}}",
+        "notVerifiedYet": "Not verified yet",
+        "save": "Save",
+        "storedNote": "Stored in your operating system keychain. Arlo Doc sends it nowhere except api.anthropic.com, and the key is never shown to the app's interface again once saved."
+      },
+      "github": {
+        "connected": "Connected",
+        "disconnect": "Disconnect",
+        "notConnected": "Not connected. Publishing a draft will ask you to sign in."
+      }
+    },
+    "keyboard": {
+      "label": "Keyboard",
+      "blurb": "A reference, not a remapper — these are fixed for now.",
+      "filterPlaceholder": "Filter shortcuts",
+      "noMatch": "No shortcut matches “{{filter}}”.",
+      "groups": {
+        "navigation": "Navigation",
+        "draft": "Draft",
+        "application": "Application"
+      },
+      "actions": {
+        "searchFilesAndContent": "Search files & content",
+        "nextTab": "Next tab",
+        "previousTab": "Previous tab",
+        "toggleChatPanel": "Toggle chat panel",
+        "newDraft": "New draft (worktree)",
+        "saveFile": "Save file",
+        "previewEditWhatChanged": "Preview / Edit / What changed",
+        "publish": "Publish…",
+        "settings": "Settings",
+        "closeTab": "Close tab"
+      }
+    },
+    "about": {
+      "label": "About",
+      "versionLine": "Arlo Doc {{version}}",
+      "linkSource": "Source",
+      "linkReportIssue": "Report an issue",
+      "encryptionUnavailable": "This system offers no encrypted storage, so credentials cannot be saved.",
+      "sections": {
+        "files": "Files",
+        "reset": "Reset"
+      },
+      "files": {
+        "entryLabel": "Settings file and logs",
+        "fieldLabel": "On this machine",
+        "revealSettings": "Reveal settings file",
+        "openLogs": "Open logs"
+      },
+      "reset": {
+        "cancel": "Cancel",
+        "resetPreferencesEntry": "Reset preferences",
+        "resetPreferencesButton": "Reset preferences…",
+        "resetPreferencesConfirm": "Reset preferences",
+        "resetPreferencesDetail": "Restores every default, for this and every knowledge base. Keeps your credentials, your repositories and your documents.",
+        "forgetEntry": "Sign out and forget credentials",
+        "forgetButton": "Sign out and forget credentials…",
+        "forgetConfirm": "Forget credentials",
+        "forgetDetail": "Removes the Anthropic API key and the GitHub token from your keychain. Nothing on disk is deleted and no repository is touched."
+      }
+    },
+    "repository": {
+      "label": "Repository",
+      "branch": {
+        "required": "A branch name is required.",
+        "noSpaces": "Not a valid branch name — spaces aren't allowed.",
+        "noDotDash": "Cannot start or end with a dot or dash.",
+        "illegalChars": "Contains characters git does not allow."
+      },
+      "sections": {
+        "location": "Location",
+        "branches": "Branches",
+        "commitIdentity": "Commit identity"
+      },
+      "repoPath": {
+        "entryLabel": "Repository path",
+        "fieldLabel": "Repository",
+        "fallbackValue": "This knowledge base",
+        "hint": "Settings on this page apply only to this repository."
+      },
+      "defaultBranch": {
+        "label": "Default branch",
+        "hint": "The branch new drafts fork from."
+      },
+      "identity": {
+        "entryLabel": "Commit identity",
+        "fromGitConfig": "From your git config — repository-local first, then global.",
+        "noGitConfig": "git has no user.name or user.email configured for this repository.",
+        "name": "Name",
+        "email": "Email",
+        "nameRequired": "A name is required.",
+        "emailInvalid": "Not a valid email address.",
+        "override": "Override for this knowledge base",
+        "useGitConfig": "Use my git config instead",
+        "overrideNote": "Commits made here will use this identity instead of what git resolves."
+      },
+      "markAgentCommits": {
+        "label": "Mark commits the agent wrote",
+        "hint": "You remain the author — you approved the change.",
+        "pending": "Saved — applies once the agent can commit"
+      }
+    },
+    "publishing": {
+      "label": "Publishing",
+      "sections": {
+        "target": "Target",
+        "pullRequests": "Pull requests",
+        "afterMerge": "After merge"
+      },
+      "mergeInto": {
+        "label": "Merge into",
+        "hint": "Leave empty to use the default branch ({{branch}})."
+      },
+      "agentDraftsPr": {
+        "label": "Let the agent draft the title and description",
+        "hint": "Written from the actual diff. You always see and can edit it before the pull request is created."
+      },
+      "openAsDraft": {
+        "label": "Open as a draft pull request"
+      },
+      "prTemplate": {
+        "label": "Description template",
+        "hint": "<code>{{summary}}</code> and <code>{{files}}</code> are replaced when the pull request is drafted."
+      },
+      "deleteAfterMerge": {
+        "label": "Delete the draft's worktree and branch once its pull request merges",
+        "hint": "Orphaned worktrees are the mess this app would otherwise accumulate.",
+        "pending": "Saved — nothing detects a merge in this build yet"
+      }
+    },
+    "searchIndex": {
+      "label": "Search & index",
+      "sections": {
+        "excluded": "Excluded from search",
+        "defaults": "Search defaults"
+      },
+      "excludes": {
+        "hint": "Directory or file names skipped by both search modes."
+      },
+      "respectGitignore": {
+        "label": "Also respect this repository's .gitignore"
+      },
+      "includeHidden": {
+        "label": "Include hidden files (dotfiles)"
+      },
+      "caseSensitive": {
+        "label": "Case sensitive",
+        "hint": "Where ⇧⌘F starts. You can still change it per search."
+      },
+      "useRegex": {
+        "label": "Regular expressions"
+      },
+      "maxResults": {
+        "label": "Max results",
+        "suffix": "per search"
+      }
+    },
+    "instructions": {
+      "label": "Instructions",
+      "blurb": "Shared with anyone who clones this repository.",
+      "sections": {
+        "agentInstructions": "Agent instructions",
+        "language": "Language"
+      },
+      "editor": {
+        "editingPrefix": "Editing",
+        "editingSuffix": "at the repository root",
+        "placeholder": "# How the agent should write here\n\n- Runbooks use the INC-#### prefix\n- Every ADR needs a Consequences section",
+        "savedToArlo": "Saved to ARLO.md",
+        "committedNote": "This file is committed — changes appear in your next pull request."
+      },
+      "writingLanguage": {
+        "label": "Writing language",
+        "hint": "What the agent writes into your files. Independent of the interface language. Saved, but the agent is not connected in this build.",
+        "matchDocument": "Match the document"
+      }
+    }
+  }
+}

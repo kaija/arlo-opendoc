@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface CloseWorktreeDialogProps {
   worktreePath: string;
@@ -11,6 +12,7 @@ export function CloseWorktreeDialog({
   onConfirm,
   onCancel,
 }: CloseWorktreeDialogProps): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div
       style={{
@@ -34,13 +36,13 @@ export function CloseWorktreeDialog({
         }}
       >
         <p style={{ fontWeight: 600, fontSize: 15, margin: '0 0 8px', color: 'var(--text-body)' }}>
-          Close worktree?
+          {t('closeWorktree.title')}
         </p>
         <p style={{ fontSize: 12, color: 'var(--text-faint)', margin: '0 0 12px', fontFamily: 'var(--font-mono)', wordBreak: 'break-all' }}>
           {worktreePath}
         </p>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '0 0 20px' }}>
-          All unsaved edits in this worktree will be permanently deleted.
+          {t('closeWorktree.body')}
         </p>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
           <button
@@ -54,7 +56,7 @@ export function CloseWorktreeDialog({
               cursor: 'pointer',
             }}
           >
-            Cancel
+            {t('closeWorktree.cancel')}
           </button>
           <button
             onClick={onConfirm}
@@ -69,7 +71,7 @@ export function CloseWorktreeDialog({
               cursor: 'pointer',
             }}
           >
-            Delete worktree ⚠
+            {t('closeWorktree.confirm')}
           </button>
         </div>
       </div>

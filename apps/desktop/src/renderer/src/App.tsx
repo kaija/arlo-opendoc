@@ -10,6 +10,7 @@ import { MainLayout } from './screens/MainLayout';
 import { Onboarding } from './screens/Onboarding';
 import './styles/globals.css';
 import { useTheme } from './components/settings/useTheme';
+import { useInterfaceLanguage } from './i18n/useInterfaceLanguage';
 import type { AppSettings } from '@arlo-doc/shared';
 
 /**
@@ -277,6 +278,7 @@ export function App(): React.ReactElement {
   }, []);
 
   useTheme(appSettings?.appearance.theme);
+  useInterfaceLanguage(appSettings?.appearance.interfaceLanguage);
 
   // Callbacks read settings through a ref so they stay referentially stable —
   // the same reason stateRef exists below.

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { FileText, Globe, FolderOpen } from 'lucide-react';
 
 // Electron-specific CSS property not in React's type definitions
@@ -23,6 +24,7 @@ export function Onboarding({
   isPending,
   error,
 }: OnboardingProps): React.ReactElement {
+  const { t } = useTranslation();
   // Derive a short display name from the full path (last path segment)
   const lastFolderName = lastFolderPath
     ? lastFolderPath.split('/').filter(Boolean).pop() ?? lastFolderPath
@@ -102,7 +104,7 @@ export function Onboarding({
               letterSpacing: '-0.02em',
             }}
           >
-            Arlo
+            {t('onboarding.brand')}
           </span>
         </div>
 
@@ -119,7 +121,7 @@ export function Onboarding({
             lineHeight: 1.2,
           }}
         >
-          Where should your knowledge live?
+          {t('onboarding.headline')}
         </h1>
 
         {/* Subtitle */}
@@ -135,7 +137,7 @@ export function Onboarding({
             maxWidth: 380,
           }}
         >
-          Pick one to start. Arlo works the same way in both.
+          {t('onboarding.subtitle')}
         </p>
 
         {/* Cards */}
@@ -150,17 +152,17 @@ export function Onboarding({
         >
           <OnboardingCard
             icon={<FileText size={22} color="var(--color-accent)" />}
-            title="Personal knowledge base"
-            description="Keep your notes and documents in a local folder. Everything stays on your machine, searchable instantly."
-            buttonLabel={isPending ? 'Opening…' : 'Choose folder…'}
+            title={t('onboarding.personalTitle')}
+            description={t('onboarding.personalDescription')}
+            buttonLabel={isPending ? t('onboarding.opening') : t('onboarding.chooseFolder')}
             buttonDisabled={isPending === true}
             onClick={onChooseLocal}
           />
           <OnboardingCard
             icon={<Globe size={22} color="var(--color-accent)" />}
-            title="Team knowledge base"
-            description="Connect to a GitHub repository so your whole team shares and contributes to a single source of truth."
-            buttonLabel="Continue with GitHub"
+            title={t('onboarding.teamTitle')}
+            description={t('onboarding.teamDescription')}
+            buttonLabel={t('onboarding.continueWithGitHub')}
             onClick={onChooseGitHub}
           />
         </div>
@@ -200,7 +202,7 @@ export function Onboarding({
                 whiteSpace: 'nowrap',
               }}
             >
-              Continue with <strong>{lastFolderName}</strong>
+              <Trans i18nKey="onboarding.continueWith" values={{ name: lastFolderName }} components={{ strong: <strong /> }} />
             </span>
             <span
               style={{
@@ -210,7 +212,7 @@ export function Onboarding({
                 flexShrink: 0,
               }}
             >
-              Last opened
+              {t('onboarding.lastOpened')}
             </span>
           </button>
         )}
@@ -238,7 +240,7 @@ export function Onboarding({
             textAlign: 'center',
           }}
         >
-          You can add more knowledge bases later.
+          {t('onboarding.footerNote')}
         </p>
       </div>
     </div>

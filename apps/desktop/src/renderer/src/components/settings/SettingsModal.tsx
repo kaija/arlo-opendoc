@@ -1,15 +1,14 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Search, X } from 'lucide-react';
 import type { AppSettings } from '@arlo-doc/shared';
 import { Section } from './fields';
 import { useSettings } from './useSettings';
 import type { PaneDef } from './paneTypes';
 import { searchPanes } from './paneTypes';
-import { APPLICATION_PANES } from './panes/application';
-import { KB_PANES } from './panes/knowledgeBase';
-import { aboutPane } from './panes/about';
-
-const ALL_PANES: PaneDef[] = [...APPLICATION_PANES, ...KB_PANES, aboutPane];
+import { buildApplicationPanes } from './panes/application';
+import { buildKbPanes } from './panes/knowledgeBase';
+import { buildAboutPane } from './panes/about';
 
 export interface SettingsModalProps {
   /** Absolute path of the open knowledge base; null disables the KB panes. */
@@ -27,10 +26,19 @@ export function SettingsModal({
   onClose,
   onAppSettingsChange,
 }: SettingsModalProps): React.ReactElement {
+  const { t, i18n } = useTranslation();
   const [activePaneId, setActivePaneId] = React.useState('general');
   const [query, setQuery] = React.useState('');
   const settings = useSettings(repoPath, true, onAppSettingsChange);
   const paneBodyRef = React.useRef<HTMLDivElement>(null);
+
+  // Panes are rebuilt whenever the language changes so every label, section
+  // heading and hint re-renders in the new locale. i18n.language is in the dep
+  // list because `t` alone is referentially stable across a language switch.
+  const ALL_PANES: PaneDef[] = React.useMemo(
+    () => [...buildApplicationPanes(t), ...buildKbPanes(t), buildAboutPane(t)],
+    [t, i18n.language],
+  );
 
   // Panes needing a repository are disabled without one — "default branch"
   // means nothing when no knowledge base is open.
@@ -72,7 +80,7 @@ export function SettingsModal({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Settings"
+        aria-label={t('settings.title')}
         onClick={(e) => e.stopPropagation()}
         style={{
           position: 'absolute',
@@ -110,7 +118,7 @@ export function SettingsModal({
           >
             {settings.loading ? (
               <p style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
-                Loading…
+                {t('settings.loading')}
               </p>
             ) : searching ? (
               <SearchResults hits={hits} query={query} settings={settings} onJump={selectPane} />
@@ -135,6 +143,7 @@ function Header({
   onQuery: (q: string) => void;
   onClose: () => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div
       style={{
@@ -157,7 +166,7 @@ function Header({
           margin: 0,
         }}
       >
-        Settings
+        {t('settings.title')}
       </h2>
 
       <div style={{ position: 'relative', flex: 1, maxWidth: 320, display: 'flex', alignItems: 'center' }}>
@@ -168,7 +177,7 @@ function Header({
         <input
           type="text"
           value={query}
-          placeholder="Search settings"
+          placeholder={t('settings.searchPlaceholder')}
           onChange={(e) => onQuery(e.target.value)}
           style={{
             width: '100%',
@@ -186,7 +195,7 @@ function Header({
 
       <button
         type="button"
-        aria-label="Close settings"
+        aria-label={t('settings.closeAria')}
         onClick={onClose}
         style={{
           marginLeft: 'auto',
@@ -225,11 +234,16 @@ function Rail({
   searching: boolean;
   onSelect: (id: string) => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const groups: { heading: string; note?: string; panes: PaneDef[] }[] = [
-    { heading: 'Application', panes: panes.filter((p) => p.scope === 'app') },
+    { heading: t('settings.rail.application'), panes: panes.filter((p) => p.scope === 'app') },
     {
-      heading: 'Knowledge base',
-      ...(kbDisabled ? { note: 'No folder open' } : repoName !== null ? { note: repoName } : {}),
+      heading: t('settings.rail.knowledgeBase'),
+      ...(kbDisabled
+        ? { note: t('settings.rail.noFolderOpen') }
+        : repoName !== null
+          ? { note: repoName }
+          : {}),
       panes: panes.filter((p) => p.scope === 'kb'),
     },
     { heading: '', panes: panes.filter((p) => p.scope === 'about') },
@@ -334,10 +348,11 @@ function PaneBody({
   settings: ReturnType<typeof useSettings>;
   kbDisabled: boolean;
 }): React.ReactElement {
+  const { t } = useTranslation();
   if (kbDisabled && pane.scope === 'kb') {
     return (
       <p style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
-        Open a knowledge base to configure it.
+        {t('settings.openKbToConfigure')}
       </p>
     );
   }
@@ -399,10 +414,11 @@ function SearchResults({
   settings: ReturnType<typeof useSettings>;
   onJump: (paneId: string) => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   if (hits.length === 0) {
     return (
       <p style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
-        No setting matches “{query}”.
+        {t('settings.noMatch', { query })}
       </p>
     );
   }
@@ -417,7 +433,7 @@ function SearchResults({
           marginBottom: 20,
         }}
       >
-        {hits.length} {hits.length === 1 ? 'result' : 'results'}
+        {t('settings.resultCount', { count: hits.length })}
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
         {hits.map(({ pane, section, entry }) => (

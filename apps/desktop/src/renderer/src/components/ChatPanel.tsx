@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { X, ArrowUp, ChevronRight, FileText, Check } from 'lucide-react'
 import { DraftStatus } from '../types'
 
@@ -171,6 +172,7 @@ function ApprovalCard({
   onApprove: () => void
   onDecline: () => void
 }): React.ReactElement {
+  const { t } = useTranslation()
   return (
     <div
       style={{
@@ -198,7 +200,7 @@ function ApprovalCard({
             flex: 1,
           }}
         >
-          Arlo wants to edit this note
+          {t('chat.approvalTitle')}
         </span>
         <div
           style={{
@@ -218,7 +220,7 @@ function ApprovalCard({
               fontFamily: 'var(--font-sans)',
             }}
           >
-            Payments service runbook
+            {t('chat.approvalFile')}
           </span>
         </div>
       </div>
@@ -248,7 +250,7 @@ function ApprovalCard({
             lineHeight: 1.5,
           }}
         >
-          Arlo drafted this change. Review the diff before approving — you can always edit after.
+          {t('chat.approvalHint')}
         </p>
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <button
@@ -266,7 +268,7 @@ function ApprovalCard({
               cursor: 'pointer',
             }}
           >
-            Decline
+            {t('chat.decline')}
           </button>
           <button
             onClick={onApprove}
@@ -288,7 +290,7 @@ function ApprovalCard({
             }}
           >
             <Check size={12} style={{ color: 'var(--text-on-accent)' }} />
-            Approve
+            {t('chat.approve')}
           </button>
         </div>
         <div style={{ marginTop: 8, textAlign: 'center' }}>
@@ -302,7 +304,7 @@ function ApprovalCard({
               textDecorationColor: 'var(--text-decoration-faint)',
             }}
           >
-            Always allow · this draft only
+            {t('chat.alwaysAllow')}
           </span>
         </div>
       </div>
@@ -319,6 +321,7 @@ export function ChatPanel({
   onApprove,
   onDecline,
 }: ChatPanelProps) {
+  const { t } = useTranslation()
   const [inputValue, setInputValue] = useState('')
 
   return (
@@ -354,7 +357,7 @@ export function ChatPanel({
             color: 'var(--text-body)',
           }}
         >
-          Arlo
+          {t('chat.title')}
         </span>
 
         {/* Status badge */}
@@ -386,7 +389,7 @@ export function ChatPanel({
                   fontWeight: 500,
                 }}
               >
-                working
+                {t('chat.statusWorking')}
               </span>
             </div>
           )}
@@ -417,7 +420,7 @@ export function ChatPanel({
                   fontWeight: 500,
                 }}
               >
-                needs your approval
+                {t('chat.statusNeedsApproval')}
               </span>
             </div>
           )}
@@ -469,17 +472,16 @@ export function ChatPanel({
               fontFamily: 'var(--font-sans)',
             }}
           >
-            Add a section on the idempotency-key failure mode from INC-2291 last week, and
-            link it from the failure modes list.
+            {t('chat.userMessageSample')}
           </div>
         </div>
 
         {/* Tool call cards */}
         <ToolCallCard
-          label="Searched knowledge base — 4 results"
+          label={t('chat.toolSearchedKb', { count: 4 })}
           details={['INC-2291 postmortem', 'ADR-014: Idempotency strategy']}
         />
-        <ToolCallCard label="Read Payments service runbook" details={[]} />
+        <ToolCallCard label={t('chat.toolReadRunbook')} details={[]} />
 
         {/* Arlo response text */}
         <div
@@ -491,8 +493,7 @@ export function ChatPanel({
             marginBottom: 4,
           }}
         >
-          INC-2291 was caused by clients retrying charges without an idempotency key. Here is
-          the section I would add under Failure modes.
+          {t('chat.arloResponseSample')}
           {draftStatus === 'working' && <Cursor />}
         </div>
 
@@ -511,7 +512,7 @@ export function ChatPanel({
               fontWeight: 500,
             }}
           >
-            Change approved and applied.
+            {t('chat.changeApproved')}
           </div>
         )}
         {lastApprovalResult === 'declined' && (
@@ -523,7 +524,7 @@ export function ChatPanel({
               fontWeight: 500,
             }}
           >
-            Change declined.
+            {t('chat.changeDeclined')}
           </div>
         )}
       </div>
@@ -563,7 +564,7 @@ export function ChatPanel({
               color: 'var(--text-faint)',
             }}
           >
-            Draft: {draftName}
+            {t('chat.draftLabel', { name: draftName })}
           </span>
         </div>
 
@@ -582,7 +583,7 @@ export function ChatPanel({
           <textarea
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Ask Arlo…"
+            placeholder={t('chat.inputPlaceholder')}
             rows={1}
             style={{
               flex: 1,

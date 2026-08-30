@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface UnifiedDiffViewProps {
   diff: string | null;
@@ -154,11 +155,12 @@ function Cell({
 // ── SideBySideDiffView ────────────────────────────────────────────────────────
 
 export function UnifiedDiffView({ diff }: UnifiedDiffViewProps): React.ReactElement {
+  const { t } = useTranslation();
   if (!diff) {
     return (
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <span style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
-          No changes to display
+          {t('unifiedDiff.noChanges')}
         </span>
       </div>
     );
@@ -192,7 +194,7 @@ export function UnifiedDiffView({ diff }: UnifiedDiffViewProps): React.ReactElem
             borderRight: '1px solid var(--border)',
           }}
         >
-          Live
+          {t('unifiedDiff.live')}
         </div>
         <div
           style={{
@@ -207,7 +209,7 @@ export function UnifiedDiffView({ diff }: UnifiedDiffViewProps): React.ReactElem
             color: 'var(--text-faint)',
           }}
         >
-          Working copy
+          {t('unifiedDiff.workingCopy')}
         </div>
       </div>
 

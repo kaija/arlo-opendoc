@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { FolderOpen } from 'lucide-react';
 
 interface EmptyTabStateProps {
@@ -12,6 +13,7 @@ export function EmptyTabState({
   lastFolderPath,
   onResume,
 }: EmptyTabStateProps): React.ReactElement {
+  const { t } = useTranslation();
   const lastFolderName = lastFolderPath
     ? lastFolderPath.split('/').filter(Boolean).pop() ?? lastFolderPath
     : null;
@@ -19,7 +21,7 @@ export function EmptyTabState({
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
       <p style={{ fontSize: 13, color: 'var(--text-faint)', margin: 0, fontFamily: 'var(--font-sans)' }}>
-        No folder open
+        {t('emptyTab.noFolder')}
       </p>
 
       {/* Quick-resume banner */}
@@ -52,10 +54,10 @@ export function EmptyTabState({
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
           }}>
-            Continue with <strong>{lastFolderName}</strong>
+            <Trans i18nKey="emptyTab.continueWith" values={{ name: lastFolderName }} components={{ strong: <strong /> }} />
           </span>
           <span style={{ fontSize: 11, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)', flexShrink: 0 }}>
-            Last opened
+            {t('emptyTab.lastOpened')}
           </span>
         </button>
       )}
@@ -74,7 +76,7 @@ export function EmptyTabState({
           fontWeight: 500,
         }}
       >
-        Open Folder…
+        {t('emptyTab.openFolder')}
       </button>
     </div>
   );

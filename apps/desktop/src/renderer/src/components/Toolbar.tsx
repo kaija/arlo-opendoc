@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Search, MessageSquare } from 'lucide-react';
 
 interface ToolbarProps {
@@ -30,19 +31,20 @@ export function Toolbar({
   onSave,
   isSaving = false,
 }: ToolbarProps): React.ReactElement {
+  const { t } = useTranslation();
   const modes = useMemo(
     () =>
       showDiffTab
         ? [
-            { id: 'preview' as const, label: 'Preview' },
-            { id: 'edit'    as const, label: 'Edit'    },
-            { id: 'diff'    as const, label: 'What changed' },
+            { id: 'preview' as const, label: t('toolbar.preview') },
+            { id: 'edit'    as const, label: t('toolbar.edit')    },
+            { id: 'diff'    as const, label: t('toolbar.whatChanged') },
           ]
         : [
-            { id: 'preview' as const, label: 'Preview' },
-            { id: 'edit'    as const, label: 'Edit'    },
+            { id: 'preview' as const, label: t('toolbar.preview') },
+            { id: 'edit'    as const, label: t('toolbar.edit')    },
           ],
-    [showDiffTab],
+    [showDiffTab, t],
   );
   return (
     <div
@@ -130,7 +132,7 @@ export function Toolbar({
             textAlign: 'left',
           }}
         >
-          Search Platform Handbook
+          {t('toolbar.searchPlaceholder')}
         </span>
         <span
           style={{
@@ -205,7 +207,7 @@ export function Toolbar({
           flexShrink: 0,
         }}
       >
-        Publish
+        {t('toolbar.publish')}
       </button>
 
       {/* Save button — visible only when there are unsaved changes */}
@@ -228,7 +230,7 @@ export function Toolbar({
             transition: 'opacity 0.1s',
           }}
         >
-          {isSaving ? 'Saving…' : 'Save'}
+          {isSaving ? t('toolbar.saving') : t('toolbar.save')}
         </button>
       )}
 

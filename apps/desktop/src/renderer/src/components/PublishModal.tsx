@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Check } from 'lucide-react';
 import type { KbSettings } from '@arlo-doc/shared';
 
@@ -53,6 +54,7 @@ export function PublishModal({
   onCancel,
   repoDir,
 }: PublishModalProps): React.ReactElement {
+  const { t } = useTranslation();
   const [publishing, setPublishing] = React.useState<KbSettings['publishing'] | null>(null);
   const [defaultBranch, setDefaultBranch] = React.useState('main');
 
@@ -129,7 +131,7 @@ export function PublishModal({
               margin: 0,
             }}
           >
-            Publish for review
+            {t('publish.title')}
           </h2>
         </div>
 
@@ -143,7 +145,7 @@ export function PublishModal({
           }}
         >
           {/* Title field */}
-          <FieldGroup label="Title">
+          <FieldGroup label={t('publish.fieldTitle')}>
             <div
               style={{
                 height: 34,
@@ -157,17 +159,17 @@ export function PublishModal({
                 fontFamily: 'var(--font-sans)',
               }}
             >
-              Add idempotency-key failure mode to payments runbook
+              {t('publish.titleSample')}
             </div>
           </FieldGroup>
 
           {/* Summary field */}
           <FieldGroup
-            label="Summary"
+            label={t('publish.fieldSummary')}
             rightLabel={
               publishing?.agentDraftsPr === false
-                ? 'Write your own — agent drafting is off'
-                : 'Drafted by Arlo — edit freely'
+                ? t('publish.summaryWriteYourOwn')
+                : t('publish.summaryDraftedByArlo')
             }
           >
             <div
@@ -216,7 +218,7 @@ export function PublishModal({
               Shown so the shape of the pull request is visible before it is
               created, not discovered afterwards on GitHub. */}
           {description !== '' && (
-            <FieldGroup label="Description" rightLabel={`Merging into ${target}`}>
+            <FieldGroup label={t('publish.fieldDescription')} rightLabel={t('publish.mergingInto', { target })}>
               <pre
                 style={{
                   border: '1px solid var(--border-strong)',
@@ -244,14 +246,14 @@ export function PublishModal({
                     margin: '8px 0 0',
                   }}
                 >
-                  Opens as a draft pull request.
+                  {t('publish.opensAsDraft')}
                 </p>
               )}
             </FieldGroup>
           )}
 
           {/* Files changed */}
-          <FieldGroup label={`${FILES_CHANGED.length} notes changed`}>
+          <FieldGroup label={t('publish.notesChanged', { count: FILES_CHANGED.length })}>
             <div
               style={{
                 border: '1px solid var(--border-mid)',
@@ -309,7 +311,7 @@ export function PublishModal({
           </FieldGroup>
 
           {/* Reviewers */}
-          <FieldGroup label="Reviewers">
+          <FieldGroup label={t('publish.fieldReviewers')}>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               {/* Reviewer tag */}
               <div
@@ -374,7 +376,7 @@ export function PublishModal({
                   gap: 4,
                 }}
               >
-                + Add
+                {t('publish.addReviewer')}
               </button>
             </div>
           </FieldGroup>
@@ -403,7 +405,7 @@ export function PublishModal({
                 fontFamily: 'var(--font-sans)',
               }}
             >
-              Note that Arlo helped write this
+              {t('publish.aiAttribution')}
             </span>
           </div>
         </div>
@@ -430,7 +432,7 @@ export function PublishModal({
             }}
             onClick={() => onCancel()}
           >
-            Save and finish later
+            {t('publish.saveAndFinishLater')}
           </button>
           <button
             style={{
@@ -447,7 +449,7 @@ export function PublishModal({
             }}
             onClick={() => onPublish()}
           >
-            Publish for review
+            {t('publish.title')}
           </button>
         </div>
       </div>

@@ -1,0 +1,474 @@
+{
+  "common": {
+    "loading": "載入中…",
+    "cancel": "取消",
+    "save": "儲存",
+    "close": "關閉",
+    "working": "處理中…"
+  },
+  "onboarding": {
+    "brand": "Arlo",
+    "headline": "你的知識要放在哪裡？",
+    "subtitle": "選一個開始。Arlo 在兩者中的運作方式完全相同。",
+    "personalTitle": "個人知識庫",
+    "personalDescription": "把筆記與文件放在本機資料夾。一切都留在你的電腦上，隨時可即時搜尋。",
+    "chooseFolder": "選擇資料夾…",
+    "opening": "開啟中…",
+    "teamTitle": "團隊知識庫",
+    "teamDescription": "連結至 GitHub 儲存庫，讓整個團隊共用並共同維護唯一的真實來源。",
+    "continueWithGitHub": "使用 GitHub 繼續",
+    "continueWith": "繼續使用 <strong>{{name}}</strong>",
+    "lastOpened": "上次開啟",
+    "footerNote": "你之後可以再新增其他知識庫。"
+  },
+  "titleBar": {
+    "closeTab": "關閉 {{title}}",
+    "maxTabs": "最多可開啟 {{count}} 個分頁",
+    "creatingWorktree": "正在建立 worktree…"
+  },
+  "toolbar": {
+    "preview": "預覽",
+    "edit": "編輯",
+    "whatChanged": "變更內容",
+    "searchPlaceholder": "搜尋 Platform Handbook",
+    "publish": "發佈",
+    "saving": "儲存中…",
+    "save": "儲存"
+  },
+  "sidebar": {
+    "notebooks": "筆記本",
+    "draftLegend": "<em>(M)</em> 在草稿中已變更 · <em>(N)</em> 新增"
+  },
+  "fileBrowser": {
+    "gitStatus": "git 狀態：{{status}}",
+    "showHidden": "顯示隱藏檔案",
+    "hideHidden": "隱藏隱藏檔案",
+    "settings": "設定",
+    "dragToResize": "拖曳以調整大小"
+  },
+  "emptyTab": {
+    "noFolder": "未開啟資料夾",
+    "continueWith": "繼續使用 <strong>{{name}}</strong>",
+    "lastOpened": "上次開啟",
+    "openFolder": "開啟資料夾…"
+  },
+  "noFileSelected": {
+    "message": "選擇一個檔案以預覽"
+  },
+  "closeWorktree": {
+    "title": "關閉 worktree？",
+    "body": "此 worktree 中所有未儲存的編輯將被永久刪除。",
+    "cancel": "取消",
+    "confirm": "刪除 worktree ⚠"
+  },
+  "markdownEditor": {
+    "placeholder": "未開啟檔案 — 在側邊欄雙擊任何文字或程式碼檔案即可編輯。"
+  },
+  "unifiedDiff": {
+    "noChanges": "沒有可顯示的變更",
+    "live": "線上版本",
+    "workingCopy": "工作副本"
+  },
+  "chat": {
+    "title": "Arlo",
+    "statusWorking": "處理中",
+    "statusNeedsApproval": "需要你的核准",
+    "userMessageSample": "根據上週的 INC-2291，新增一個關於 idempotency-key 失效模式的段落，並從失效模式清單連結到它。",
+    "toolSearchedKb": "已搜尋知識庫 — {{count}} 筆結果",
+    "toolReadRunbook": "已讀取 Payments service runbook",
+    "arloResponseSample": "INC-2291 是因為用戶端在重試扣款時未帶 idempotency key 所造成。以下是我建議在「失效模式」下加入的段落。",
+    "approvalTitle": "Arlo 想要編輯這則筆記",
+    "approvalFile": "Payments service runbook",
+    "approvalHint": "Arlo 已草擬此變更。核准前請先檢閱差異 — 你之後隨時可以再編輯。",
+    "decline": "拒絕",
+    "approve": "核准",
+    "alwaysAllow": "一律允許 · 僅限此草稿",
+    "changeApproved": "變更已核准並套用。",
+    "changeDeclined": "變更已拒絕。",
+    "draftLabel": "草稿：{{name}}",
+    "inputPlaceholder": "詢問 Arlo…"
+  },
+  "search": {
+    "tabSearchFiles": "搜尋檔案",
+    "tabFindInFiles": "在檔案中尋找",
+    "noFolderOpen": "未開啟資料夾",
+    "searchFileNamesPlaceholder": "搜尋檔案名稱…",
+    "findInFilesPlaceholder": "在檔案中尋找… （按 Enter 搜尋）",
+    "caseSensitive": "區分大小寫",
+    "regularExpression": "正規表示式",
+    "invalidRegex": "無效的正規表示式",
+    "searching": "搜尋中…",
+    "searchFailed": "搜尋失敗",
+    "unknownError": "未知錯誤",
+    "fileCount_one": "{{count}} 個檔案",
+    "fileCount_other": "{{count}} 個檔案",
+    "matchCount_one": "{{count}} 筆相符",
+    "matchCount_other": "{{count}} 筆相符",
+    "zeroMatches": "0 筆相符",
+    "summary_one": "{{matchText}}，共 {{count}} 個檔案",
+    "summary_other": "{{matchText}}，共 {{count}} 個檔案",
+    "noFilesInFolder": "此資料夾中沒有檔案",
+    "noFilesMatching": "沒有符合「{{query}}」的檔案",
+    "noResultsFound": "找不到「{{query}}」的結果",
+    "pressEnterToSearch": "按 Enter 以搜尋檔案內容",
+    "showingFirst20": "只顯示前 20 個檔案 — 請縮小查詢範圍以查看更多"
+  },
+  "publish": {
+    "title": "發佈以供審查",
+    "fieldTitle": "標題",
+    "titleSample": "在 payments runbook 中新增 idempotency-key 失效模式",
+    "fieldSummary": "摘要",
+    "summaryDraftedByArlo": "由 Arlo 草擬 — 可自由編輯",
+    "summaryWriteYourOwn": "自行撰寫 — 代理程式草擬已關閉",
+    "fieldDescription": "描述",
+    "mergingInto": "合併至 {{target}}",
+    "opensAsDraft": "以草稿拉取請求開啟。",
+    "notesChanged": "已變更 {{count}} 則筆記",
+    "fieldReviewers": "審查者",
+    "addReviewer": "＋ 新增",
+    "aiAttribution": "註明 Arlo 協助撰寫此內容",
+    "saveAndFinishLater": "儲存並稍後完成"
+  },
+  "settings": {
+    "title": "設定",
+    "searchPlaceholder": "搜尋設定",
+    "closeAria": "關閉設定",
+    "loading": "載入中…",
+    "resultCount_one": "{{count}} 筆結果",
+    "resultCount_other": "{{count}} 筆結果",
+    "noMatch": "沒有符合「{{query}}」的設定。",
+    "openKbToConfigure": "開啟一個知識庫以進行設定。",
+    "rail": {
+      "application": "應用程式",
+      "knowledgeBase": "知識庫",
+      "noFolderOpen": "未開啟資料夾"
+    },
+    "fields": {
+      "stillUsing": "仍在使用：",
+      "mustBeWholeNumber": "必須是整數。",
+      "mustBeBetween": "必須介於 {{min}} 與 {{max}} 之間。",
+      "patternAlreadyExcluded": "此樣式已被排除。",
+      "nothingExcluded": "未排除任何項目 — 所有檔案都會被搜尋。",
+      "addPattern": "＋ 新增樣式",
+      "stopExcluding": "停止排除 {{value}}",
+      "working": "處理中…"
+    },
+    "general": {
+      "label": "一般",
+      "sections": {
+        "onLaunch": "啟動時",
+        "updates": "更新",
+        "privacy": "隱私"
+      },
+      "startup": {
+        "label": "啟動時",
+        "restoreAll": "重新開啟上次的知識庫及其草稿",
+        "restoreAllHint": "worktree 已不存在於磁碟上的草稿會被靜默捨棄。",
+        "restoreKb": "只重新開啟知識庫",
+        "restoreKbHint": "草稿會維持關閉，直到你開啟它們。",
+        "startScreen": "一律顯示起始畫面",
+        "startScreenHint": "每次都選擇一個知識庫。"
+      },
+      "autoCheck": {
+        "label": "自動檢查更新",
+        "hint": "Arlo Doc 會向 GitHub Releases 詢問是否有更新的版本。",
+        "pending": "已儲存 — 此組建尚未啟用自動更新"
+      },
+      "autoInstall": {
+        "label": "在背景下載並安裝",
+        "hint": "更新會在你下次結束程式時套用。"
+      },
+      "privacy": {
+        "p1": "Arlo Doc 不收集任何分析資料，也不回報當機。沒有 Arlo 伺服器。",
+        "p2": "它只在以下兩種情況連上網路：",
+        "li1": "— 當你使用代理程式時",
+        "li2": "— 用於更新，以及你要求的推送",
+        "p3": "除了你自己設定的 git 遠端外，你的文件不會離開這台電腦。"
+      }
+    },
+    "appearance": {
+      "label": "外觀",
+      "sections": {
+        "theme": "佈景主題",
+        "language": "語言"
+      },
+      "theme": {
+        "label": "佈景主題",
+        "light": "淺色",
+        "dark": "深色",
+        "system": "系統",
+        "systemHint": "跟隨你的作業系統。"
+      },
+      "language": {
+        "label": "介面語言",
+        "hint": "選單、按鈕與訊息。與代理程式撰寫的內容無關。變更會立即套用。",
+        "followSystem": "跟隨系統"
+      }
+    },
+    "editor": {
+      "label": "編輯器",
+      "sections": {
+        "saving": "儲存",
+        "openingFile": "開啟檔案",
+        "typography": "文字排版"
+      },
+      "autosave": {
+        "label": "自動儲存",
+        "hint": "無論如何 ⌘S 都會立即儲存。每個版本都可從 git 復原。"
+      },
+      "autosaveDelay": {
+        "label": "自動儲存延遲",
+        "suffix": "毫秒（停止輸入後）"
+      },
+      "openFilesIn": {
+        "preview": "預覽",
+        "previewHint": "閱讀是最常見的情況。",
+        "edit": "編輯",
+        "lastUsed": "上次使用的模式"
+      },
+      "frontMatter": {
+        "label": "Front matter",
+        "hide": "在預覽中隱藏",
+        "table": "以表格顯示"
+      },
+      "font": {
+        "label": "編輯器字型",
+        "hint": "留空以使用平台的等寬字型組合。",
+        "placeholder": "SF Mono"
+      },
+      "fontSize": {
+        "label": "字型大小"
+      },
+      "lineWidth": {
+        "label": "行寬"
+      },
+      "wrapLines": {
+        "label": "自動換行過長的行"
+      },
+      "lineNumbers": {
+        "label": "顯示行號",
+        "hintWrapping": "在過長的行自動換行時無法使用 — 行號欄無法與換行後的文字對齊。"
+      }
+    },
+    "agent": {
+      "label": "AI 代理程式",
+      "sections": {
+        "model": "模型",
+        "autonomy": "自主程度"
+      },
+      "model": {
+        "mostCapable": "能力最強",
+        "mostCapableHint": "最適合長文件與跨多檔案的編輯。",
+        "balanced": "均衡",
+        "balancedHint": "日常編輯。",
+        "fastest": "最快",
+        "fastestHint": "快速查詢與小幅變更。",
+        "pending": "已儲存 — 此組建尚未連接代理程式",
+        "billed": "費用計入你自己的 Anthropic 帳戶。",
+        "console": "主控台"
+      },
+      "autonomy": {
+        "label": "代理程式自主程度",
+        "reviewEach": "審查每一項變更",
+        "reviewEachHint": "每次編輯都會等待你的核准。",
+        "draftFreely": "在草稿中套用，發佈前再審查",
+        "draftFreelyHint": "編輯會落在 worktree 中；拉取請求是關卡。",
+        "full": "完全自主",
+        "fullHint": "直接編輯並提交，不會詢問。",
+        "fullBadge": "小心",
+        "alwaysConfirmed": "在任何層級都一律需要確認：刪除檔案 · 推送至遠端。"
+      }
+    },
+    "connections": {
+      "label": "連線",
+      "blurb": "憑證儲存在你作業系統的鑰匙圈中。Arlo Doc 只儲存密文。",
+      "sections": {
+        "anthropic": "Anthropic API 金鑰",
+        "github": "GitHub"
+      },
+      "anthropic": {
+        "encryptionOff": "此系統不提供加密儲存空間，因此 Arlo Doc 不會儲存你的金鑰 — 那樣就必須以純文字寫入。請改為在環境中設定 <code>ANTHROPIC_API_KEY</code>。",
+        "test": "測試",
+        "remove": "移除",
+        "verifiedJustNow": "剛剛已驗證",
+        "couldNotVerify": "無法驗證",
+        "verifiedAt": "已驗證 · {{date}}",
+        "notVerifiedYet": "尚未驗證",
+        "save": "儲存",
+        "storedNote": "儲存在你作業系統的鑰匙圈中。除了 api.anthropic.com 之外，Arlo Doc 不會將它送往任何地方，而且金鑰儲存後就不會再顯示於應用程式介面。"
+      },
+      "github": {
+        "connected": "已連線",
+        "disconnect": "中斷連線",
+        "notConnected": "未連線。發佈草稿時會要求你登入。"
+      }
+    },
+    "keyboard": {
+      "label": "鍵盤",
+      "blurb": "這是參考，不是重新對應工具 — 目前這些是固定的。",
+      "filterPlaceholder": "篩選快速鍵",
+      "noMatch": "沒有符合「{{filter}}」的快速鍵。",
+      "groups": {
+        "navigation": "導覽",
+        "draft": "草稿",
+        "application": "應用程式"
+      },
+      "actions": {
+        "searchFilesAndContent": "搜尋檔案與內容",
+        "nextTab": "下一個分頁",
+        "previousTab": "上一個分頁",
+        "toggleChatPanel": "切換聊天面板",
+        "newDraft": "新草稿（worktree）",
+        "saveFile": "儲存檔案",
+        "previewEditWhatChanged": "預覽 / 編輯 / 變更內容",
+        "publish": "發佈…",
+        "settings": "設定",
+        "closeTab": "關閉分頁"
+      }
+    },
+    "about": {
+      "label": "關於",
+      "versionLine": "Arlo Doc {{version}}",
+      "linkSource": "原始碼",
+      "linkReportIssue": "回報問題",
+      "encryptionUnavailable": "此系統不提供加密儲存空間，因此無法儲存憑證。",
+      "sections": {
+        "files": "檔案",
+        "reset": "重設"
+      },
+      "files": {
+        "entryLabel": "設定檔與記錄檔",
+        "fieldLabel": "在這台電腦上",
+        "revealSettings": "在檔案管理員中顯示設定檔",
+        "openLogs": "開啟記錄檔"
+      },
+      "reset": {
+        "cancel": "取消",
+        "resetPreferencesEntry": "重設偏好設定",
+        "resetPreferencesButton": "重設偏好設定…",
+        "resetPreferencesConfirm": "重設偏好設定",
+        "resetPreferencesDetail": "將此知識庫及所有知識庫的每項設定還原為預設值。會保留你的憑證、儲存庫與文件。",
+        "forgetEntry": "登出並清除憑證",
+        "forgetButton": "登出並清除憑證…",
+        "forgetConfirm": "清除憑證",
+        "forgetDetail": "從你的鑰匙圈移除 Anthropic API 金鑰與 GitHub 權杖。不會刪除磁碟上的任何內容，也不會動到任何儲存庫。"
+      }
+    },
+    "repository": {
+      "label": "儲存庫",
+      "branch": {
+        "required": "必須提供分支名稱。",
+        "noSpaces": "不是有效的分支名稱 — 不允許空格。",
+        "noDotDash": "不能以點或連字號開頭或結尾。",
+        "illegalChars": "包含 git 不允許的字元。"
+      },
+      "sections": {
+        "location": "位置",
+        "branches": "分支",
+        "commitIdentity": "提交身分"
+      },
+      "repoPath": {
+        "entryLabel": "儲存庫路徑",
+        "fieldLabel": "儲存庫",
+        "fallbackValue": "此知識庫",
+        "hint": "此頁面的設定只套用於這個儲存庫。"
+      },
+      "defaultBranch": {
+        "label": "預設分支",
+        "hint": "新草稿分岔自的分支。"
+      },
+      "identity": {
+        "entryLabel": "提交身分",
+        "fromGitConfig": "來自你的 git 設定 — 先看儲存庫本機，再看全域。",
+        "noGitConfig": "git 尚未為這個儲存庫設定 user.name 或 user.email。",
+        "name": "名稱",
+        "email": "電子郵件",
+        "nameRequired": "必須提供名稱。",
+        "emailInvalid": "不是有效的電子郵件地址。",
+        "override": "為此知識庫覆寫",
+        "useGitConfig": "改用我的 git 設定",
+        "overrideNote": "在此進行的提交會使用這個身分，而非 git 解析出的身分。"
+      },
+      "markAgentCommits": {
+        "label": "標記由代理程式撰寫的提交",
+        "hint": "你仍是作者 — 是你核准了這項變更。",
+        "pending": "已儲存 — 待代理程式能夠提交後才會套用"
+      }
+    },
+    "publishing": {
+      "label": "發佈",
+      "sections": {
+        "target": "目標",
+        "pullRequests": "拉取請求",
+        "afterMerge": "合併後"
+      },
+      "mergeInto": {
+        "label": "合併至",
+        "hint": "留空以使用預設分支（{{branch}}）。"
+      },
+      "agentDraftsPr": {
+        "label": "讓代理程式草擬標題與描述",
+        "hint": "根據實際差異撰寫。在拉取請求建立前，你一定看得到並可以編輯。"
+      },
+      "openAsDraft": {
+        "label": "以草稿拉取請求開啟"
+      },
+      "prTemplate": {
+        "label": "描述範本",
+        "hint": "草擬拉取請求時，<code>{{summary}}</code> 與 <code>{{files}}</code> 會被取代。"
+      },
+      "deleteAfterMerge": {
+        "label": "拉取請求合併後，刪除該草稿的 worktree 與分支",
+        "hint": "遺留的 worktree 正是這個應用程式否則會累積的雜亂。",
+        "pending": "已儲存 — 此組建尚無法偵測合併"
+      }
+    },
+    "searchIndex": {
+      "label": "搜尋與索引",
+      "sections": {
+        "excluded": "從搜尋中排除",
+        "defaults": "搜尋預設值"
+      },
+      "excludes": {
+        "hint": "兩種搜尋模式都會略過的目錄或檔案名稱。"
+      },
+      "respectGitignore": {
+        "label": "同時遵循此儲存庫的 .gitignore"
+      },
+      "includeHidden": {
+        "label": "包含隱藏檔案（dotfiles）"
+      },
+      "caseSensitive": {
+        "label": "區分大小寫",
+        "hint": "⇧⌘F 的起始狀態。你仍可在每次搜尋時變更。"
+      },
+      "useRegex": {
+        "label": "正規表示式"
+      },
+      "maxResults": {
+        "label": "最多結果數",
+        "suffix": "每次搜尋"
+      }
+    },
+    "instructions": {
+      "label": "指示",
+      "blurb": "會與任何複製此儲存庫的人共用。",
+      "sections": {
+        "agentInstructions": "代理程式指示",
+        "language": "語言"
+      },
+      "editor": {
+        "editingPrefix": "正在編輯",
+        "editingSuffix": "（位於儲存庫根目錄）",
+        "placeholder": "# 代理程式在此應如何撰寫\n\n- Runbook 使用 INC-#### 前綴\n- 每份 ADR 都需要「Consequences」段落",
+        "savedToArlo": "已儲存至 ARLO.md",
+        "committedNote": "此檔案會被提交 — 變更會出現在你下一個拉取請求中。"
+      },
+      "writingLanguage": {
+        "label": "撰寫語言",
+        "hint": "代理程式寫入你檔案的語言。與介面語言無關。已儲存，但此組建尚未連接代理程式。",
+        "matchDocument": "配合文件"
+      }
+    }
+  }
+}

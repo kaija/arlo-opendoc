@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Check, ChevronDown, X } from 'lucide-react';
 
 /**
@@ -145,6 +146,7 @@ export function TextField({
   validate,
   onCommit,
 }: TextFieldProps): React.ReactElement {
+  const { t } = useTranslation();
   const [draft, setDraft] = React.useState(value);
   const [error, setError] = React.useState<string | null>(null);
   const [focused, setFocused] = React.useState(false);
@@ -214,7 +216,8 @@ export function TextField({
             margin: 0,
           }}
         >
-          Still using: <span style={{ fontFamily: 'var(--font-mono)' }}>{value}</span>
+          {t('settings.fields.stillUsing')}{' '}
+          <span style={{ fontFamily: 'var(--font-mono)' }}>{value}</span>
         </p>
       )}
     </Field>
@@ -242,6 +245,7 @@ export function NumberField({
   suffix?: string | undefined;
   onCommit: (value: number) => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10 }}>
       <div style={{ width: 120 }}>
@@ -252,8 +256,8 @@ export function NumberField({
           hint={hint}
           validate={(candidate) => {
             const n = Number(candidate);
-            if (!Number.isInteger(n)) return 'Must be a whole number.';
-            if (n < min || n > max) return `Must be between ${min} and ${max}.`;
+            if (!Number.isInteger(n)) return t('settings.fields.mustBeWholeNumber');
+            if (n < min || n > max) return t('settings.fields.mustBeBetween', { min, max });
             return null;
           }}
           onCommit={(v) => onCommit(Number(v))}
@@ -529,6 +533,7 @@ export function TagList({
   placeholder?: string | undefined;
   onChange: (next: string[]) => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const [draft, setDraft] = React.useState('');
   const [error, setError] = React.useState<string | null>(null);
 
@@ -536,7 +541,7 @@ export function TagList({
     const candidate = draft.trim();
     if (candidate === '') return;
     if (values.includes(candidate)) {
-      setError('That pattern is already excluded.');
+      setError(t('settings.fields.patternAlreadyExcluded'));
       return;
     }
     setError(null);
@@ -566,7 +571,7 @@ export function TagList({
             {v}
             <button
               type="button"
-              aria-label={`Stop excluding ${v}`}
+              aria-label={t('settings.fields.stopExcluding', { value: v })}
               onClick={() => onChange(values.filter((x) => x !== v))}
               style={{
                 display: 'flex',
@@ -583,14 +588,14 @@ export function TagList({
         ))}
         {values.length === 0 && (
           <span style={{ fontSize: 12, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
-            Nothing excluded — every file is searched.
+            {t('settings.fields.nothingExcluded')}
           </span>
         )}
       </div>
       <input
         type="text"
         value={draft}
-        placeholder={placeholder ?? '+ add pattern'}
+        placeholder={placeholder ?? t('settings.fields.addPattern')}
         onChange={(e) => {
           setDraft(e.target.value);
           setError(null);
@@ -672,6 +677,7 @@ export function Button({
   disabled?: boolean | undefined;
   busy?: boolean;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const palette: Record<string, React.CSSProperties> = {
     primary: { background: 'var(--color-accent)', color: 'var(--text-on-accent)', border: '1px solid var(--color-accent)' },
     secondary: { background: 'var(--surface-card)', color: 'var(--text-body)', border: '1px solid var(--border-strong)' },
@@ -695,7 +701,7 @@ export function Button({
         whiteSpace: 'nowrap',
       }}
     >
-      {busy ? 'Working…' : children}
+      {busy ? t('settings.fields.working') : children}
     </button>
   );
 }

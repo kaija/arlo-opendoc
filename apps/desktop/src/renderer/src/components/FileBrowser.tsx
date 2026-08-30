@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown, ChevronRight, Eye, EyeOff, Settings as SettingsIcon } from 'lucide-react';
 import type { FileNode } from '@arlo-doc/shared';
 import { FileTypeIcon } from './FileTypeIcon';
@@ -110,6 +111,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 function GitStatusBadge({ status }: GitStatusBadgeProps): React.ReactElement {
+  const { t } = useTranslation();
   const color = STATUS_COLORS[status] ?? 'var(--text-faint)';
   return (
     <span
@@ -122,7 +124,7 @@ function GitStatusBadge({ status }: GitStatusBadgeProps): React.ReactElement {
         flexShrink: 0,
         letterSpacing: 0,
       }}
-      aria-label={`git status: ${status}`}
+      aria-label={t('fileBrowser.gitStatus', { status })}
     >
       {status}
     </span>
@@ -214,6 +216,7 @@ export function FileBrowser({
   onToggleHidden,
   onOpenSettings,
 }: FileBrowserProps): React.ReactElement {
+  const { t } = useTranslation();
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [resizing, setResizing] = useState(false);
@@ -290,7 +293,7 @@ export function FileBrowser({
         {onToggleHidden && (
           <button
             onClick={onToggleHidden}
-            title={showHidden ? 'Hide hidden files' : 'Show hidden files'}
+            title={showHidden ? t('fileBrowser.hideHidden') : t('fileBrowser.showHidden')}
             style={{
               marginLeft: 6,
               flexShrink: 0,
@@ -305,7 +308,7 @@ export function FileBrowser({
               color: showHidden ? 'var(--color-accent)' : 'var(--text-faint)',
               lineHeight: 1,
             }}
-            aria-label={showHidden ? 'Hide hidden files' : 'Show hidden files'}
+            aria-label={showHidden ? t('fileBrowser.hideHidden') : t('fileBrowser.showHidden')}
             aria-pressed={showHidden}
           >
             {showHidden ? <EyeOff size={12} /> : <Eye size={12} />}
@@ -357,8 +360,8 @@ export function FileBrowser({
         >
           <button
             type="button"
-            aria-label="Settings"
-            title="Settings"
+            aria-label={t('fileBrowser.settings')}
+            title={t('fileBrowser.settings')}
             onClick={onOpenSettings}
             style={{
               display: 'flex',
@@ -374,7 +377,7 @@ export function FileBrowser({
             }}
           >
             <SettingsIcon size={15} />
-            Settings
+            {t('fileBrowser.settings')}
           </button>
         </div>
       )}
@@ -393,7 +396,7 @@ export function FileBrowser({
           transition: 'background 0.15s',
           zIndex: 10,
         }}
-        title="Drag to resize"
+        title={t('fileBrowser.dragToResize')}
       />
     </div>
   );
