@@ -41,17 +41,6 @@ async function buildNested(root: string, depth: number): Promise<string> {
 }
 
 /**
- * Traverse every node in a FileNode tree and collect them into a flat array.
- */
-function collectAllNodes(node: FileNode): FileNode[] {
-  const result: FileNode[] = [node];
-  for (const child of node.children) {
-    result.push(...collectAllNodes(child));
-  }
-  return result;
-}
-
-/**
  * Return the maximum depth of any node reachable from `node`.
  * Root is depth 0.
  */

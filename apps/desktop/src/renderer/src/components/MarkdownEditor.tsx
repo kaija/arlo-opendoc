@@ -3,6 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 interface MarkdownEditorProps {
   content?: string | null;
+  /**
+   * Save progress / failure. Accepted from MainLayout but not yet surfaced in
+   * the editor chrome — kept on the prop contract so the wiring stays in place
+   * for when a save indicator is added.
+   */
   isSaving?: boolean | undefined;
   saveError?: string | null | undefined;
   onChange?: (value: string) => void;
@@ -18,8 +23,6 @@ interface MarkdownEditorProps {
 
 export function MarkdownEditor({
   content,
-  isSaving,
-  saveError,
   onChange,
   onSave,
   fontFamily,

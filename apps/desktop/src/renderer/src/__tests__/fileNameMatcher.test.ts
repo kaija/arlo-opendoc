@@ -200,13 +200,11 @@ describe('fileNameMatcher — unit tests (task 7.2)', () => {
     });
 
     it('exact prefix score is higher than consecutive-run score', () => {
-      // "ind" is a prefix of "index.ts" → tier 1
+      // "ind" is a prefix of "index.ts" → tier 1 (exact prefix)
       const prefixScore = scoreFileName('ind', 'index.ts', NO_OPTIONS)!;
-      // "ind" appears as a substring mid-name in "findme.ts" → tier 2 (consecutive run)
-      const runScore = scoreFileName('ind', 'findme.ts', NO_OPTIONS);
-      // "findme.ts" does not contain "ind" as substring — use something that does
-      const runScore2 = scoreFileName('ind', 'bindme.ts', NO_OPTIONS)!;
-      expect(prefixScore).toBeGreaterThan(runScore2);
+      // "ind" appears as a consecutive run mid-name in "bindme.ts" → tier 2
+      const runScore = scoreFileName('ind', 'bindme.ts', NO_OPTIONS)!;
+      expect(prefixScore).toBeGreaterThan(runScore);
     });
 
     it('is case-insensitive when caseSensitive=false', () => {

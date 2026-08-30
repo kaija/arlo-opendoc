@@ -39,17 +39,6 @@ interface RgContextLine {
   };
 }
 
-interface RgBegin {
-  type: "begin";
-  data: { path: RgPath };
-}
-
-type RgLine =
-  | RgMatchLine
-  | RgContextLine
-  | RgBegin
-  | { type: "end" | "summary" };
-
 // ── Type guards (REQ-012.3) ────────────────────────────────────────────────
 
 function isRgMatch(obj: unknown): obj is RgMatchLine {

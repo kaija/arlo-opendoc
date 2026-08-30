@@ -1,7 +1,7 @@
 import type { StoreAdapter } from "./store/StoreAdapter.js";
 import type { ForgeAdapter } from "./forge/ForgeAdapter.js";
 import type { AgentKeyProvider } from "./agent/types.js";
-import type { GitStatus, GitCommit } from "@arlo-doc/shared";
+import type { GitStatus } from "@arlo-doc/shared";
 import type { GitBackend } from "./git/GitBackend.js";
 
 export interface CoreEngineConfig {

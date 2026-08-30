@@ -208,7 +208,6 @@ export function App(): React.ReactElement {
 
     void restore();
     return () => { cancelled = true; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // run once on mount
 
   // ── Persist tabs whenever the tab list or active selection changes ───────
@@ -223,7 +222,6 @@ export function App(): React.ReactElement {
     }
     persistState(state);
   // persist whenever the tab list, active selection, or repo dir changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.tabs, state.activeTabId, state.repoDir]);
 
   // ── Mode switching ──────────────────────────────────────────────────────

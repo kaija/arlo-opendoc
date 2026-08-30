@@ -537,7 +537,6 @@ export function SearchModal({
                   contentError,
                   isSearching,
                   truncated,
-                  contentNavRows,
                   selectedIndex,
                   repoDir: repoDir ?? '',
                   onResultClick,
@@ -698,7 +697,6 @@ interface FindInFilesResultsProps {
   contentError: string | null;
   isSearching: boolean;
   truncated: boolean;
-  contentNavRows: NavRow[];
   selectedIndex: number;
   repoDir: string;
   onResultClick: (filePath: string, lineNumber: number) => void;
@@ -714,7 +712,6 @@ function renderFindInFilesResults({
   contentError,
   isSearching,
   truncated,
-  contentNavRows,
   selectedIndex,
   repoDir,
   onResultClick,
