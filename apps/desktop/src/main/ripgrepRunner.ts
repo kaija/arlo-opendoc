@@ -10,6 +10,7 @@ import type { KbResult } from "@arlo-doc/client";
 export const DEFAULT_EXCLUDES = ["node_modules", ".git", "dist", "build"] as const;
 
 const TIMEOUT_MS = 30_000;
+/** Fallback cap when the caller supplies no maxResults. */
 const MAX_FILES = 20;
 const MAX_MATCH_LINES = 100; // across all files
 
@@ -91,9 +92,13 @@ function isRgContext(obj: unknown): obj is RgContextLine {
 
 /**
  * Parses rg --json NDJSON output into ContentMatch[].
- * Truncates to MAX_FILES files and MAX_MATCH_LINES total match lines (REQ-004.6).
+ *
+ * Truncates to `maxFiles` files and MAX_MATCH_LINES total match lines
+ * (REQ-004.6). The file cap is a parameter because it is user-configurable in
+ * Settings > Search & index; the match-line cap stays fixed, since it protects
+ * the renderer rather than expressing a preference.
  */
-function parseRgOutput(stdout: string): ContentMatch[] {
+function parseRgOutput(stdout: string, maxFiles: number = MAX_FILES): ContentMatch[] {
   const results: ContentMatch[] = [];
   // Map from filePath → index in results[], for fast lookup during accumulation
   const fileIndex = new Map<string, number>();
@@ -104,7 +109,7 @@ function parseRgOutput(stdout: string): ContentMatch[] {
     if (!trimmed) continue;
 
     // Early-exit once both caps are hit
-    if (results.length >= MAX_FILES && totalMatchLines >= MAX_MATCH_LINES) break;
+    if (results.length >= maxFiles && totalMatchLines >= MAX_MATCH_LINES) break;
 
     let parsed: unknown;
     try {
@@ -115,11 +120,11 @@ function parseRgOutput(stdout: string): ContentMatch[] {
     }
 
     if (isRgMatch(parsed)) {
-      // Stop adding to new files once MAX_FILES is reached
+      // Stop adding to new files once the file cap is reached
       const filePath = parsed.data.path.text;
       let idx = fileIndex.get(filePath);
       if (idx === undefined) {
-        if (results.length >= MAX_FILES) continue;
+        if (results.length >= maxFiles) continue;
         idx = results.length;
         results.push({ filePath, lines: [] });
         fileIndex.set(filePath, idx);
@@ -222,14 +227,32 @@ export async function findInFiles(
 
   // ── Build rg arguments ───────────────────────────────────────────────────
   // REQ-004.3: --json, --context 2, --max-count 5, --glob '!{...}'
+  // Exclusions come from the knowledge base's settings when the caller has
+  // them; DEFAULT_EXCLUDES is the fallback so a caller without settings still
+  // does not walk node_modules.
+  const excludes =
+    options.excludes !== undefined && options.excludes.length > 0
+      ? options.excludes
+      : [...DEFAULT_EXCLUDES];
+
   const args: string[] = [
     "--json",
     "--context",
     "2",
     "--max-count",
     "5",
-    `--glob=!{${DEFAULT_EXCLUDES.join(",")}}`,
+    `--glob=!{${excludes.join(",")}}`,
   ];
+
+  // rg respects .gitignore by default; --no-ignore-vcs turns that off.
+  if (options.respectGitignore === false) {
+    args.push("--no-ignore-vcs");
+  }
+
+  // rg skips dot-prefixed entries by default.
+  if (options.includeHidden === true) {
+    args.push("--hidden");
+  }
 
   // REQ-004.4: --ignore-case when caseSensitive is false
   if (!options.caseSensitive) {
@@ -279,7 +302,7 @@ export async function findInFiles(
 
       if (code === 0) {
         // Success — parse output
-        resolve({ ok: true, data: parseRgOutput(stdout) });
+        resolve({ ok: true, data: parseRgOutput(stdout, options.maxResults ?? MAX_FILES) });
       } else if (code === 1) {
         // REQ-004.10: exit code 1 = no matches (not an error)
         resolve({ ok: true, data: [] });

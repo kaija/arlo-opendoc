@@ -42,6 +42,8 @@ export interface MainLayoutProps {
   onOpenSettings?: (() => void) | undefined;
   onCloseSettings?: (() => void) | undefined;
   onAppSettingsChange?: ((next: import('@arlo-doc/shared').AppSettings) => void) | undefined;
+  /** Application settings, so the editor and preview honour them. */
+  appSettings?: import('@arlo-doc/shared').AppSettings | null | undefined;
   onResume?: () => void;
   lastFolderPath?: string | null | undefined;
   onNoteClick?: (noteId: string) => void;
@@ -100,6 +102,7 @@ export function MainLayout({
   onOpenSettings,
   onCloseSettings,
   onAppSettingsChange,
+  appSettings,
   onResume,
   lastFolderPath,
   onNoteClick,
@@ -233,6 +236,8 @@ export function MainLayout({
                   activeFilePath={activeFilePath}
                   scrollToLine={scrollToLine}
                   onScrollComplete={onScrollComplete}
+                  frontMatterMode={appSettings?.editor.frontMatter}
+                  lineWidth={appSettings?.editor.lineWidth}
                 />
               ) : (
                 <NoFileSelected />
@@ -245,6 +250,11 @@ export function MainLayout({
                 onSave={onSave}
                 isSaving={fileSaving}
                 saveError={fileSaveError}
+                fontFamily={appSettings?.editor.fontFamily}
+                fontSize={appSettings?.editor.fontSize}
+                lineWidth={appSettings?.editor.lineWidth}
+                wrapLines={appSettings?.editor.wrapLines}
+                lineNumbers={appSettings?.editor.lineNumbers}
               />
             )}
             {state.viewMode === 'diff' && <UnifiedDiffView diff={fileDiff} />}
@@ -275,7 +285,7 @@ export function MainLayout({
         />
       )}
       {state.modal === 'publish' && (
-        <PublishModal onPublish={onPublish} onCancel={onCancelPublish} />
+        <PublishModal onPublish={onPublish} onCancel={onCancelPublish} repoDir={state.repoDir} />
       )}
       {state.modal === 'settings' && (
         <SettingsModal

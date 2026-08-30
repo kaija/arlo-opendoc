@@ -300,6 +300,9 @@ export function createHttpBinding(baseUrl: string): ClientInterface {
 
     testAnthropicKey: () => unavailable<import("./types.js").KeyCheckResult>("testAnthropicKey"),
 
+    clearGithubToken: () =>
+      unavailable<import("@arlo-doc/shared").SecretStatus>("clearGithubToken"),
+
     forgetCredentials: () =>
       unavailable<import("@arlo-doc/shared").SecretStatus>("forgetCredentials"),
 

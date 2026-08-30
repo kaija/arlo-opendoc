@@ -23,4 +23,17 @@ export interface ContentMatch {
 export interface SearchOptions {
   caseSensitive: boolean;
   useRegex: boolean;
+  /**
+   * Directory and file names to skip. Absent means "use the built-in
+   * defaults" — the field is optional so existing callers keep working and so
+   * a caller that has no knowledge-base settings to hand still gets sensible
+   * exclusions rather than searching node_modules.
+   */
+  excludes?: string[] | undefined;
+  /** Honour the repository's .gitignore. Absent means yes. */
+  respectGitignore?: boolean | undefined;
+  /** Include dot-prefixed files. Absent means no. */
+  includeHidden?: boolean | undefined;
+  /** Cap on the number of files returned. Absent means the built-in limit. */
+  maxResults?: number | undefined;
 }

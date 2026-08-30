@@ -3,6 +3,7 @@ import { ExternalLink } from 'lucide-react';
 import type { PaneDef } from '../paneTypes';
 import {
   Button,
+  PendingBadge,
   NumberField,
   RadioGroup,
   ReadOnlyRow,
@@ -120,12 +121,15 @@ export const generalPane: PaneDef = {
           keywords: ['update', 'upgrade', 'version', 'release'],
           render: (s) =>
             s.app === null ? null : (
-              <Toggle
-                label="Check for updates automatically"
-                hint="Arlo Doc asks GitHub Releases whether a newer build exists."
-                checked={s.app.general.autoCheckUpdates}
-                onChange={(autoCheckUpdates) => s.patchApp({ general: { autoCheckUpdates } })}
-              />
+              <>
+                <Toggle
+                  label="Check for updates automatically"
+                  hint="Arlo Doc asks GitHub Releases whether a newer build exists."
+                  checked={s.app.general.autoCheckUpdates}
+                  onChange={(autoCheckUpdates) => s.patchApp({ general: { autoCheckUpdates } })}
+                />
+                <PendingBadge>Saved — automatic updates are not switched on in this build</PendingBadge>
+              </>
             ),
         },
         {
@@ -232,7 +236,14 @@ export const appearancePane: PaneDef = {
               <Select
                 id="interface-language"
                 label="Interface language"
-                hint="Menus, buttons and messages. Independent of what the agent writes."
+                hint={
+                  <>
+                    Menus, buttons and messages. Independent of what the agent writes.
+                    <br />
+                    Your choice is saved, but only English ships today — the other
+                    translations are not written yet.
+                  </>
+                }
                 value={s.app.appearance.interfaceLanguage}
                 onChange={(interfaceLanguage) => s.patchApp({ appearance: { interfaceLanguage } })}
                 options={[
@@ -406,7 +417,15 @@ export const editorPane: PaneDef = {
             s.app === null ? null : (
               <Toggle
                 label="Show line numbers"
+                // A gutter cannot stay aligned with wrapped lines, so the
+                // dependency is stated rather than silently ignored.
+                hint={
+                  s.app.editor.wrapLines
+                    ? 'Unavailable while long lines wrap — a gutter cannot line up with wrapped text.'
+                    : undefined
+                }
                 checked={s.app.editor.lineNumbers}
+                disabled={s.app.editor.wrapLines}
                 onChange={(lineNumbers) => s.patchApp({ editor: { lineNumbers } })}
               />
             ),
@@ -438,6 +457,9 @@ export const agentPane: PaneDef = {
                   onChange={(model) => s.patchApp({ agent: { model } })}
                   options={MODEL_OPTIONS}
                 />
+                <div style={{ marginTop: 10 }}>
+                  <PendingBadge>Saved — the agent is not connected in this build</PendingBadge>
+                </div>
                 <p
                   style={{
                     fontSize: 12,

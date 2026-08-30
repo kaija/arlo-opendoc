@@ -3,6 +3,7 @@ import type { PaneDef } from '../paneTypes';
 import type { SettingsApi } from '../useSettings';
 import {
   Button,
+  PendingBadge,
   Field,
   NumberField,
   ReadOnlyRow,
@@ -87,6 +88,9 @@ export const repositoryPane: PaneDef = {
                   checked={s.kb.repository.markAgentCommits}
                   onChange={(markAgentCommits) => s.patchKb({ repository: { markAgentCommits } })}
                 />
+                <div style={{ marginLeft: 49 }}>
+                  <PendingBadge>Saved — applies once the agent can commit</PendingBadge>
+                </div>
                 {s.kb.repository.markAgentCommits && (
                   <pre
                     style={{
@@ -285,14 +289,17 @@ export const publishingPane: PaneDef = {
           keywords: ['cleanup', 'worktree', 'branch', 'tidy', 'prune'],
           render: (s) =>
             s.kb === null ? null : (
-              <Toggle
-                label="Delete the draft's worktree and branch once its pull request merges"
-                hint="Orphaned worktrees are the mess this app would otherwise accumulate."
-                checked={s.kb.publishing.deleteWorktreeAfterMerge}
-                onChange={(deleteWorktreeAfterMerge) =>
-                  s.patchKb({ publishing: { deleteWorktreeAfterMerge } })
-                }
-              />
+              <>
+                <Toggle
+                  label="Delete the draft's worktree and branch once its pull request merges"
+                  hint="Orphaned worktrees are the mess this app would otherwise accumulate."
+                  checked={s.kb.publishing.deleteWorktreeAfterMerge}
+                  onChange={(deleteWorktreeAfterMerge) =>
+                    s.patchKb({ publishing: { deleteWorktreeAfterMerge } })
+                  }
+                />
+                <PendingBadge>Saved — nothing detects a merge in this build yet</PendingBadge>
+              </>
             ),
         },
       ],
@@ -483,7 +490,7 @@ export const instructionsPane: PaneDef = {
               <Select
                 id="writing-language"
                 label="Writing language"
-                hint="What the agent writes into your files. Independent of the interface language."
+                hint="What the agent writes into your files. Independent of the interface language. Saved, but the agent is not connected in this build."
                 value={s.kb.agent.writingLanguage}
                 onChange={(writingLanguage) => s.patchKb({ agent: { writingLanguage } })}
                 options={[

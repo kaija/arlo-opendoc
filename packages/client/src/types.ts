@@ -174,6 +174,8 @@ export interface ClientInterface {
   clearAnthropicKey(): Promise<KbResult<SecretStatus>>;
   /** Verifies the STORED key against the API; the key never crosses the wire. */
   testAnthropicKey(): Promise<KbResult<KeyCheckResult>>;
+  /** Disconnects the GitHub account, dropping its token and metadata. */
+  clearGithubToken(): Promise<KbResult<SecretStatus>>;
   /** Removes every stored credential. Deletes nothing on disk. */
   forgetCredentials(): Promise<KbResult<SecretStatus>>;
 

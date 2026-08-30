@@ -10,6 +10,7 @@ import { getLastFolder, getPersistedState, saveLastFolder, saveState } from "./p
 import type { PersistedState } from "./persistenceStore.js";
 import * as settingsStore from "./settingsStore.js";
 import * as secretStore from "./secretStore.js";
+import { ensureWorktreesIgnored, worktreesRoot } from "./worktreeLayout.js";
 import type { AppSettings, KbSettings } from "@arlo-doc/shared";
 import type { SettingsPatch, AppInfo, KeyCheckResult } from "@arlo-doc/client";
 
@@ -325,35 +326,16 @@ ipcMain.handle("arlo-doc:worktreeCreate", async (_event, repoDir: string) => {
   try {
     const repoRoot = await gitBackend.getRepoRoot(repoDir);
 
-    // Ensure .arlo/ container directory exists inside the repo (NOT inside .git/).
-    const arloDir = join(repoRoot, ".arlo");
-    await fs.mkdir(arloDir, { recursive: true });
+    // Worktrees live in .arlo/worktrees/ rather than .arlo/ itself, so that
+    // .arlo/ stays available for files the team shares. See worktreeLayout.ts
+    // for why the legacy location must stay ignored as well.
+    const worktreesDir = worktreesRoot(repoRoot);
+    await fs.mkdir(worktreesDir, { recursive: true });
 
     const branch = `wt-${Date.now()}`;
-    const worktreePath = join(arloDir, branch);
+    const worktreePath = join(worktreesDir, branch);
 
-    // Add .arlo/ to the repo's .gitignore if not already present
-    const gitignorePath = join(repoRoot, ".gitignore");
-    try {
-      let content = "";
-      try {
-        content = await fs.readFile(gitignorePath, "utf-8");
-      } catch {
-        // .gitignore doesn't exist yet — will create it
-      }
-      const lines = content.split("\n");
-      const alreadyIgnored = lines.some(
-        (l) => l.trim() === ".arlo" || l.trim() === ".arlo/",
-      );
-      if (!alreadyIgnored) {
-        const entry = content.endsWith("\n") || content === ""
-          ? ".arlo/\n"
-          : "\n.arlo/\n";
-        await fs.writeFile(gitignorePath, content + entry, "utf-8");
-      }
-    } catch {
-      // Non-fatal: if we can't update .gitignore, continue anyway
-    }
+    await ensureWorktreesIgnored(repoRoot);
 
     await gitBackend.worktreeAdd(repoRoot, worktreePath, branch);
 
@@ -507,6 +489,14 @@ ipcMain.handle("arlo-doc:testAnthropicKey", async () => {
       message: `Could not reach api.anthropic.com — ${(err as Error).message}`,
       checkedAt,
     } satisfies KeyCheckResult;
+  }
+});
+
+ipcMain.handle("arlo-doc:clearGithubToken", async () => {
+  try {
+    return await secretStore.clearGithubToken();
+  } catch (err) {
+    wrapError(err);
   }
 });
 

@@ -7,6 +7,10 @@ interface DocumentViewProps {
   scrollToLine?: number | null | undefined;
   /** Called after the scroll+highlight fires so App can reset scrollToLine to null. */
   onScrollComplete?: (() => void) | undefined;
+  /** Settings > Editor > Front matter. Defaults to hiding it. */
+  frontMatterMode?: 'hide' | 'table' | undefined;
+  /** Settings > Editor > Typography. Measure of the prose column, in ch. */
+  lineWidth?: number | undefined;
 }
 
 function isMarkdownPath(filePath: string): boolean {
@@ -106,24 +110,92 @@ function parseAlignment(cell: string): 'left' | 'right' | 'center' | 'none' {
 }
 
 /**
- * Strips YAML front matter from the start of a markdown string.
- * A front matter block starts with "---" on the very first line and ends
- * with the next "---" (or "...") line. Returns the content after the block.
+ * Separates YAML front matter from the body of a markdown string.
+ *
+ * A front matter block starts with "---" on the very first line and ends with
+ * the next "---" (or "...") line. This SPLITS rather than strips, because
+ * Settings > Editor lets the reader choose between hiding the block and seeing
+ * it as a table — the parser cannot know which, so it returns both halves.
  */
-function stripFrontMatter(md: string): string {
+function splitFrontMatter(md: string): { frontMatter: string | null; body: string } {
   const lines = md.split('\n');
-  if (lines[0]?.trim() !== '---') return md;
+  if (lines[0]?.trim() !== '---') return { frontMatter: null, body: md };
   for (let i = 1; i < lines.length; i++) {
     const t = lines[i]!.trim();
     if (t === '---' || t === '...') {
       // Skip the closing delimiter line; drop any leading blank line after it
       const rest = lines.slice(i + 1);
       const firstNonBlank = rest.findIndex((l) => l.trim() !== '');
-      return rest.slice(firstNonBlank).join('\n');
+      return {
+        frontMatter: lines.slice(1, i).join('\n'),
+        body: rest.slice(firstNonBlank === -1 ? rest.length : firstNonBlank).join('\n'),
+      };
     }
   }
   // No closing delimiter found — treat the whole file as content
-  return md;
+  return { frontMatter: null, body: md };
+}
+
+/**
+ * Parses the flat `key: value` pairs of a front-matter block for display.
+ * Nested YAML is shown verbatim rather than being half-parsed into something
+ * misleading.
+ */
+function parseFrontMatterRows(block: string): { key: string; value: string }[] {
+  const rows: { key: string; value: string }[] = [];
+  for (const line of block.split('\n')) {
+    if (line.trim() === '' || line.startsWith('#')) continue;
+    const match = /^([A-Za-z0-9_.-]+)\s*:\s*(.*)$/.exec(line);
+    if (match === null) continue;
+    rows.push({ key: match[1]!, value: match[2]!.trim() });
+  }
+  return rows;
+}
+
+function FrontMatterTable({ block }: { block: string }): React.ReactElement | null {
+  const rows = parseFrontMatterRows(block);
+  if (rows.length === 0) return null;
+  return (
+    <table
+      style={{
+        borderCollapse: 'collapse',
+        marginBottom: 28,
+        fontSize: 12.5,
+        fontFamily: 'var(--font-mono)',
+        background: 'var(--surface-section)',
+        border: '1px solid var(--border)',
+        borderRadius: 8,
+        overflow: 'hidden',
+      }}
+    >
+      <tbody>
+        {rows.map((r) => (
+          <tr key={r.key}>
+            <td
+              style={{
+                padding: '6px 14px',
+                color: 'var(--text-faint)',
+                borderBottom: '1px solid var(--border)',
+                whiteSpace: 'nowrap',
+                verticalAlign: 'top',
+              }}
+            >
+              {r.key}
+            </td>
+            <td
+              style={{
+                padding: '6px 14px',
+                color: 'var(--text-body)',
+                borderBottom: '1px solid var(--border)',
+              }}
+            >
+              {r.value}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 function tokenize(md: string): Token[] {
@@ -411,10 +483,29 @@ function renderToken(tok: Token, idx: number): React.ReactNode {
   );
 }
 
-function MarkdownView({ content }: { content: string }): React.ReactElement {
-  const tokens = tokenize(stripFrontMatter(content));
+function MarkdownView({
+  content,
+  frontMatterMode = 'hide',
+  lineWidth,
+}: {
+  content: string;
+  frontMatterMode?: 'hide' | 'table' | undefined;
+  lineWidth?: number | undefined;
+}): React.ReactElement {
+  const { frontMatter, body } = splitFrontMatter(content);
+  const tokens = tokenize(body);
   return (
-    <div style={{ fontFamily: 'var(--font-sans)', color: 'var(--text-body)' }}>
+    <div
+      style={{
+        fontFamily: 'var(--font-sans)',
+        color: 'var(--text-body)',
+        // Measure is expressed in ch so it tracks the reader's font size.
+        ...(lineWidth !== undefined ? { maxWidth: `${lineWidth}ch` } : {}),
+      }}
+    >
+      {frontMatterMode === 'table' && frontMatter !== null && (
+        <FrontMatterTable block={frontMatter} />
+      )}
       {tokens.map((tok, i) => renderToken(tok, i))}
     </div>
   );
@@ -470,7 +561,14 @@ function CodeView({ content, filePath }: { content: string; filePath: string }):
 
 // ── DocumentView ───────────────────────────────────────────────────────────
 
-export function DocumentView({ fileContent, activeFilePath, scrollToLine, onScrollComplete }: DocumentViewProps): React.ReactElement {
+export function DocumentView({
+  fileContent,
+  activeFilePath,
+  scrollToLine,
+  onScrollComplete,
+  frontMatterMode,
+  lineWidth,
+}: DocumentViewProps): React.ReactElement {
   const isMd = isMarkdownPath(activeFilePath);
   const isTxt = activeFilePath.toLowerCase().endsWith('.txt');
 
@@ -530,7 +628,7 @@ export function DocumentView({ fileContent, activeFilePath, scrollToLine, onScro
     >
       <div style={{ width: '100%', maxWidth: isMd || isTxt ? 740 : 900, padding: '48px 40px' }}>
         {isMd
-          ? <MarkdownView content={fileContent} />
+          ? <MarkdownView content={fileContent} frontMatterMode={frontMatterMode} lineWidth={lineWidth} />
           : isTxt
             ? <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: 'var(--text-body)', margin: 0 }}>{fileContent}</pre>
             : <CodeView content={fileContent} filePath={activeFilePath} />

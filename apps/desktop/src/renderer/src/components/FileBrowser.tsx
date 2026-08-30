@@ -290,7 +290,7 @@ export function FileBrowser({
         {onToggleHidden && (
           <button
             onClick={onToggleHidden}
-            title={showHidden ? '隱藏隱藏檔案' : '顯示隱藏檔案'}
+            title={showHidden ? 'Hide hidden files' : 'Show hidden files'}
             style={{
               marginLeft: 6,
               flexShrink: 0,
@@ -305,7 +305,7 @@ export function FileBrowser({
               color: showHidden ? 'var(--color-accent)' : 'var(--text-faint)',
               lineHeight: 1,
             }}
-            aria-label={showHidden ? '隱藏隱藏檔案' : '顯示隱藏檔案'}
+            aria-label={showHidden ? 'Hide hidden files' : 'Show hidden files'}
             aria-pressed={showHidden}
           >
             {showHidden ? <EyeOff size={12} /> : <Eye size={12} />}

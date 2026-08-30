@@ -103,6 +103,9 @@ export function SearchModal({
   const [activeTab, setActiveTab] = useState<ActiveTab>('search-files');
   const [fileQuery, setFileQuery] = useState('');
   const [contentQuery, setContentQuery] = useState('');
+  // Seeded from the knowledge base's saved defaults (Settings > Search &
+  // index) and then freely overridden per query — settings decide where a
+  // search STARTS, not what it is forced to be.
   const [searchOptions, setSearchOptions] = useState<SearchOptions>({
     caseSensitive: false,
     useRegex: false,
@@ -120,6 +123,29 @@ export function SearchModal({
   const contentInputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const selectedRowRef = useRef<HTMLDivElement | null>(null);
+
+  // Adopt the saved defaults on open. Done here rather than in the parent so
+  // the modal always reflects the current settings without MainLayout having
+  // to know they exist.
+  useEffect(() => {
+    if (repoDir === null || repoDir === '') return;
+    let cancelled = false;
+    void window.arlodoc.readKbSettings(repoDir).then((res) => {
+      if (cancelled || !res.ok) return;
+      const s = res.data.search;
+      setSearchOptions({
+        caseSensitive: s.caseSensitive,
+        useRegex: s.useRegex,
+        excludes: s.excludes,
+        respectGitignore: s.respectGitignore,
+        includeHidden: s.includeHidden,
+        maxResults: s.maxResults,
+      });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [repoDir]);
 
   // Snapshot of searchOptions for debounced file search closure
   const searchOptionsRef = useRef(searchOptions);

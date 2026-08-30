@@ -112,13 +112,28 @@ export function App(): React.ReactElement {
     let cancelled = false;
 
     async function restore(): Promise<void> {
-      const result = await window.arlodoc.getPersistedState();
+      // Settings are read first because they decide whether to restore at all.
+      // Reading them here rather than depending on component state keeps the
+      // restore a single ordered pass with no intermediate flash of the wrong
+      // screen.
+      const [result, settingsResult] = await Promise.all([
+        window.arlodoc.getPersistedState(),
+        window.arlodoc.readAppSettings(),
+      ]);
       if (!result.ok || cancelled) return;
 
-      const { lastFolderPath, openWorktrees, activeTabId } = result.data;
+      const startup = settingsResult.ok ? settingsResult.data.general.startup : 'restore-all';
+
+      const { lastFolderPath, activeTabId } = result.data;
+      // 'restore-kb' reopens the knowledge base but none of its drafts.
+      const openWorktrees = startup === 'restore-kb' ? [] : result.data.openWorktrees;
 
       // Show last folder path immediately for the empty state resume button
       setLastFolderPath(lastFolderPath);
+
+      // 'start-screen' means the user chooses a knowledge base every launch.
+      // The path above is still surfaced so Resume remains one click away.
+      if (startup === 'start-screen') return;
 
       // Case A: no persisted worktrees but we have a last folder → auto-resume
       if (openWorktrees.length === 0) {
@@ -263,6 +278,13 @@ export function App(): React.ReactElement {
 
   useTheme(appSettings?.appearance.theme);
 
+  // Callbacks read settings through a ref so they stay referentially stable —
+  // the same reason stateRef exists below.
+  const appSettingsRef = useRef<AppSettings | null>(null);
+  useEffect(() => {
+    appSettingsRef.current = appSettings;
+  }, [appSettings]);
+
   const handleCloseSettings = useCallback(() => {
     update({ modal: null });
   }, [update]);
@@ -348,7 +370,17 @@ export function App(): React.ReactElement {
   }, [update]);
 
   // ── Approval ────────────────────────────────────────────────────────────
+  // Settings > AI agent > Autonomy decides whether the agent's work stops for
+  // approval. The two hard carve-outs from the design — deleting a file and
+  // pushing to a remote — are NOT routed through here; they confirm at their
+  // own call sites regardless of this setting.
   const handleNeedsApproval = useCallback(() => {
+    if (appSettingsRef.current?.agent.autonomy !== 'review-each') {
+      // At 'draft-freely' and 'full' the edit lands in the worktree and the
+      // pull request becomes the gate, so there is nothing to stop for.
+      update({ draftStatus: 'draft' });
+      return;
+    }
     update({ draftStatus: 'needs-approval' });
   }, [update]);
 
@@ -550,6 +582,12 @@ export function App(): React.ReactElement {
 
   // ── File interactions (5.6) ─────────────────────────────────────────────
   const handleFileClick = useCallback(async (filePath: string) => {
+    // 'last-used' deliberately does nothing — leaving viewMode alone IS the
+    // behaviour. The other two force the mode the user asked for.
+    const openIn = appSettingsRef.current?.editor.openFilesIn;
+    if (openIn === 'preview' || openIn === 'edit') {
+      update({ viewMode: openIn === 'edit' ? 'edit' : 'preview' });
+    }
     if (!state.activeTabId) return;
     const tabId = state.activeTabId;
     await handleFileClickLogic(filePath, tabId, latestFileRef, updateTabState, window.arlodoc);
@@ -640,6 +678,40 @@ export function App(): React.ReactElement {
   // Requirements 6.4, 3.3 — null and "" both yield false
   const showDiffTab = Boolean(activeTabState?.fileDiff);
 
+  // ── Autosave ────────────────────────────────────────────────────────────
+  // Settings > Editor. The worktree already isolates every edit and git keeps
+  // every version, so saving on a debounce carries none of the risk it would
+  // in a plain text editor. Cmd+S still saves immediately either way.
+  //
+  // The timer is keyed on the active file and its content: switching files or
+  // typing again cancels the pending save and starts a new one, so a save
+  // never lands on a file the user has already navigated away from.
+  const activeTabIdForSave = state.activeTabId;
+  const activeTabStateForSave = activeTabIdForSave ? state.tabStates[activeTabIdForSave] : undefined;
+  const autosaveFilePath = activeTabStateForSave?.activeFilePath ?? null;
+  const autosaveContent = activeTabStateForSave?.fileContent ?? null;
+  const autosaveSaved = activeTabStateForSave?.savedContent ?? null;
+
+  useEffect(() => {
+    const editor = appSettings?.editor;
+    if (editor === undefined || !editor.autosave) return;
+    if (autosaveFilePath === null || autosaveContent === null) return;
+    // Nothing to write, and never autosave a file that has never been saved
+    // into (savedContent null means the content is still the on-disk copy).
+    if (autosaveSaved === null || autosaveContent === autosaveSaved) return;
+
+    const timer = setTimeout(() => {
+      void handleSave();
+    }, editor.autosaveDelayMs);
+    return () => clearTimeout(timer);
+  }, [
+    appSettings?.editor,
+    autosaveFilePath,
+    autosaveContent,
+    autosaveSaved,
+    handleSave,
+  ]);
+
   // Requirement 6.5 — reset viewMode when the diff tab disappears
   useEffect(() => {
     if (!showDiffTab && state.viewMode === 'diff') {
@@ -671,6 +743,7 @@ export function App(): React.ReactElement {
       onOpenSettings={handleOpenSettings}
       onCloseSettings={handleCloseSettings}
       onAppSettingsChange={setAppSettings}
+      appSettings={appSettings}
       onCloseSearch={handleCloseSearch}
       onSearchResultClick={handleSearchResultClick}
       onChatToggle={handleChatToggle}

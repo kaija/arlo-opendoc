@@ -700,6 +700,37 @@ export function Button({
   );
 }
 
+/**
+ * Marks a setting whose value is stored and will be honoured, but whose
+ * underlying feature does not exist in the app yet.
+ *
+ * The alternative — hiding the control until its feature lands — would leave
+ * the dialog silently incomplete, and the alternative to THAT is a control
+ * that looks live and does nothing. Saying so plainly is the only honest
+ * option of the three.
+ */
+export function PendingBadge({ children }: { children: React.ReactNode }): React.ReactElement {
+  return (
+    <span
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 5,
+        fontSize: 11,
+        color: 'var(--text-faint)',
+        fontFamily: 'var(--font-sans)',
+        background: 'var(--surface-sunken)',
+        border: '1px solid var(--border)',
+        borderRadius: 999,
+        padding: '2px 9px',
+        marginTop: 6,
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
 // ── Status dot ─────────────────────────────────────────────────────────────
 
 export function StatusLine({

@@ -178,6 +178,9 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
     testAnthropicKey: () =>
       invoke<KeyCheckResult>("arlo-doc:testAnthropicKey"),
 
+    clearGithubToken: () =>
+      invoke<SecretStatus>("arlo-doc:clearGithubToken"),
+
     forgetCredentials: () =>
       invoke<SecretStatus>("arlo-doc:forgetCredentials"),
 

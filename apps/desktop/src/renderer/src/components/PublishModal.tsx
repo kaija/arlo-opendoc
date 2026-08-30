@@ -1,9 +1,12 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import type { KbSettings } from '@arlo-doc/shared';
 
 interface PublishModalProps {
   onPublish: () => void;
   onCancel: () => void;
+  /** Repository whose publishing settings shape this pull request. */
+  repoDir?: string | null | undefined;
 }
 
 interface FileChange {
@@ -25,7 +28,57 @@ const SUMMARY_POINTS = [
   'Added Idempotency-Key header requirement to POST /charges API reference',
 ];
 
-export function PublishModal({ onPublish, onCancel }: PublishModalProps): React.ReactElement {
+/**
+ * Fills the description template from Settings > Publishing.
+ *
+ * The placeholders are the two the settings pane documents. Substitution is a
+ * plain replace rather than a template engine: the template is user-authored
+ * markdown, and anything cleverer would start interpreting their prose.
+ */
+function renderTemplate(
+  template: string,
+  summary: string[],
+  files: FileChange[],
+): string {
+  return template
+    .replace(/\{\{summary\}\}/g, summary.map((p) => `- ${p}`).join('\n'))
+    .replace(
+      /\{\{files\}\}/g,
+      files.map((f) => `- ${f.name} (+${f.added} −${f.removed})`).join('\n'),
+    );
+}
+
+export function PublishModal({
+  onPublish,
+  onCancel,
+  repoDir,
+}: PublishModalProps): React.ReactElement {
+  const [publishing, setPublishing] = React.useState<KbSettings['publishing'] | null>(null);
+  const [defaultBranch, setDefaultBranch] = React.useState('main');
+
+  React.useEffect(() => {
+    if (repoDir == null || repoDir === '') return;
+    let cancelled = false;
+    void window.arlodoc.readKbSettings(repoDir).then((res) => {
+      if (cancelled || !res.ok) return;
+      setPublishing(res.data.publishing);
+      setDefaultBranch(res.data.repository.defaultBranch);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [repoDir]);
+
+  // Empty means "use the default branch", exactly as the setting's hint says.
+  const target =
+    publishing !== null && publishing.mergeInto.trim() !== ''
+      ? publishing.mergeInto
+      : defaultBranch;
+  const description =
+    publishing === null
+      ? ''
+      : renderTemplate(publishing.prTemplate, SUMMARY_POINTS, FILES_CHANGED);
+
   return (
     // Outer wrapper — covers the entire app surface
     <div
@@ -111,7 +164,11 @@ export function PublishModal({ onPublish, onCancel }: PublishModalProps): React.
           {/* Summary field */}
           <FieldGroup
             label="Summary"
-            rightLabel="Drafted by Arlo — edit freely"
+            rightLabel={
+              publishing?.agentDraftsPr === false
+                ? 'Write your own — agent drafting is off'
+                : 'Drafted by Arlo — edit freely'
+            }
           >
             <div
               style={{
@@ -154,6 +211,44 @@ export function PublishModal({ onPublish, onCancel }: PublishModalProps): React.
               ))}
             </div>
           </FieldGroup>
+
+          {/* Description — the template from Settings > Publishing, filled in.
+              Shown so the shape of the pull request is visible before it is
+              created, not discovered afterwards on GitHub. */}
+          {description !== '' && (
+            <FieldGroup label="Description" rightLabel={`Merging into ${target}`}>
+              <pre
+                style={{
+                  border: '1px solid var(--border-strong)',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  margin: 0,
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11.5,
+                  lineHeight: 1.6,
+                  color: 'var(--text-muted-strong)',
+                  background: 'var(--surface-section)',
+                  whiteSpace: 'pre-wrap',
+                  maxHeight: 140,
+                  overflowY: 'auto',
+                }}
+              >
+                {description}
+              </pre>
+              {publishing?.openAsDraft === true && (
+                <p
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--text-faint)',
+                    fontFamily: 'var(--font-sans)',
+                    margin: '8px 0 0',
+                  }}
+                >
+                  Opens as a draft pull request.
+                </p>
+              )}
+            </FieldGroup>
+          )}
 
           {/* Files changed */}
           <FieldGroup label={`${FILES_CHANGED.length} notes changed`}>
