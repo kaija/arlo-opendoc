@@ -17,8 +17,9 @@
     "teamTitle": "團隊知識庫",
     "teamDescription": "連結至 GitHub 儲存庫，讓整個團隊共用並共同維護唯一的真實來源。",
     "continueWithGitHub": "使用 GitHub 繼續",
-    "continueWith": "繼續使用 <strong>{{name}}</strong>",
-    "lastOpened": "上次開啟",
+    "recentTitle": "最近開啟",
+    "recentDraftsOne": "1 個草稿",
+    "recentDraftsMany": "{{count}} 個草稿",
     "footerNote": "你之後可以再新增其他知識庫。"
   },
   "titleBar": {

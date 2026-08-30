@@ -1,6 +1,7 @@
 import React from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { FileText, Globe, FolderOpen } from 'lucide-react';
+import type { RecentRepoSummary } from '@arlo-doc/client';
 
 // Electron-specific CSS property not in React's type definitions
 type ElectronCSSProperties = React.CSSProperties & {
@@ -10,8 +11,9 @@ type ElectronCSSProperties = React.CSSProperties & {
 interface OnboardingProps {
   onChooseLocal: () => void;
   onChooseGitHub: () => void;
-  onResumeLastFolder?: () => void;
-  lastFolderPath?: string | null;
+  /** Recently opened repositories, newest first. */
+  recentRepos?: RecentRepoSummary[];
+  onOpenRepo?: (path: string) => void;
   isPending?: boolean;
   error?: string | null;
 }
@@ -19,16 +21,13 @@ interface OnboardingProps {
 export function Onboarding({
   onChooseLocal,
   onChooseGitHub,
-  onResumeLastFolder,
-  lastFolderPath,
+  recentRepos,
+  onOpenRepo,
   isPending,
   error,
 }: OnboardingProps): React.ReactElement {
   const { t } = useTranslation();
-  // Derive a short display name from the full path (last path segment)
-  const lastFolderName = lastFolderPath
-    ? lastFolderPath.split('/').filter(Boolean).pop() ?? lastFolderPath
-    : null;
+  const recent = recentRepos ?? [];
 
   return (
     <div
@@ -145,7 +144,7 @@ export function Onboarding({
           style={{
             display: 'flex',
             gap: 16,
-            marginBottom: lastFolderName ? 16 : 28,
+            marginBottom: recent.length > 0 ? 20 : 28,
             flexWrap: 'wrap',
             justifyContent: 'center',
           }}
@@ -167,54 +166,88 @@ export function Onboarding({
           />
         </div>
 
-        {/* Quick-resume banner — only shown when a last folder exists */}
-        {lastFolderName && onResumeLastFolder && (
-          <button
-            onClick={onResumeLastFolder}
-            disabled={isPending}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              height: 44,
-              padding: '0 18px',
-              borderRadius: 10,
-              border: '1px solid var(--color-accent-a25)',
-              background: 'var(--color-accent-a05)',
-              cursor: isPending ? 'not-allowed' : 'pointer',
-              opacity: isPending ? 0.6 : 1,
-              marginBottom: 28,
-              maxWidth: 480,
-              width: '100%',
-            }}
-          >
-            <FolderOpen size={16} color="var(--color-accent)" style={{ flexShrink: 0 }} />
-            <span
-              style={{
-                fontSize: 13,
-                fontWeight: 500,
-                color: 'var(--color-accent)',
-                fontFamily: 'var(--font-sans)',
-                flex: 1,
-                textAlign: 'left',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <Trans i18nKey="onboarding.continueWith" values={{ name: lastFolderName }} components={{ strong: <strong /> }} />
-            </span>
-            <span
+        {/* Recent repositories — the fast path back into a knowledge base */}
+        {recent.length > 0 && onOpenRepo && (
+          <div style={{ width: '100%', maxWidth: 480, marginBottom: 28 }}>
+            <p
               style={{
                 fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: '.06em',
+                textTransform: 'uppercase',
                 color: 'var(--text-faint)',
                 fontFamily: 'var(--font-sans)',
-                flexShrink: 0,
+                margin: '0 0 8px 2px',
               }}
             >
-              {t('onboarding.lastOpened')}
-            </span>
-          </button>
+              {t('onboarding.recentTitle')}
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {recent.map((repo) => (
+                <button
+                  key={repo.path}
+                  onClick={() => onOpenRepo(repo.path)}
+                  disabled={isPending}
+                  title={repo.path}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    height: 44,
+                    padding: '0 14px',
+                    borderRadius: 10,
+                    border: '1px solid var(--border-mid)',
+                    background: 'var(--surface-card)',
+                    cursor: isPending ? 'not-allowed' : 'pointer',
+                    opacity: isPending ? 0.6 : 1,
+                    width: '100%',
+                    textAlign: 'left',
+                  }}
+                >
+                  <FolderOpen size={15} color="var(--color-accent)" style={{ flexShrink: 0 }} />
+                  <span
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 500,
+                      color: 'var(--text-body)',
+                      fontFamily: 'var(--font-sans)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {repo.name}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 11.5,
+                      color: 'var(--text-faint)',
+                      fontFamily: 'var(--font-sans)',
+                      flex: 1,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      direction: 'rtl', // keep the meaningful tail of the path visible
+                    }}
+                  >
+                    {repo.path}
+                  </span>
+                  {repo.worktreeCount > 0 && (
+                    <span
+                      style={{
+                        fontSize: 11,
+                        color: 'var(--text-muted)',
+                        fontFamily: 'var(--font-sans)',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {repo.worktreeCount === 1
+                        ? t('onboarding.recentDraftsOne')
+                        : t('onboarding.recentDraftsMany', { count: repo.worktreeCount })}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
 
         {error && (

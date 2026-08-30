@@ -6,12 +6,22 @@ import { CoreEngine, SpawnGitBackend } from "@arlo-doc/core";
 import type { WorktreeInfo, SearchOptions } from "@arlo-doc/shared";
 import { readFolder } from "./folderReader.js";
 import * as ripgrepRunner from "./ripgrepRunner.js";
-import { getLastFolder, getPersistedState, saveLastFolder, saveState } from "./persistenceStore.js";
+import {
+  getLastFolder,
+  getPersistedState,
+  noteRepoOpened,
+  saveState,
+} from "./persistenceStore.js";
 import type { PersistedState } from "./persistenceStore.js";
+import {
+  readRepoSession,
+  writeRepoSession,
+  summariseRecentRepos,
+} from "./repoSessionStore.js";
 import * as settingsStore from "./settingsStore.js";
 import * as secretStore from "./secretStore.js";
-import { ensureWorktreesIgnored, worktreesRoot } from "./worktreeLayout.js";
-import type { AppSettings, KbSettings } from "@arlo-doc/shared";
+import { ensureArloIgnored, worktreesRoot } from "./worktreeLayout.js";
+import type { AppSettings, KbSettings, RepoSession } from "@arlo-doc/shared";
 import type { SettingsPatch, AppInfo, KeyCheckResult } from "@arlo-doc/client";
 
 // ── Git backend singleton ──────────────────────────────────────────────────
@@ -175,8 +185,10 @@ ipcMain.handle("arlo-doc:chooseFolder", async (event) => {
 ipcMain.handle("arlo-doc:readFolder", async (event, folderPath: string, showHidden?: boolean) => {
   try {
     const tree = await readFolder(folderPath, { showHidden: showHidden ?? false });
-    // Fire-and-forget: persistence failure must not block the IPC response.
-    void saveLastFolder(folderPath);
+    // The recent-repositories list is maintained separately via
+    // `arlo-doc:noteRepoOpened`, which the renderer calls only for a real repo
+    // root — readFolder also runs for worktree subdirectories, which must not
+    // count as "opened a repository".
 
     // Register (or re-register) a CoreEngine for this window now that we know kbRoot.
     // StoreAdapter, ForgeAdapter, and AgentKeyProvider are stubs until Phase 2.
@@ -228,6 +240,60 @@ ipcMain.handle("arlo-doc:saveState", async (_event, persistedState: PersistedSta
     console.error("[main] saveState failed:", err);
   }
 });
+
+// ── Per-repository session record (`<repo>/.arlo/session.json`) ─────────────
+// The renderer asks which repo to open on every launch; each repo keeps its
+// own worktree tabs here so nothing is lost by not auto-resuming.
+
+/** Resolve the git root so the session file sits with `.arlo/worktrees/`. */
+async function repoRootOf(repoDir: string): Promise<string> {
+  try {
+    return await gitBackend.getRepoRoot(repoDir);
+  } catch {
+    return repoDir; // not a git repo yet — use the folder as given
+  }
+}
+
+// Record that a repository was opened (front of the recent list + last folder).
+ipcMain.handle("arlo-doc:noteRepoOpened", async (_event, repoPath: string) => {
+  try {
+    await noteRepoOpened(repoPath);
+  } catch (err) {
+    console.error("[main] noteRepoOpened failed:", err);
+  }
+});
+
+// Start-screen summaries for the recent repositories.
+ipcMain.handle("arlo-doc:getRecentRepos", async () => {
+  try {
+    const { recentRepos } = await getPersistedState();
+    return await summariseRecentRepos(recentRepos);
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// Read one repository's session record.
+ipcMain.handle("arlo-doc:readRepoSession", async (_event, repoPath: string) => {
+  try {
+    return await readRepoSession(await repoRootOf(repoPath));
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// Persist one repository's session record. Fire-and-forget from the renderer.
+ipcMain.handle(
+  "arlo-doc:saveRepoSession",
+  async (_event, repoPath: string, session: RepoSession) => {
+    if (typeof session !== "object" || session === null) return;
+    try {
+      await writeRepoSession(await repoRootOf(repoPath), session);
+    } catch (err) {
+      console.error("[main] saveRepoSession failed:", err);
+    }
+  },
+);
 
 // Task 5.4 — read UTF-8 file content (REQ-002.6, REQ-002.8, REQ-006.1)
 ipcMain.handle("arlo-doc:readFile", async (_event, filePath: string) => {
@@ -335,7 +401,7 @@ ipcMain.handle("arlo-doc:worktreeCreate", async (_event, repoDir: string) => {
     const branch = `wt-${Date.now()}`;
     const worktreePath = join(worktreesDir, branch);
 
-    await ensureWorktreesIgnored(repoRoot);
+    await ensureArloIgnored(repoRoot);
 
     await gitBackend.worktreeAdd(repoRoot, worktreePath, branch);
 

@@ -14,14 +14,25 @@ export interface PersistedWorktree {
 
 export interface PersistedState {
   lastFolderPath: string | null;
+  /**
+   * @deprecated The per-repo `<repo>/.arlo/session.json` is now the source of
+   * truth for a repository's open worktrees. These fields are still read so an
+   * older file migrates cleanly, but new writes leave them empty.
+   */
   openWorktrees: PersistedWorktree[];
+  /** @deprecated see `openWorktrees`. */
   activeTabId: string | null;
+  /** Absolute repo-root paths, most-recently-opened first. Capped and pruned. */
+  recentRepos: string[];
 }
 
 // Legacy internal shape — kept only to read old files that only have KiroState
 interface LegacyState {
   lastFolderPath?: string | null;
 }
+
+/** How many entries `recentRepos` keeps. */
+export const RECENT_REPOS_MAX = 10;
 
 function statePath(): string {
   return join(app.getPath('userData'), 'kiro-state.json');
@@ -55,6 +66,7 @@ export async function getPersistedState(): Promise<PersistedState> {
     lastFolderPath: null,
     openWorktrees: [],
     activeTabId: null,
+    recentRepos: [],
   };
 
   let raw: PersistedState & LegacyState;
@@ -67,6 +79,27 @@ export async function getPersistedState(): Promise<PersistedState> {
 
   const lastFolderPath =
     typeof raw.lastFolderPath === 'string' ? raw.lastFolderPath : null;
+
+  // recentRepos: keep only strings, dedupe (first wins), drop paths that no
+  // longer exist on disk, and cap the list.
+  const rawRecent = Array.isArray(raw.recentRepos) ? raw.recentRepos : [];
+  const seen = new Set<string>();
+  const candidates = rawRecent.filter(
+    (p): p is string => typeof p === 'string' && p.length > 0 && !seen.has(p) && (seen.add(p), true),
+  );
+  const recentExists = await Promise.all(
+    candidates.map(async (p) => {
+      try {
+        await fs.access(p);
+        return p;
+      } catch {
+        return null;
+      }
+    }),
+  );
+  const recentRepos = recentExists
+    .filter((p): p is string => p !== null)
+    .slice(0, RECENT_REPOS_MAX);
 
   // Validate and filter the worktrees array — be defensive about corrupt data
   const rawWorktrees = Array.isArray(raw.openWorktrees) ? raw.openWorktrees : [];
@@ -102,7 +135,43 @@ export async function getPersistedState(): Promise<PersistedState> {
       ? raw.activeTabId
       : (openWorktrees[0]?.id ?? null);
 
-  return { lastFolderPath, openWorktrees, activeTabId };
+  return { lastFolderPath, openWorktrees, activeTabId, recentRepos };
+}
+
+/**
+ * Records that a repository was just opened: moves it to the front of
+ * `recentRepos` (deduped, capped) and points `lastFolderPath` at it. Merges
+ * with the existing file so unrelated keys survive. Best-effort — a write
+ * failure is logged, never thrown.
+ */
+export async function noteRepoOpened(repoPath: string): Promise<void> {
+  if (typeof repoPath !== 'string' || repoPath.length === 0) return;
+  const stateFile = statePath();
+  const tmpFile = stateFile + '.tmp';
+  try {
+    let existing: Record<string, unknown> = {};
+    try {
+      existing = JSON.parse(await fs.readFile(stateFile, 'utf-8')) as Record<string, unknown>;
+    } catch {
+      // File absent or corrupt — start fresh
+    }
+    const prior = Array.isArray(existing['recentRepos'])
+      ? (existing['recentRepos'] as unknown[]).filter(
+          (p): p is string => typeof p === 'string' && p.length > 0 && p !== repoPath,
+        )
+      : [];
+    const recentRepos = [repoPath, ...prior].slice(0, RECENT_REPOS_MAX);
+    const next = { ...existing, lastFolderPath: repoPath, recentRepos };
+    await fs.writeFile(tmpFile, JSON.stringify(next, null, 2), 'utf-8');
+    await fs.rename(tmpFile, stateFile);
+  } catch (err) {
+    console.error('[PersistenceStore] Failed to record opened repo:', err);
+    try {
+      await fs.unlink(tmpFile);
+    } catch {
+      /* ignore cleanup error */
+    }
+  }
 }
 
 // ── Write ──────────────────────────────────────────────────────────────────

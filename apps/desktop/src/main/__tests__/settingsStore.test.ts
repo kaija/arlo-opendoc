@@ -51,7 +51,7 @@ describe('settingsStore — defaults', () => {
   it('returns schema defaults when no file exists', async () => {
     const app = await store.readApp();
     expect(app.appearance.theme).toBe('system');
-    expect(app.general.startup).toBe('restore-all');
+    expect(app.general.startup).toBe('start-screen');
     expect(app.editor.autosave).toBe(true);
     expect(app.editor.autosaveDelayMs).toBe(800);
     expect(app.editor.openFilesIn).toBe('preview');
@@ -128,7 +128,7 @@ describe('settingsStore — merge semantics', () => {
     expect(app.appearance.theme).toBe('dark');
     // Fields the patches never mentioned keep their defaults.
     expect(app.editor.autosave).toBe(true);
-    expect(app.general.startup).toBe('restore-all');
+    expect(app.general.startup).toBe('start-screen');
   });
 
   it('a patch to one field leaves the rest of that section untouched', async () => {

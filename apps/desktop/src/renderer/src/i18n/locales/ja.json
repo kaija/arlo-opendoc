@@ -17,8 +17,9 @@
     "teamTitle": "チーム用ナレッジベース",
     "teamDescription": "GitHub リポジトリに接続し、チーム全体で唯一の情報源を共有・更新します。",
     "continueWithGitHub": "GitHub で続ける",
-    "continueWith": "<strong>{{name}}</strong> で続ける",
-    "lastOpened": "前回開いた項目",
+    "recentTitle": "最近使用した項目",
+    "recentDraftsOne": "ドラフト 1 件",
+    "recentDraftsMany": "ドラフト {{count}} 件",
     "footerNote": "ナレッジベースは後からいくつでも追加できます。"
   },
   "titleBar": {

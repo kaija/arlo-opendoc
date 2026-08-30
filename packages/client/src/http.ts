@@ -254,6 +254,19 @@ export function createHttpBinding(baseUrl: string): ClientInterface {
         error: { code: "UNKNOWN", message: "saveState is not available in the web client" },
       }),
 
+    noteRepoOpened: (_repoPath: string) => unavailable<void>("noteRepoOpened"),
+
+    getRecentRepos: () =>
+      unavailable<import("@arlo-doc/shared").RecentRepoSummary[]>("getRecentRepos"),
+
+    readRepoSession: (_repoPath: string) =>
+      unavailable<import("@arlo-doc/shared").RepoSession>("readRepoSession"),
+
+    saveRepoSession: (
+      _repoPath: string,
+      _session: import("@arlo-doc/shared").RepoSession,
+    ) => unavailable<void>("saveRepoSession"),
+
     // Search — the desktop app shells out to a bundled ripgrep against a local
     // working copy. The web companion will need a server-side equivalent.
     searchFiles: (

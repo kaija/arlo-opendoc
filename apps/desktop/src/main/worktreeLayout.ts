@@ -19,10 +19,16 @@ import { join } from "node:path";
 
 export const WORKTREES_DIR = join(".arlo", "worktrees");
 
-/** Current location. */
+/** Current worktree location. */
 const IGNORE_CURRENT = ".arlo/worktrees/";
 /** Covers worktrees created by builds that placed them directly in .arlo/. */
 const IGNORE_LEGACY = ".arlo/wt-*/";
+/**
+ * The per-repository session record. It holds absolute, machine-local worktree
+ * paths, so it must never be committed even though the rest of .arlo/ is fair
+ * game for files a team shares.
+ */
+const IGNORE_SESSION = ".arlo/session.json";
 
 /** Ignore entries that mean "the whole .arlo directory" and are now too broad. */
 const OVERBROAD = new Set([".arlo", ".arlo/"]);
@@ -32,8 +38,9 @@ export function worktreesRoot(repoRoot: string): string {
 }
 
 /**
- * Rewrites .gitignore so both the current and legacy worktree locations are
- * ignored, and drops the over-broad `.arlo/` entry if an older build left one.
+ * Rewrites .gitignore so the current and legacy worktree locations and the
+ * per-repo session file are all ignored, and drops the over-broad `.arlo/`
+ * entry if an older build left one.
  *
  * Returns the resulting file content, or null when nothing needed changing.
  * Never throws: failing to update .gitignore must not block creating a draft.
@@ -45,8 +52,9 @@ export function reconcileIgnoreContent(content: string): string | null {
   const hadOverbroad = trimmed.some((l) => OVERBROAD.has(l));
   const hasCurrent = trimmed.includes(IGNORE_CURRENT) || trimmed.includes(".arlo/worktrees");
   const hasLegacy = trimmed.includes(IGNORE_LEGACY) || trimmed.includes(".arlo/wt-*");
+  const hasSession = trimmed.includes(IGNORE_SESSION);
 
-  if (!hadOverbroad && hasCurrent && hasLegacy) return null;
+  if (!hadOverbroad && hasCurrent && hasLegacy && hasSession) return null;
 
   // Drop the over-broad entry; keep everything else in place.
   const kept = lines.filter((l) => !OVERBROAD.has(l.trim()));
@@ -54,6 +62,7 @@ export function reconcileIgnoreContent(content: string): string | null {
   const additions: string[] = [];
   if (!hasCurrent) additions.push(IGNORE_CURRENT);
   if (!hasLegacy) additions.push(IGNORE_LEGACY);
+  if (!hasSession) additions.push(IGNORE_SESSION);
 
   if (additions.length === 0 && !hadOverbroad) return null;
 
@@ -66,7 +75,7 @@ export function reconcileIgnoreContent(content: string): string | null {
 }
 
 /** Applies reconcileIgnoreContent to the repository's .gitignore. */
-export async function ensureWorktreesIgnored(repoRoot: string): Promise<void> {
+export async function ensureArloIgnored(repoRoot: string): Promise<void> {
   const gitignorePath = join(repoRoot, ".gitignore");
   try {
     let content = "";

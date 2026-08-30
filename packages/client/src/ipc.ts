@@ -7,6 +7,7 @@ import type {
   AppInfo,
   KeyCheckResult,
 } from "./types.js";
+import type { RepoSession, RecentRepoSummary } from "@arlo-doc/shared";
 import type {
   KbDocument,
   SearchQuery,
@@ -122,6 +123,18 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
 
     saveState: (state: PersistedClientState) =>
       invoke<void>("arlo-doc:saveState", state),
+
+    noteRepoOpened: (repoPath: string) =>
+      invoke<void>("arlo-doc:noteRepoOpened", repoPath),
+
+    getRecentRepos: () =>
+      invoke<RecentRepoSummary[]>("arlo-doc:getRecentRepos"),
+
+    readRepoSession: (repoPath: string) =>
+      invoke<RepoSession>("arlo-doc:readRepoSession", repoPath),
+
+    saveRepoSession: (repoPath: string, session: RepoSession) =>
+      invoke<void>("arlo-doc:saveRepoSession", repoPath, session),
 
     readFile: (filePath: string) =>
       invoke<string>("arlo-doc:readFile", filePath),

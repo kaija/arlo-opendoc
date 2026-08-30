@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import { MAX_TABS } from '@arlo-doc/shared';
 import type { AppState, ViewMode, WorktreeTab, WorktreeTabState } from './types';
 import { EMPTY_TAB_STATE } from './types';
-import type { PersistedClientState } from '@arlo-doc/client';
+import type { RepoSession, RecentRepoSummary } from '@arlo-doc/client';
 import { handleFileClickLogic } from './fileClickLogic';
 import type { TabStateUpdater } from './fileClickLogic';
 import { deriveGitStatusMap } from './gitStatusMapUtils';
@@ -43,6 +43,7 @@ const INITIAL_STATE: AppState = {
 export function App(): React.ReactElement {
   const [state, setState] = useState<AppState>(INITIAL_STATE);
   const [lastFolderPath, setLastFolderPath] = useState<string | null>(null);
+  const [recentRepos, setRecentRepos] = useState<RecentRepoSummary[]>([]);
   const [isPending, setIsPending] = useState(false);
   const [chooseError, setChooseError] = useState<string | null>(null);
   const [showHiddenFiles, setShowHiddenFiles] = useState(false);
@@ -86,122 +87,123 @@ export function App(): React.ReactElement {
   // ── Persistence helpers ─────────────────────────────────────────────────
 
   /**
-   * Persists current tabs + active tab + last folder to disk.
-   * Called fire-and-forget after every mutation that changes the tab list.
-   * Write failures are swallowed in the main process (REQ-007.1).
+   * Persists the current tabs + active tab into the open repo's own session
+   * record (`<repo>/.arlo/session.json`). Called fire-and-forget after every
+   * mutation that changes the tab list. Write failures are swallowed in the
+   * main process (REQ-007.1). No repo open → nothing to persist.
    */
   const persistState = useCallback((s: AppState) => {
-    const payload: PersistedClientState = {
-      lastFolderPath: s.repoDir,
-      openWorktrees: s.tabs.map((t) => ({
+    if (!s.repoDir) return;
+    const session: RepoSession = {
+      version: 1,
+      repoPath: s.repoDir,
+      activeTabId: s.activeTabId,
+      updatedAt: new Date().toISOString(),
+      worktrees: s.tabs.map((t) => ({
         id: t.id,
         title: t.title,
         worktreePath: t.worktreePath,
         branch: t.branch,
         ...(t.isMainTab ? { isMainTab: true as const } : {}),
       })),
-      activeTabId: s.activeTabId,
     };
-    void window.arlodoc.saveState(payload);
+    void window.arlodoc.saveRepoSession(s.repoDir, session);
   }, []);
 
-  // ── Restore persisted tabs on mount ─────────────────────────────────────
-  // REQ-9.4: called once after the first render. Loads the persisted state
-  // from disk, verifies paths still exist (main process handles that), then
-  // reconstructs WorktreeTab + WorktreeTabState for each surviving worktree.
+  // ── Open a repository ──────────────────────────────────────────────────
+  // The one path into a knowledge base, shared by the start screen (recent
+  // list and folder picker) and the launch-time restore. Reads the folder
+  // tree, the branch, and the repo's own session record, then rebuilds the
+  // main tab plus — when `restoreDrafts` is set — every draft worktree the
+  // repo had open. Returns false when the folder could not be read.
+  const openRepo = useCallback(
+    async (folderPath: string, restoreDrafts: boolean): Promise<boolean> => {
+      const [treeResult, statusResult, sessionResult] = await Promise.all([
+        window.arlodoc.readFolder(folderPath, showHiddenFiles),
+        window.arlodoc.gitStatus(),
+        window.arlodoc.readRepoSession(folderPath),
+      ]);
+      if (!treeResult.ok) {
+        setChooseError(treeResult.error.message);
+        return false;
+      }
+
+      // Record the open so it surfaces at the top of the recent list next time.
+      void window.arlodoc.noteRepoOpened(folderPath);
+      setLastFolderPath(folderPath);
+
+      const branch = statusResult.ok ? statusResult.data.branch : 'main';
+      const folderName = folderPath.split('/').pop() ?? 'Untitled';
+      const mainId = crypto.randomUUID();
+
+      const tabs: WorktreeTab[] = [
+        { id: mainId, title: folderName, worktreePath: folderPath, branch, isMainTab: true },
+      ];
+      const tabStates: Record<string, WorktreeTabState> = {
+        [mainId]: { ...EMPTY_TAB_STATE, fileTree: treeResult.data },
+      };
+
+      const session = sessionResult.ok ? sessionResult.data : null;
+      const drafts =
+        restoreDrafts && session ? session.worktrees.filter((w) => !w.isMainTab) : [];
+
+      if (drafts.length > 0) {
+        const draftTrees = await Promise.all(
+          drafts.map((w) => window.arlodoc.readFolder(w.worktreePath, showHiddenFiles)),
+        );
+        drafts.forEach((w, i) => {
+          tabs.push({
+            id: w.id,
+            title: w.title,
+            worktreePath: w.worktreePath,
+            branch: w.branch,
+          });
+          const tree = draftTrees[i];
+          tabStates[w.id] = {
+            ...EMPTY_TAB_STATE,
+            fileTree: tree?.ok ? tree.data : null,
+          };
+        });
+      }
+
+      const validIds = new Set(tabs.map((t) => t.id));
+      const activeTabId =
+        session && session.activeTabId !== null && validIds.has(session.activeTabId)
+          ? session.activeTabId
+          : mainId;
+
+      setState((s) => ({ ...s, repoDir: folderPath, tabs, tabStates, activeTabId }));
+      return true;
+    },
+    [showHiddenFiles],
+  );
+
+  // ── Launch-time restore ────────────────────────────────────────────────
+  // Settings > General > Startup decides what happens. The default,
+  // 'start-screen', opens nothing — the recent list is loaded and the chooser
+  // is shown. 'restore-all' / 'restore-kb' reopen the most recent repo, with
+  // or without its draft worktrees.
   useEffect(() => {
     let cancelled = false;
 
     async function restore(): Promise<void> {
-      // Settings are read first because they decide whether to restore at all.
-      // Reading them here rather than depending on component state keeps the
-      // restore a single ordered pass with no intermediate flash of the wrong
-      // screen.
-      const [result, settingsResult] = await Promise.all([
-        window.arlodoc.getPersistedState(),
-        window.arlodoc.readAppSettings(),
-      ]);
-      if (!result.ok || cancelled) return;
+      const settingsResult = await window.arlodoc.readAppSettings();
+      if (cancelled) return;
+      const startup = settingsResult.ok
+        ? settingsResult.data.general.startup
+        : 'start-screen';
 
-      const startup = settingsResult.ok ? settingsResult.data.general.startup : 'restore-all';
+      const recentResult = await window.arlodoc.getRecentRepos();
+      if (cancelled) return;
+      const recent = recentResult.ok ? recentResult.data : [];
+      setRecentRepos(recent);
+      setLastFolderPath(recent[0]?.path ?? null);
 
-      const { lastFolderPath, activeTabId } = result.data;
-      // 'restore-kb' reopens the knowledge base but none of its drafts.
-      const openWorktrees = startup === 'restore-kb' ? [] : result.data.openWorktrees;
-
-      // Show last folder path immediately for the empty state resume button
-      setLastFolderPath(lastFolderPath);
-
-      // 'start-screen' means the user chooses a knowledge base every launch.
-      // The path above is still surfaced so Resume remains one click away.
       if (startup === 'start-screen') return;
 
-      // Case A: no persisted worktrees but we have a last folder → auto-resume
-      if (openWorktrees.length === 0) {
-        if (!lastFolderPath) return;
-        const [treeResult, statusResult] = await Promise.all([
-          window.arlodoc.readFolder(lastFolderPath),
-          window.arlodoc.gitStatus(),
-        ]);
-        if (cancelled || !treeResult.ok) return;
-        const branch = statusResult.ok ? statusResult.data.branch : 'main';
-        const id = crypto.randomUUID();
-        const folderName = lastFolderPath.split('/').pop() ?? 'Untitled';
-        setState((s) => ({
-          ...s,
-          repoDir: lastFolderPath,
-          tabs: [{
-            id,
-            title: folderName,
-            worktreePath: lastFolderPath,
-            branch,
-            isMainTab: true,
-          }],
-          activeTabId: id,
-          tabStates: { [id]: { ...EMPTY_TAB_STATE, fileTree: treeResult.data } },
-        }));
-        return;
-      }
-
-      // Case B: restore full worktree list
-      const treeResults = await Promise.all(
-        openWorktrees.map((wt) => window.arlodoc.readFolder(wt.worktreePath)),
-      );
-
-      if (cancelled) return;
-
-      const tabs: WorktreeTab[] = [];
-      const tabStates: Record<string, WorktreeTabState> = {};
-
-      openWorktrees.forEach((wt, i) => {
-        tabs.push({
-          id: wt.id,
-          title: wt.title,
-          worktreePath: wt.worktreePath,
-          branch: wt.branch,
-          ...(wt.isMainTab ? { isMainTab: true as const } : {}),
-        });
-        const treeResult = treeResults[i];
-        tabStates[wt.id] = {
-          ...EMPTY_TAB_STATE,
-          fileTree: treeResult?.ok ? treeResult.data : null,
-        };
-      });
-
-      // Determine a valid active tab
-      const validIds = new Set(tabs.map((t) => t.id));
-      const restoredActiveTabId =
-        activeTabId !== null && validIds.has(activeTabId)
-          ? activeTabId
-          : (tabs[0]?.id ?? null);
-
-      setState((s) => ({
-        ...s,
-        repoDir: lastFolderPath,
-        tabs,
-        tabStates,
-        activeTabId: restoredActiveTabId,
-      }));
+      const target = recent[0]?.path;
+      if (!target) return;
+      await openRepo(target, startup === 'restore-all');
     }
 
     void restore();
@@ -482,55 +484,25 @@ export function App(): React.ReactElement {
       const chosen = await window.arlodoc.chooseFolder();
       if (!chosen.ok) { setChooseError(chosen.error.message); return; }
       if (chosen.data == null) return; // user cancelled
-
-      const folderPath = chosen.data;
-      const [treeResult, statusResult] = await Promise.all([
-        window.arlodoc.readFolder(folderPath, showHiddenFiles),
-        window.arlodoc.gitStatus(),
-      ]);
-      if (!treeResult.ok) { setChooseError(treeResult.error.message); return; }
-
-      const branch = statusResult.ok ? statusResult.data.branch : 'main';
-      const id = crypto.randomUUID();
-      const folderName = folderPath.split('/').pop() ?? 'Untitled';
-      const newTab: WorktreeTab = {
-        id,
-        title: folderName,
-        worktreePath: folderPath,
-        branch,
-        isMainTab: true,
-      };
-
-      setState((s) => ({
-        ...s,
-        repoDir: folderPath,
-        tabs: [...s.tabs, newTab],
-        activeTabId: id,
-        tabStates: { ...s.tabStates, [id]: { ...EMPTY_TAB_STATE, fileTree: treeResult.data } },
-      }));
+      await openRepo(chosen.data, true);
     } finally {
       setIsPending(false);
     }
-  }, []);
+  }, [openRepo]);
 
   const handleResumeFolder = useCallback(async () => {
     if (!lastFolderPath) return;
-    const [treeResult, statusResult] = await Promise.all([
-      window.arlodoc.readFolder(lastFolderPath, showHiddenFiles),
-      window.arlodoc.gitStatus(),
-    ]);
-    if (!treeResult.ok) return;
-    const branch = statusResult.ok ? statusResult.data.branch : 'main';
-    const id = crypto.randomUUID();
-    const folderName = lastFolderPath.split('/').pop() ?? 'Untitled';
-    setState((s) => ({
-      ...s,
-      repoDir: lastFolderPath,
-      tabs: [...s.tabs, { id, title: folderName, worktreePath: lastFolderPath, branch, isMainTab: true }],
-      activeTabId: id,
-      tabStates: { ...s.tabStates, [id]: { ...EMPTY_TAB_STATE, fileTree: treeResult.data } },
-    }));
-  }, [lastFolderPath]);
+    setChooseError(null);
+    await openRepo(lastFolderPath, true);
+  }, [lastFolderPath, openRepo]);
+
+  const handleOpenRecentRepo = useCallback(
+    async (repoPath: string) => {
+      setChooseError(null);
+      await openRepo(repoPath, true);
+    },
+    [openRepo],
+  );
 
   const handleCloseTab = useCallback(
     async (tabId: string) => {
@@ -726,8 +698,8 @@ export function App(): React.ReactElement {
       <Onboarding
         onChooseLocal={handleOpenFolder}
         onChooseGitHub={handleOpenFolder}
-        {...(lastFolderPath ? { onResumeLastFolder: handleResumeFolder } : {})}
-        lastFolderPath={lastFolderPath}
+        recentRepos={recentRepos}
+        onOpenRepo={handleOpenRecentRepo}
         isPending={isPending}
         error={chooseError}
       />

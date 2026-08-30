@@ -17,8 +17,9 @@
     "teamTitle": "Team knowledge base",
     "teamDescription": "Connect to a GitHub repository so your whole team shares and contributes to a single source of truth.",
     "continueWithGitHub": "Continue with GitHub",
-    "continueWith": "Continue with <strong>{{name}}</strong>",
-    "lastOpened": "Last opened",
+    "recentTitle": "Recent",
+    "recentDraftsOne": "1 draft",
+    "recentDraftsMany": "{{count}} drafts",
     "footerNote": "You can add more knowledge bases later."
   },
   "titleBar": {

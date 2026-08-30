@@ -19,15 +19,19 @@ function ignores(content: string, path: string): boolean {
   if (/^\.arlo\/wt-/.test(path)) {
     return lines.includes('.arlo/wt-*/') || lines.includes('.arlo/wt-*') || lines.includes('.arlo/');
   }
+  if (path === '.arlo/session.json') {
+    return lines.includes('.arlo/session.json') || lines.includes('.arlo/');
+  }
   return false;
 }
 
 describe('worktree .gitignore reconciliation', () => {
-  it('creates both entries in an empty .gitignore', () => {
+  it('creates every entry in an empty .gitignore', () => {
     const next = reconcileIgnoreContent('');
     expect(next).not.toBeNull();
     expect(ignores(next!, '.arlo/worktrees/wt-1')).toBe(true);
     expect(ignores(next!, '.arlo/wt-1')).toBe(true);
+    expect(ignores(next!, '.arlo/session.json')).toBe(true);
   });
 
   it('replaces the over-broad .arlo/ entry but keeps legacy worktrees ignored', () => {
@@ -38,6 +42,7 @@ describe('worktree .gitignore reconciliation', () => {
     // …but nothing it used to cover became visible.
     expect(ignores(next!, '.arlo/worktrees/wt-1')).toBe(true);
     expect(ignores(next!, '.arlo/wt-1756')).toBe(true);
+    expect(ignores(next!, '.arlo/session.json')).toBe(true);
   });
 
   it('preserves unrelated entries and their order', () => {
@@ -46,9 +51,18 @@ describe('worktree .gitignore reconciliation', () => {
     expect(lines.slice(0, 3)).toEqual(['node_modules/', 'dist/', '*.log']);
   });
 
-  it('is a no-op once both entries are present', () => {
-    const settled = '.arlo/worktrees/\n.arlo/wt-*/\n';
+  it('is a no-op once every entry is present', () => {
+    const settled = '.arlo/worktrees/\n.arlo/wt-*/\n.arlo/session.json\n';
     expect(reconcileIgnoreContent(settled)).toBeNull();
+  });
+
+  it('adds the session entry to a file that only ignores the worktrees', () => {
+    const next = reconcileIgnoreContent('.arlo/worktrees/\n.arlo/wt-*/\n');
+    expect(next).not.toBeNull();
+    expect(ignores(next!, '.arlo/session.json')).toBe(true);
+    // and does not disturb what was already correct
+    expect(ignores(next!, '.arlo/worktrees/wt-1')).toBe(true);
+    expect(ignores(next!, '.arlo/wt-1')).toBe(true);
   });
 
   it('is idempotent — reconciling twice changes nothing the second time', () => {

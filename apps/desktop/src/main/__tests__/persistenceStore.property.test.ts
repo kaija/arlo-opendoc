@@ -35,6 +35,8 @@ const tempDirs: string[] = [];
 // which is not permitted when TypeScript compiles the file as CommonJS.
 let getLastFolder: (typeof import('../persistenceStore.js'))['getLastFolder'];
 let saveLastFolder: (typeof import('../persistenceStore.js'))['saveLastFolder'];
+let noteRepoOpened: (typeof import('../persistenceStore.js'))['noteRepoOpened'];
+let getPersistedState: (typeof import('../persistenceStore.js'))['getPersistedState'];
 
 beforeEach(async () => {
   const dir = join(tmpdir(), `arlo-persistence-test-${randomUUID()}`);
@@ -49,6 +51,8 @@ beforeEach(async () => {
   const mod = await import('../persistenceStore.js');
   getLastFolder = mod.getLastFolder;
   saveLastFolder = mod.saveLastFolder;
+  noteRepoOpened = mod.noteRepoOpened;
+  getPersistedState = mod.getPersistedState;
 });
 
 afterEach(async () => {
@@ -146,5 +150,73 @@ describe('PersistenceStore – Property 11: Persistence round-trip', () => {
       ),
       { numRuns: 50 },
     );
+  });
+});
+
+describe('PersistenceStore – recent repositories', () => {
+  /** Creates a real directory under the temp userData dir and returns its path. */
+  async function realRepo(name: string): Promise<string> {
+    const path = join(currentTempDir, name);
+    await mkdir(path, { recursive: true });
+    return path;
+  }
+
+  it('noteRepoOpened puts the newest repo first and points lastFolderPath at it', async () => {
+    const a = await realRepo('repo-a');
+    const b = await realRepo('repo-b');
+
+    await noteRepoOpened(a);
+    await noteRepoOpened(b);
+
+    const state = await getPersistedState();
+    expect(state.recentRepos).toEqual([b, a]);
+    expect(state.lastFolderPath).toBe(b);
+  });
+
+  it('re-opening a repo moves it to the front without duplicating it', async () => {
+    const a = await realRepo('repo-a');
+    const b = await realRepo('repo-b');
+    const c = await realRepo('repo-c');
+
+    await noteRepoOpened(a);
+    await noteRepoOpened(b);
+    await noteRepoOpened(c);
+    await noteRepoOpened(a); // touch A again
+
+    const state = await getPersistedState();
+    expect(state.recentRepos).toEqual([a, c, b]);
+  });
+
+  it('caps the recent list at RECENT_REPOS_MAX entries', async () => {
+    const paths: string[] = [];
+    for (let i = 0; i < 14; i++) {
+      const p = await realRepo(`repo-${i}`);
+      paths.push(p);
+      await noteRepoOpened(p);
+    }
+    const state = await getPersistedState();
+    expect(state.recentRepos).toHaveLength(10);
+    // The 10 most recently opened, newest first.
+    expect(state.recentRepos).toEqual(paths.slice(-10).reverse());
+  });
+
+  it('drops recent entries whose directory no longer exists on disk', async () => {
+    const kept = await realRepo('kept');
+    const gone = await realRepo('gone');
+
+    await noteRepoOpened(kept);
+    await noteRepoOpened(gone);
+    await rm(gone, { recursive: true, force: true });
+
+    const state = await getPersistedState();
+    expect(state.recentRepos).toEqual([kept]);
+  });
+
+  it('leaves the deprecated global worktree fields empty', async () => {
+    const a = await realRepo('repo-a');
+    await noteRepoOpened(a);
+    const state = await getPersistedState();
+    expect(state.openWorktrees).toEqual([]);
+    expect(state.activeTabId).toBeNull();
   });
 });

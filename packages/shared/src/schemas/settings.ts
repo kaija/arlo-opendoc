@@ -67,7 +67,11 @@ export type AgentAutonomy = z.infer<typeof AgentAutonomySchema>;
 export const AppSettingsSchema = z.object({
   general: z
     .object({
-      startup: StartupBehaviourSchema.default("restore-all"),
+      // Defaults to "start-screen": the app asks which repository to open on
+      // every launch. Each repo remembers its own worktrees in <repo>/.arlo/
+      // (see the session schema), so "restore-all" / "restore-kb" stay useful
+      // for anyone who wants the last one reopened automatically.
+      startup: StartupBehaviourSchema.default("start-screen"),
       autoCheckUpdates: z.boolean().default(true),
       autoInstallUpdates: z.boolean().default(false),
     })

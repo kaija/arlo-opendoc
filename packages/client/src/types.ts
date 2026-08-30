@@ -13,7 +13,11 @@ import type {
   AppSettings,
   KbSettings,
   SecretStatus,
+  RepoSession,
+  RecentRepoSummary,
 } from "@arlo-doc/shared";
+
+export type { RepoSession, RecentRepoSummary } from "@arlo-doc/shared";
 
 // ── Error types ────────────────────────────────────────────────────────────
 
@@ -51,8 +55,12 @@ export interface PersistedWorktreeEntry {
 
 export interface PersistedClientState {
   lastFolderPath: string | null;
+  /** @deprecated per-repo `<repo>/.arlo/session.json` now owns this. */
   openWorktrees: PersistedWorktreeEntry[];
+  /** @deprecated see `openWorktrees`. */
   activeTabId: string | null;
+  /** Absolute repo-root paths, most-recently-opened first. */
+  recentRepos: string[];
 }
 
 // ── Settings types ─────────────────────────────────────────────────────────
@@ -110,10 +118,18 @@ export interface ClientInterface {
   readFolder(folderPath: string, showHidden?: boolean): Promise<KbResult<FileNode>>;
   /** Returns the last successfully opened folder path, or null if none stored. */
   getLastFolder(): Promise<KbResult<string | null>>;
-  /** Returns full persisted state: last folder, open worktrees, and active tab id. Worktree paths are verified on disk — missing ones are dropped. */
+  /** Returns full persisted state: last folder, recent repos, and (deprecated) global worktrees. Paths are verified on disk — missing ones are dropped. */
   getPersistedState(): Promise<KbResult<PersistedClientState>>;
-  /** Persists the full app state (tabs + active tab + last folder). Fire-and-forget safe. */
+  /** @deprecated Global worktree persistence — use saveRepoSession. Still writes `lastFolderPath`. */
   saveState(state: PersistedClientState): Promise<KbResult<void>>;
+  /** Records that a repository was opened: front of the recent list + last folder. Fire-and-forget safe. */
+  noteRepoOpened(repoPath: string): Promise<KbResult<void>>;
+  /** Start-screen summaries for the recently opened repositories, newest first. */
+  getRecentRepos(): Promise<KbResult<RecentRepoSummary[]>>;
+  /** Reads one repository's session record (`<repo>/.arlo/session.json`). Missing worktree paths are pruned. */
+  readRepoSession(repoPath: string): Promise<KbResult<RepoSession>>;
+  /** Persists one repository's session record. Fire-and-forget safe. */
+  saveRepoSession(repoPath: string, session: RepoSession): Promise<KbResult<void>>;
   /** Returns the UTF-8 text content of the file at filePath. */
   readFile(filePath: string): Promise<KbResult<string>>;
   /** Writes UTF-8 text content to the file at filePath (creates or overwrites). */

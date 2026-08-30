@@ -2,6 +2,7 @@
 export * from "./schemas/document.js";
 export * from "./schemas/chat.js";
 export * from "./schemas/settings.js";
+export * from "./schemas/session.js";
 export * from "./schemas/git.js";
 export * from "./schemas/forge.js";
 
