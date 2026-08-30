@@ -36,9 +36,10 @@ export function useSettings(
   repoPath: string | null,
   open: boolean,
   /**
-   * Called with the authoritative settings after every application-scope
-   * write, so the app shell can react while the dialog is still open —
-   * switching theme should repaint immediately, not on close.
+   * Called whenever the application settings this hook holds change — on the
+   * initial load and after every application-scope write — so the app shell can
+   * react while the dialog is still open. Switching theme should repaint
+   * immediately, not on close.
    */
   onAppSettingsChange?: (next: AppSettings) => void,
 ): SettingsApi {
@@ -73,8 +74,6 @@ export function useSettings(
           ])
         : [null, null, null];
 
-    if (appRes.ok) onAppSettingsChange?.(appRes.data);
-
     setState({
       app: appRes.ok ? appRes.data : null,
       kb: kbRes?.ok === true ? kbRes.data : null,
@@ -85,32 +84,32 @@ export function useSettings(
       loading: false,
       error: appRes.ok ? null : appRes.error.message,
     });
-  }, [repoPath, onAppSettingsChange]);
+  }, [repoPath]);
 
   React.useEffect(() => {
     if (open) void load();
   }, [open, load]);
 
-  const patchApp = React.useCallback(
-    (patch: SettingsPatch<AppSettings>) => {
-      // Move the control now; reconcile with what was actually stored after.
-      setState((s) => {
-        if (s.app === null) return s;
-        const optimistic = mergeApp(s.app, patch);
-        onAppSettingsChange?.(optimistic);
-        return { ...s, app: optimistic };
-      });
-      void window.arlodoc.writeAppSettings(patch).then((res) => {
-        if (res.ok) {
-          setState((s) => ({ ...s, app: res.data }));
-          onAppSettingsChange?.(res.data);
-        } else {
-          setState((s) => ({ ...s, error: res.error.message }));
-        }
-      });
-    },
-    [onAppSettingsChange],
-  );
+  const patchApp = React.useCallback((patch: SettingsPatch<AppSettings>) => {
+    // Move the control now; reconcile with what was actually stored after.
+    // This updater must stay PURE — React runs it during the render phase, so
+    // notifying the app shell from in here would be a setState on another
+    // component mid-render. The effect below does that instead.
+    setState((s) => (s.app === null ? s : { ...s, app: mergeApp(s.app, patch) }));
+    void window.arlodoc.writeAppSettings(patch).then((res) => {
+      if (res.ok) setState((s) => ({ ...s, app: res.data }));
+      else setState((s) => ({ ...s, error: res.error.message }));
+    });
+  }, []);
+
+  // The app shell is told about application settings HERE rather than at each
+  // write site: once state has committed, so it is never a setState during
+  // another component's render, and once per distinct value, so the initial
+  // load, the optimistic update and the stored result all flow through the
+  // same path.
+  React.useEffect(() => {
+    if (state.app !== null) onAppSettingsChange?.(state.app);
+  }, [state.app, onAppSettingsChange]);
 
   const patchKb = React.useCallback(
     (patch: SettingsPatch<KbSettings>) => {
