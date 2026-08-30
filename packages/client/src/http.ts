@@ -106,6 +106,18 @@ async function* sseIterable(url: string): AsyncIterable<KbResult<string>> {
   }
 }
 
+// ── unavailable helper ─────────────────────────────────────────────────────
+// Several ClientInterface methods are desktop-only: they touch the local
+// filesystem, the OS keychain, or a git working copy the browser cannot reach.
+// Rather than repeat the same rejection shape for each, they share this helper.
+
+function unavailable<T>(method: string): Promise<KbResult<T>> {
+  return Promise.resolve<KbResult<T>>({
+    ok: false,
+    error: { code: "UNKNOWN", message: `${method} is not available in the web client` },
+  });
+}
+
 // ── createHttpBinding factory ──────────────────────────────────────────────
 
 export function createHttpBinding(baseUrl: string): ClientInterface {
@@ -241,5 +253,70 @@ export function createHttpBinding(baseUrl: string): ClientInterface {
         ok: false,
         error: { code: "UNKNOWN", message: "saveState is not available in the web client" },
       }),
+
+    // Search — the desktop app shells out to a bundled ripgrep against a local
+    // working copy. The web companion will need a server-side equivalent.
+    searchFiles: (
+      _repoDir: string,
+      _query: string,
+      _options: import("@arlo-doc/shared").SearchOptions,
+    ) => unavailable<import("@arlo-doc/shared").FileNameMatch[]>("searchFiles"),
+
+    findInFiles: (
+      _repoDir: string,
+      _query: string,
+      _options: import("@arlo-doc/shared").SearchOptions,
+    ) => unavailable<import("@arlo-doc/shared").ContentMatch[]>("findInFiles"),
+
+    // Settings — stored per-machine on the desktop. The web companion will
+    // read these from the account rather than a local file, so these are
+    // "not yet", not "never".
+    readAppSettings: () => unavailable<import("@arlo-doc/shared").AppSettings>("readAppSettings"),
+
+    writeAppSettings: (
+      _patch: import("./types.js").SettingsPatch<import("@arlo-doc/shared").AppSettings>,
+    ) => unavailable<import("@arlo-doc/shared").AppSettings>("writeAppSettings"),
+
+    readKbSettings: (_repoPath: string) =>
+      unavailable<import("@arlo-doc/shared").KbSettings>("readKbSettings"),
+
+    writeKbSettings: (
+      _repoPath: string,
+      _patch: import("./types.js").SettingsPatch<import("@arlo-doc/shared").KbSettings>,
+    ) => unavailable<import("@arlo-doc/shared").KbSettings>("writeKbSettings"),
+
+    resetPreferences: () => unavailable<void>("resetPreferences"),
+
+    // Secrets — the desktop holds a user-supplied key in the OS keychain; the
+    // web service holds its own credentials server-side and never exposes them.
+    getSecretStatus: () =>
+      unavailable<import("@arlo-doc/shared").SecretStatus>("getSecretStatus"),
+
+    setAnthropicKey: (_key: string) =>
+      unavailable<import("@arlo-doc/shared").SecretStatus>("setAnthropicKey"),
+
+    clearAnthropicKey: () =>
+      unavailable<import("@arlo-doc/shared").SecretStatus>("clearAnthropicKey"),
+
+    testAnthropicKey: () => unavailable<import("./types.js").KeyCheckResult>("testAnthropicKey"),
+
+    forgetCredentials: () =>
+      unavailable<import("@arlo-doc/shared").SecretStatus>("forgetCredentials"),
+
+    // Agent instructions — a file in a local working copy.
+    readInstructions: (_repoPath: string) => unavailable<string>("readInstructions"),
+
+    writeInstructions: (_repoPath: string, _content: string) =>
+      unavailable<void>("writeInstructions"),
+
+    // About — describes an installed desktop build.
+    getAppInfo: () => unavailable<import("./types.js").AppInfo>("getAppInfo"),
+
+    revealSettingsFile: () => unavailable<void>("revealSettingsFile"),
+
+    openLogsFolder: () => unavailable<void>("openLogsFolder"),
+
+    getGitIdentity: (_repoPath: string) =>
+      unavailable<{ name: string; email: string } | null>("getGitIdentity"),
   };
 }

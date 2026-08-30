@@ -1,5 +1,6 @@
 import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 import { promises as fs } from "node:fs";
+import { release } from "node:os";
 import { join } from "node:path";
 import { CoreEngine, SpawnGitBackend } from "@arlo-doc/core";
 import type { WorktreeInfo, SearchOptions } from "@arlo-doc/shared";
@@ -7,6 +8,10 @@ import { readFolder } from "./folderReader.js";
 import * as ripgrepRunner from "./ripgrepRunner.js";
 import { getLastFolder, getPersistedState, saveLastFolder, saveState } from "./persistenceStore.js";
 import type { PersistedState } from "./persistenceStore.js";
+import * as settingsStore from "./settingsStore.js";
+import * as secretStore from "./secretStore.js";
+import type { AppSettings, KbSettings } from "@arlo-doc/shared";
+import type { SettingsPatch, AppInfo, KeyCheckResult } from "@arlo-doc/client";
 
 // ── Git backend singleton ──────────────────────────────────────────────────
 // Shared across all worktree IPC handlers. Worktree operations are stateless
@@ -393,6 +398,202 @@ ipcMain.handle("arlo-doc:worktreeDirty", async (_event, worktreePath: string) =>
     return await gitBackend.worktreeDirty(worktreePath);
   } catch (err) {
     wrapError(err);
+  }
+});
+
+// ── Settings IPC ──────────────────────────────────────────────────────────
+
+ipcMain.handle("arlo-doc:readAppSettings", async () => {
+  try {
+    return await settingsStore.readApp();
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+ipcMain.handle(
+  "arlo-doc:writeAppSettings",
+  async (_event, patch: SettingsPatch<AppSettings>) => {
+    try {
+      return await settingsStore.writeApp(patch);
+    } catch (err) {
+      wrapError(err);
+    }
+  },
+);
+
+ipcMain.handle("arlo-doc:readKbSettings", async (_event, repoPath: string) => {
+  try {
+    return await settingsStore.readKb(repoPath);
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+ipcMain.handle(
+  "arlo-doc:writeKbSettings",
+  async (_event, repoPath: string, patch: SettingsPatch<KbSettings>) => {
+    try {
+      return await settingsStore.writeKb(repoPath, patch);
+    } catch (err) {
+      wrapError(err);
+    }
+  },
+);
+
+ipcMain.handle("arlo-doc:resetPreferences", async () => {
+  try {
+    await settingsStore.resetPreferences();
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// ── Secret IPC ────────────────────────────────────────────────────────────
+// Every channel here returns SecretStatus — never a key. secretStore's
+// plaintext accessors are main-process only and are deliberately not bridged.
+
+ipcMain.handle("arlo-doc:getSecretStatus", async () => {
+  try {
+    return await secretStore.status();
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+ipcMain.handle("arlo-doc:setAnthropicKey", async (_event, key: string) => {
+  try {
+    return await secretStore.setAnthropicKey(key);
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+ipcMain.handle("arlo-doc:clearAnthropicKey", async () => {
+  try {
+    return await secretStore.clearAnthropicKey();
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+/**
+ * Verifies the STORED key by calling the Anthropic API. The renderer never
+ * sends or receives the key — it asks for a check and gets a verdict.
+ */
+ipcMain.handle("arlo-doc:testAnthropicKey", async () => {
+  const checkedAt = new Date().toISOString();
+  try {
+    const key = await secretStore.getAnthropicKey();
+    if (key === null) {
+      return { valid: false, message: "No API key is stored.", checkedAt } satisfies KeyCheckResult;
+    }
+    const res = await fetch("https://api.anthropic.com/v1/models?limit=1", {
+      headers: { "x-api-key": key, "anthropic-version": "2023-06-01" },
+    });
+    if (res.ok) {
+      await secretStore.markAnthropicVerified(checkedAt);
+      return { valid: true, message: null, checkedAt } satisfies KeyCheckResult;
+    }
+    const message =
+      res.status === 401
+        ? "That key was rejected. Check it was copied in full."
+        : `Anthropic returned ${res.status}.`;
+    return { valid: false, message, checkedAt } satisfies KeyCheckResult;
+  } catch (err) {
+    // A network failure is not an invalid key, and must not be reported as one.
+    return {
+      valid: false,
+      message: `Could not reach api.anthropic.com — ${(err as Error).message}`,
+      checkedAt,
+    } satisfies KeyCheckResult;
+  }
+});
+
+ipcMain.handle("arlo-doc:forgetCredentials", async () => {
+  try {
+    return await secretStore.forgetAll();
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+// ── Agent instructions (ARLO.md) ──────────────────────────────────────────
+// A committed file at the repository root, so a team shares one set of
+// conventions. Deliberately NOT inside .arlo/, which is gitignored.
+
+function instructionsPath(repoPath: string): string {
+  return join(repoPath, "ARLO.md");
+}
+
+ipcMain.handle("arlo-doc:readInstructions", async (_event, repoPath: string) => {
+  try {
+    return await fs.readFile(instructionsPath(repoPath), "utf-8");
+  } catch (err) {
+    // Absent is the normal state for a repository that has never set any.
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") return "";
+    wrapError(err);
+  }
+});
+
+ipcMain.handle(
+  "arlo-doc:writeInstructions",
+  async (_event, repoPath: string, content: string) => {
+    try {
+      await fs.writeFile(instructionsPath(repoPath), content, "utf-8");
+    } catch (err) {
+      wrapError(err);
+    }
+  },
+);
+
+// ── About IPC ─────────────────────────────────────────────────────────────
+
+ipcMain.handle("arlo-doc:getAppInfo", async () => {
+  try {
+    return {
+      version: app.getVersion(),
+      electronVersion: process.versions.electron ?? "unknown",
+      platform: process.platform,
+      osVersion: release(),
+      userDataPath: app.getPath("userData"),
+      encryptionAvailable: secretStore.isEncryptionAvailable(),
+    } satisfies AppInfo;
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+ipcMain.handle("arlo-doc:revealSettingsFile", async () => {
+  try {
+    shell.showItemInFolder(settingsStore.getSettingsPath());
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+ipcMain.handle("arlo-doc:openLogsFolder", async () => {
+  try {
+    await shell.openPath(app.getPath("logs"));
+  } catch (err) {
+    wrapError(err);
+  }
+});
+
+/**
+ * Resolves the identity git would actually use in this repository — local
+ * config first, then global. Returns null when git has no identity set, which
+ * the Repository pane surfaces rather than inventing a value.
+ */
+ipcMain.handle("arlo-doc:getGitIdentity", async (_event, repoPath: string) => {
+  try {
+    const name = await gitBackend.getConfig(repoPath, "user.name");
+    const email = await gitBackend.getConfig(repoPath, "user.email");
+    if (name === null || email === null) return null;
+    return { name, email };
+  } catch {
+    // No identity configured is a normal state, not an error.
+    return null;
   }
 });
 

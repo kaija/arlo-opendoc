@@ -36,6 +36,7 @@ describe("CoreEngine", () => {
               worktreeList: vi.fn(),
               worktreeDirty: vi.fn(),
               getRepoRoot: vi.fn(),
+              getConfig: vi.fn(),
             };
 
             const kbRoot = "/test/repo/root";

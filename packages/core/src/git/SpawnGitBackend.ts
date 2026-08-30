@@ -203,6 +203,16 @@ export class SpawnGitBackend implements GitBackend {
     return output.trim().length > 0;
   }
 
+  async getConfig(repoDir: string, key: string): Promise<string | null> {
+    try {
+      const value = (await runGit(["config", "--get", key], repoDir)).trim();
+      return value === "" ? null : value;
+    } catch {
+      // `git config --get` exits 1 when the key is simply not set.
+      return null;
+    }
+  }
+
   async getRepoRoot(cwd: string): Promise<string> {
     const output = await runGit(["-C", cwd, "rev-parse", "--show-toplevel"]);
     return output.trim();

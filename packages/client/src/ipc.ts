@@ -1,4 +1,12 @@
-import type { ClientInterface, KbError, KbResult, PersistedClientState } from "./types.js";
+import type {
+  ClientInterface,
+  KbError,
+  KbResult,
+  PersistedClientState,
+  SettingsPatch,
+  AppInfo,
+  KeyCheckResult,
+} from "./types.js";
 import type {
   KbDocument,
   SearchQuery,
@@ -10,6 +18,9 @@ import type {
   SearchOptions,
   FileNameMatch,
   ContentMatch,
+  AppSettings,
+  KbSettings,
+  SecretStatus,
 } from "@arlo-doc/shared";
 
 // ── IpcRenderer interface ──────────────────────────────────────────────────
@@ -137,6 +148,58 @@ export function createIpcBinding(ipcRenderer: ElectronIpcRenderer): ClientInterf
     // Search operations
     searchFiles: (repoDir: string, query: string, options: SearchOptions) =>
       invoke<FileNameMatch[]>("arlo-doc:searchFiles", repoDir, query, options),
+
+    // Settings
+    readAppSettings: () =>
+      invoke<AppSettings>("arlo-doc:readAppSettings"),
+
+    writeAppSettings: (patch: SettingsPatch<AppSettings>) =>
+      invoke<AppSettings>("arlo-doc:writeAppSettings", patch),
+
+    readKbSettings: (repoPath: string) =>
+      invoke<KbSettings>("arlo-doc:readKbSettings", repoPath),
+
+    writeKbSettings: (repoPath: string, patch: SettingsPatch<KbSettings>) =>
+      invoke<KbSettings>("arlo-doc:writeKbSettings", repoPath, patch),
+
+    resetPreferences: () =>
+      invoke<void>("arlo-doc:resetPreferences"),
+
+    // Secrets — note there is no channel that returns a plaintext value.
+    getSecretStatus: () =>
+      invoke<SecretStatus>("arlo-doc:getSecretStatus"),
+
+    setAnthropicKey: (key: string) =>
+      invoke<SecretStatus>("arlo-doc:setAnthropicKey", key),
+
+    clearAnthropicKey: () =>
+      invoke<SecretStatus>("arlo-doc:clearAnthropicKey"),
+
+    testAnthropicKey: () =>
+      invoke<KeyCheckResult>("arlo-doc:testAnthropicKey"),
+
+    forgetCredentials: () =>
+      invoke<SecretStatus>("arlo-doc:forgetCredentials"),
+
+    // Agent instructions
+    readInstructions: (repoPath: string) =>
+      invoke<string>("arlo-doc:readInstructions", repoPath),
+
+    writeInstructions: (repoPath: string, content: string) =>
+      invoke<void>("arlo-doc:writeInstructions", repoPath, content),
+
+    // About
+    getAppInfo: () =>
+      invoke<AppInfo>("arlo-doc:getAppInfo"),
+
+    revealSettingsFile: () =>
+      invoke<void>("arlo-doc:revealSettingsFile"),
+
+    openLogsFolder: () =>
+      invoke<void>("arlo-doc:openLogsFolder"),
+
+    getGitIdentity: (repoPath: string) =>
+      invoke<{ name: string; email: string } | null>("arlo-doc:getGitIdentity", repoPath),
 
     findInFiles: (repoDir: string, query: string, options: SearchOptions) =>
       invoke<ContentMatch[]>("arlo-doc:findInFiles", repoDir, query, options),

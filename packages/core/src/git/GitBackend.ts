@@ -22,4 +22,12 @@ export interface GitBackend {
 
   /** `git -C <cwd> rev-parse --show-toplevel` — returns the absolute path to the repo root. */
   getRepoRoot(cwd: string): Promise<string>;
+
+  /**
+   * `git config --get <key>` resolved from within `repoDir`, so repository-local
+   * config wins over global exactly as git itself resolves it.
+   * Returns null when the key is unset — an unset identity is a normal state,
+   * not an error.
+   */
+  getConfig(repoDir: string, key: string): Promise<string | null>;
 }

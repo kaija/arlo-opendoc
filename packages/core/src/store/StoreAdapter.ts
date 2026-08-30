@@ -1,7 +1,7 @@
 import type {
   ChatRecord,
   ChatMessage,
-  UserSettings,
+  AppSettings,
 } from "@arlo-doc/shared";
 
 export interface StoreAdapter {
@@ -11,7 +11,9 @@ export interface StoreAdapter {
   updateChatRecord(id: string, messages: ChatMessage[]): Promise<ChatRecord>;
   deleteChatRecord(id: string): Promise<void>;
 
-  // Settings
-  readSettings(): Promise<UserSettings>;
-  writeSettings(settings: Partial<UserSettings>): Promise<UserSettings>;
+  // Settings — application scope only. Knowledge-base settings are keyed by
+  // repository path and handled by the host, and secrets never pass through
+  // this adapter: they live in an OS-encrypted store the host owns.
+  readSettings(): Promise<AppSettings>;
+  writeSettings(settings: Partial<AppSettings>): Promise<AppSettings>;
 }
