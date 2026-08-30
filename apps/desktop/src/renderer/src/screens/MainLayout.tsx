@@ -10,6 +10,7 @@ import { UnifiedDiffView } from '../components/UnifiedDiffView';
 import { ChatPanel } from '../components/ChatPanel';
 import { SearchModal } from '../components/SearchModal';
 import { PublishModal } from '../components/PublishModal';
+import { SettingsModal } from '../components/settings/SettingsModal';
 import { EmptyTabState } from '../components/EmptyTabState';
 import { CloseWorktreeDialog } from '../components/CloseWorktreeDialog';
 import { NoFileSelected } from '../components/NoFileSelected';
@@ -38,6 +39,9 @@ export interface MainLayoutProps {
   onCloseTab: (tabId: string) => void;
   onCloseTabConfirm: () => void;
   onOpenFolder?: () => void;
+  onOpenSettings?: (() => void) | undefined;
+  onCloseSettings?: (() => void) | undefined;
+  onAppSettingsChange?: ((next: import('@arlo-doc/shared').AppSettings) => void) | undefined;
   onResume?: () => void;
   lastFolderPath?: string | null | undefined;
   onNoteClick?: (noteId: string) => void;
@@ -93,6 +97,9 @@ export function MainLayout({
   onCloseTab,
   onCloseTabConfirm,
   onOpenFolder,
+  onOpenSettings,
+  onCloseSettings,
+  onAppSettingsChange,
   onResume,
   lastFolderPath,
   onNoteClick,
@@ -197,6 +204,7 @@ export function MainLayout({
               repoName={repoName}
               showHidden={showHiddenFiles}
               {...(onToggleHiddenFiles ? { onToggleHidden: onToggleHiddenFiles } : {})}
+              onOpenSettings={onOpenSettings}
             />
           ) : (
             <Sidebar
@@ -268,6 +276,14 @@ export function MainLayout({
       )}
       {state.modal === 'publish' && (
         <PublishModal onPublish={onPublish} onCancel={onCancelPublish} />
+      )}
+      {state.modal === 'settings' && (
+        <SettingsModal
+          repoPath={state.repoDir}
+          repoName={repoName ?? null}
+          onClose={onCloseSettings ?? (() => {})}
+          onAppSettingsChange={onAppSettingsChange}
+        />
       )}
       {state.modal !== null &&
         typeof state.modal === 'object' &&

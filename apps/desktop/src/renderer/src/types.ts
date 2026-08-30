@@ -52,7 +52,7 @@ export interface CloseWorktreeModal {
   worktreePath: string;
 }
 
-export type ModalKind = 'search' | 'publish' | CloseWorktreeModal | null;
+export type ModalKind = 'search' | 'publish' | 'settings' | CloseWorktreeModal | null;
 
 export interface SidebarNote {
   id: string;

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { ChevronDown, ChevronRight, Eye, EyeOff } from 'lucide-react';
+import { ChevronDown, ChevronRight, Eye, EyeOff, Settings as SettingsIcon } from 'lucide-react';
 import type { FileNode } from '@arlo-doc/shared';
 import { FileTypeIcon } from './FileTypeIcon';
 
@@ -17,6 +17,8 @@ interface FileBrowserProps {
   repoName?: string | undefined;
   showHidden?: boolean | undefined;
   onToggleHidden?: () => void;
+  /** Opens the settings dialog. Renders the footer gear when provided. */
+  onOpenSettings?: (() => void) | undefined;
 }
 
 interface FlatRow {
@@ -210,6 +212,7 @@ export function FileBrowser({
   repoName,
   showHidden = false,
   onToggleHidden,
+  onOpenSettings,
 }: FileBrowserProps): React.ReactElement {
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
@@ -339,6 +342,42 @@ export function FileBrowser({
           );
         })}
       </div>
+
+      {/* Footer — the settings entry point */}
+      {onOpenSettings !== undefined && (
+        <div
+          style={{
+            height: 42,
+            flexShrink: 0,
+            borderTop: '1px solid var(--border)',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '0 14px',
+          }}
+        >
+          <button
+            type="button"
+            aria-label="Settings"
+            title="Settings"
+            onClick={onOpenSettings}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              border: 'none',
+              background: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              color: 'var(--text-faint)',
+              fontSize: 12,
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
+            <SettingsIcon size={15} />
+            Settings
+          </button>
+        </div>
+      )}
 
       {/* Drag handle */}
       <div

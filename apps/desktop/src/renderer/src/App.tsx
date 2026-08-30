@@ -9,6 +9,8 @@ import { deriveGitStatusMap } from './gitStatusMapUtils';
 import { MainLayout } from './screens/MainLayout';
 import { Onboarding } from './screens/Onboarding';
 import './styles/globals.css';
+import { useTheme } from './components/settings/useTheme';
+import type { AppSettings } from '@arlo-doc/shared';
 
 /**
  * Returns all ancestor directory paths for a given file path.
@@ -228,6 +230,14 @@ export function App(): React.ReactElement {
         e.preventDefault();
         update({ modal: 'search' });
       }
+      // Cmd+, / Ctrl+, — the platform convention for preferences. Unlike
+      // search this needs no open tab: appearance and credentials are
+      // configurable before any knowledge base is opened.
+      if (modKey && !e.shiftKey && e.key === ',') {
+        if (state.modal !== null && state.modal !== 'settings') return;
+        e.preventDefault();
+        update({ modal: state.modal === 'settings' ? null : 'settings' });
+      }
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
@@ -235,6 +245,26 @@ export function App(): React.ReactElement {
 
   const handleOpenSearch = useCallback(() => {
     update({ modal: 'search' });
+  }, [update]);
+
+  const handleOpenSettings = useCallback(() => {
+    update({ modal: 'settings' });
+  }, [update]);
+
+  // Application settings live here, not in the dialog: the theme must apply
+  // on launch and stay applied after the dialog closes.
+  const [appSettings, setAppSettings] = useState<AppSettings | null>(null);
+
+  useEffect(() => {
+    void window.arlodoc.readAppSettings().then((res) => {
+      if (res.ok) setAppSettings(res.data);
+    });
+  }, []);
+
+  useTheme(appSettings?.appearance.theme);
+
+  const handleCloseSettings = useCallback(() => {
+    update({ modal: null });
   }, [update]);
 
   const handleCloseSearch = useCallback(() => {
@@ -638,6 +668,9 @@ export function App(): React.ReactElement {
       showDiffTab={showDiffTab}
       onModeChange={handleModeChange}
       onOpenSearch={handleOpenSearch}
+      onOpenSettings={handleOpenSettings}
+      onCloseSettings={handleCloseSettings}
+      onAppSettingsChange={setAppSettings}
       onCloseSearch={handleCloseSearch}
       onSearchResultClick={handleSearchResultClick}
       onChatToggle={handleChatToggle}
