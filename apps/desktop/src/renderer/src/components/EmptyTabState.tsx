@@ -18,7 +18,7 @@ export function EmptyTabState({
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-      <p style={{ fontSize: 13, color: '#8e8eaa', margin: 0, fontFamily: 'var(--font-sans)' }}>
+      <p style={{ fontSize: 13, color: 'var(--text-faint)', margin: 0, fontFamily: 'var(--font-sans)' }}>
         No folder open
       </p>
 
@@ -33,18 +33,18 @@ export function EmptyTabState({
             height: 44,
             padding: '0 18px',
             borderRadius: 10,
-            border: '1px solid rgba(88,86,214,.25)',
-            background: 'rgba(88,86,214,.05)',
+            border: '1px solid var(--color-accent-a25)',
+            background: 'var(--color-accent-a05)',
             cursor: 'pointer',
             maxWidth: 360,
             width: '100%',
           }}
         >
-          <FolderOpen size={16} color="#5856D6" style={{ flexShrink: 0 }} />
+          <FolderOpen size={16} color="var(--color-accent)" style={{ flexShrink: 0 }} />
           <span style={{
             fontSize: 13,
             fontWeight: 500,
-            color: '#5856D6',
+            color: 'var(--color-accent)',
             fontFamily: 'var(--font-sans)',
             flex: 1,
             textAlign: 'left',
@@ -54,7 +54,7 @@ export function EmptyTabState({
           }}>
             Continue with <strong>{lastFolderName}</strong>
           </span>
-          <span style={{ fontSize: 11, color: '#8e8eaa', fontFamily: 'var(--font-sans)', flexShrink: 0 }}>
+          <span style={{ fontSize: 11, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)', flexShrink: 0 }}>
             Last opened
           </span>
         </button>
@@ -65,9 +65,9 @@ export function EmptyTabState({
         style={{
           padding: '8px 20px',
           borderRadius: 8,
-          border: '1.5px dashed rgba(88,86,214,.4)',
+          border: '1.5px dashed var(--color-accent-a40)',
           background: 'transparent',
-          color: '#5856D6',
+          color: 'var(--color-accent)',
           fontSize: 13,
           fontFamily: 'var(--font-sans)',
           cursor: 'pointer',

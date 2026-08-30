@@ -105,7 +105,7 @@ function MarkdownLine({
               display: 'inline-block',
               width: 1.5,
               height: 13,
-              background: '#5856D6',
+              background: 'var(--color-accent)',
               verticalAlign: 'text-bottom',
             }}
           />
@@ -120,8 +120,8 @@ function MarkdownLine({
     if (match) {
       return (
         <div style={baseStyle}>
-          <span style={{ color: '#8e8eaa' }}>{match[1]}</span>
-          <span style={{ color: '#5856D6' }}>
+          <span style={{ color: 'var(--text-faint)' }}>{match[1]}</span>
+          <span style={{ color: 'var(--color-accent)' }}>
             {match[2]}
             {isCursorLine && (
               <span
@@ -130,7 +130,7 @@ function MarkdownLine({
                   display: 'inline-block',
                   width: 1.5,
                   height: 13,
-                  background: '#5856D6',
+                  background: 'var(--color-accent)',
                   verticalAlign: 'text-bottom',
                   marginLeft: 1,
                 }}
@@ -151,11 +151,11 @@ function MarkdownLine({
           if (part.startsWith('**') && part.endsWith('**')) {
             return (
               <React.Fragment key={i}>
-                <span style={{ color: '#8e8eaa' }}>**</span>
-                <span style={{ color: '#1a1a2e', fontWeight: 600 }}>
+                <span style={{ color: 'var(--text-faint)' }}>**</span>
+                <span style={{ color: 'var(--text-body)', fontWeight: 600 }}>
                   {part.slice(2, -2)}
                 </span>
-                <span style={{ color: '#8e8eaa' }}>**</span>
+                <span style={{ color: 'var(--text-faint)' }}>**</span>
               </React.Fragment>
             );
           }
@@ -164,8 +164,8 @@ function MarkdownLine({
               <span
                 key={i}
                 style={{
-                  background: '#f0f0f8',
-                  color: '#52526b',
+                  background: 'var(--surface-sunken)',
+                  color: 'var(--text-muted-strong)',
                   borderRadius: 3,
                   padding: '0 3px',
                 }}
@@ -176,13 +176,13 @@ function MarkdownLine({
           }
           if (part.startsWith('[') && part.endsWith(']')) {
             return (
-              <span key={i} style={{ color: '#5856D6' }}>
+              <span key={i} style={{ color: 'var(--color-accent)' }}>
                 {part}
               </span>
             );
           }
           return (
-            <span key={i} style={{ color: '#1a1a2e' }}>
+            <span key={i} style={{ color: 'var(--text-body)' }}>
               {part}
             </span>
           );
@@ -194,7 +194,7 @@ function MarkdownLine({
               display: 'inline-block',
               width: 1.5,
               height: 13,
-              background: '#5856D6',
+              background: 'var(--color-accent)',
               verticalAlign: 'text-bottom',
               marginLeft: 1,
             }}
@@ -207,15 +207,15 @@ function MarkdownLine({
   // Plain text with inline code and link rendering
   const parts = line.content.split(/(`[^`]+`|\[.*?\])/g);
   return (
-    <div style={{ ...baseStyle, color: '#1a1a2e' }}>
+    <div style={{ ...baseStyle, color: 'var(--text-body)' }}>
       {parts.map((part, i) => {
         if (part.startsWith('`') && part.endsWith('`')) {
           return (
             <span
               key={i}
               style={{
-                background: '#f0f0f8',
-                color: '#52526b',
+                background: 'var(--surface-sunken)',
+                color: 'var(--text-muted-strong)',
                 borderRadius: 3,
                 padding: '0 3px',
               }}
@@ -226,13 +226,13 @@ function MarkdownLine({
         }
         if (part.startsWith('[') && part.endsWith(']')) {
           return (
-            <span key={i} style={{ color: '#5856D6' }}>
+            <span key={i} style={{ color: 'var(--color-accent)' }}>
               {part}
             </span>
           );
         }
         return (
-          <span key={i} style={{ color: '#1a1a2e' }}>
+          <span key={i} style={{ color: 'var(--text-body)' }}>
             {part}
           </span>
         );
@@ -244,7 +244,7 @@ function MarkdownLine({
             display: 'inline-block',
             width: 1.5,
             height: 13,
-            background: '#5856D6',
+            background: 'var(--color-accent)',
             verticalAlign: 'text-bottom',
             marginLeft: 1,
           }}
@@ -269,7 +269,7 @@ export function Editing(): React.ReactElement {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff',
+        background: 'var(--surface-card)',
       }}
     >
       <TitleBar
@@ -302,7 +302,7 @@ export function Editing(): React.ReactElement {
           style={{
             flex: 1,
             overflowY: 'auto',
-            background: '#fff',
+            background: 'var(--surface-card)',
             padding: '36px 40px',
           }}
         >
@@ -322,8 +322,8 @@ export function Editing(): React.ReactElement {
           style={{
             width: 186,
             flexShrink: 0,
-            borderLeft: '1px solid rgba(0,0,0,.06)',
-            background: '#fafafa',
+            borderLeft: '1px solid var(--border)',
+            background: 'var(--surface-alt)',
             padding: '16px 12px',
             overflowY: 'auto',
           }}
@@ -333,7 +333,7 @@ export function Editing(): React.ReactElement {
               fontSize: 11,
               fontWeight: 500,
               fontFamily: 'var(--font-sans)',
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               marginBottom: 10,
@@ -354,7 +354,7 @@ export function Editing(): React.ReactElement {
                 style={{
                   fontSize: 12,
                   fontWeight: item.isActive ? 500 : 400,
-                  color: item.isActive ? '#5856D6' : '#64648c',
+                  color: item.isActive ? 'var(--color-accent)' : 'var(--text-muted)',
                   fontFamily: 'var(--font-sans)',
                   lineHeight: 1.5,
                   cursor: 'pointer',

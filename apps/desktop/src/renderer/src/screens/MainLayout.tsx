@@ -61,7 +61,7 @@ export interface MainLayoutProps {
 function LoadingView(): React.ReactElement {
   return (
     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: 13, color: '#8e8eaa', fontFamily: 'var(--font-sans)' }}>
+      <span style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
         Loading…
       </span>
     </div>
@@ -147,7 +147,7 @@ export function MainLayout({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff',
+        background: 'var(--surface-card)',
         position: 'relative',
       }}
     >

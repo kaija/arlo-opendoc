@@ -38,7 +38,7 @@ export function MarkdownEditor({
     : '';
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#fff', position: 'relative' }}>
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--surface-card)', position: 'relative' }}>
       <textarea
         ref={textareaRef}
         value={content ?? ''}
@@ -54,9 +54,9 @@ export function MarkdownEditor({
           fontFamily: 'var(--font-mono)',
           fontSize: 13.5,
           lineHeight: 1.75,
-          color: '#1a1a2e',
+          color: 'var(--text-body)',
           background: 'transparent',
-          caretColor: '#5856D6',
+          caretColor: 'var(--color-accent)',
         }}
       />
 

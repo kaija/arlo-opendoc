@@ -66,11 +66,11 @@ const SVG_COMMON_PROPS = {
 
 function MarkdownIcon(): React.ReactElement {
   return (
-    <svg {...SVG_COMMON_PROPS} data-icon="markdown">
-      <rect x="1" y="1" width="9" height="12" rx="1" stroke="#64648c" strokeWidth="1.2" fill="none" />
+    <svg {...SVG_COMMON_PROPS} data-icon="markdown" style={{ color: 'var(--text-muted)' }}>
+      <rect x="1" y="1" width="9" height="12" rx="1" stroke="currentColor" strokeWidth="1.2" fill="none" />
       <path
         d="M3 5h6M3 7.5l1.5 2L6 7.5l1.5 2L9 7.5"
-        stroke="#64648c"
+        stroke="currentColor"
         strokeWidth="1.1"
         fill="none"
         strokeLinecap="round"
@@ -80,6 +80,9 @@ function MarkdownIcon(): React.ReactElement {
   );
 }
 
+// The TypeScript and JavaScript marks below use their official brand colours,
+// and the strokes drawn on top of them are fixed contrast pairs against those
+// fills. Neither moves with the theme, so both stay literal by design.
 function TypeScriptIcon(): React.ReactElement {
   return (
     <svg {...SVG_COMMON_PROPS} data-icon="typescript">
@@ -108,17 +111,17 @@ function JavaScriptIcon(): React.ReactElement {
 
 function JsonIcon(): React.ReactElement {
   return (
-    <svg {...SVG_COMMON_PROPS} data-icon="json">
+    <svg {...SVG_COMMON_PROPS} data-icon="json" style={{ color: 'var(--text-muted)' }}>
       <path
         d="M4.5 2c-1 0-1.5.5-1.5 1.5v1c0 .8-.5 1.5-1 1.5.5 0 1 .7 1 1.5v1c0 1 .5 1.5 1.5 1.5"
-        stroke="#64648c"
+        stroke="currentColor"
         strokeWidth="1.2"
         fill="none"
         strokeLinecap="round"
       />
       <path
         d="M9.5 2c1 0 1.5.5 1.5 1.5v1c0 .8.5 1.5 1 1.5-.5 0-1 .7-1 1.5v1c0 1-.5 1.5-1.5 1.5"
-        stroke="#64648c"
+        stroke="currentColor"
         strokeWidth="1.2"
         fill="none"
         strokeLinecap="round"
@@ -129,20 +132,20 @@ function JsonIcon(): React.ReactElement {
 
 function YamlIcon(): React.ReactElement {
   return (
-    <svg {...SVG_COMMON_PROPS} data-icon="yaml">
-      <path d="M2 4h10M2 7h7M2 10h5" stroke="#64648c" strokeWidth="1.3" strokeLinecap="round" />
+    <svg {...SVG_COMMON_PROPS} data-icon="yaml" style={{ color: 'var(--text-muted)' }}>
+      <path d="M2 4h10M2 7h7M2 10h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
 
 function ImageIcon(): React.ReactElement {
   return (
-    <svg {...SVG_COMMON_PROPS} data-icon="image">
-      <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="#64648c" strokeWidth="1.2" fill="none" />
-      <circle cx="4.5" cy="5.5" r="1" fill="#64648c" />
+    <svg {...SVG_COMMON_PROPS} data-icon="image" style={{ color: 'var(--text-muted)' }}>
+      <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.2" fill="none" />
+      <circle cx="4.5" cy="5.5" r="1" fill="currentColor" />
       <path
         d="M1.5 10.5l3-3.5 2.5 3 2-2 3 3.5"
-        stroke="#64648c"
+        stroke="currentColor"
         strokeWidth="1.1"
         fill="none"
         strokeLinejoin="round"
@@ -153,40 +156,40 @@ function ImageIcon(): React.ReactElement {
 
 function ShellIcon(): React.ReactElement {
   return (
-    <svg {...SVG_COMMON_PROPS} data-icon="shell">
-      <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="#64648c" strokeWidth="1.2" fill="none" />
+    <svg {...SVG_COMMON_PROPS} data-icon="shell" style={{ color: 'var(--text-muted)' }}>
+      <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.2" fill="none" />
       <path
         d="M3.5 9l2.5-2L3.5 5"
-        stroke="#64648c"
+        stroke="currentColor"
         strokeWidth="1.2"
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M8 9h3" stroke="#64648c" strokeWidth="1.2" strokeLinecap="round" />
+      <path d="M8 9h3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   );
 }
 
 function TextIcon(): React.ReactElement {
   return (
-    <svg {...SVG_COMMON_PROPS} data-icon="text">
-      <rect x="1.5" y="1" width="9" height="12" rx="1" stroke="#64648c" strokeWidth="1.2" fill="none" />
-      <path d="M3.5 4.5h5M3.5 7h5M3.5 9.5h3" stroke="#64648c" strokeWidth="1.1" strokeLinecap="round" />
+    <svg {...SVG_COMMON_PROPS} data-icon="text" style={{ color: 'var(--text-muted)' }}>
+      <rect x="1.5" y="1" width="9" height="12" rx="1" stroke="currentColor" strokeWidth="1.2" fill="none" />
+      <path d="M3.5 4.5h5M3.5 7h5M3.5 9.5h3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   );
 }
 
 function GenericIcon(): React.ReactElement {
   return (
-    <svg {...SVG_COMMON_PROPS} data-icon="generic">
+    <svg {...SVG_COMMON_PROPS} data-icon="generic" style={{ color: 'var(--text-dim)' }}>
       <path
         d="M3 1h6l3 3v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"
-        stroke="#a8a8be"
+        stroke="currentColor"
         strokeWidth="1.2"
         fill="none"
       />
-      <path d="M9 1v3h3" stroke="#a8a8be" strokeWidth="1.2" fill="none" />
+      <path d="M9 1v3h3" stroke="currentColor" strokeWidth="1.2" fill="none" />
     </svg>
   );
 }

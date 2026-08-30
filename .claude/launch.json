@@ -5,7 +5,7 @@
       "name": "arlo-desktop",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "apps/desktop", "run", "dev"],
-      "port": 3100
+      "port": 5173
     }
   ]
 }

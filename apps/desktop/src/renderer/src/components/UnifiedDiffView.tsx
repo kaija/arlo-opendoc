@@ -89,10 +89,10 @@ const ROW_H = 21;
 const GUTTER_W = 20;
 
 const COLORS = {
-  removed:   { gutter: '#f7d7dd', bg: '#fdf0f2', symbol: '−', symbolColor: '#b5566a' },
-  added:     { gutter: '#d6f2e4', bg: '#eefaf4', symbol: '+', symbolColor: '#4f9c78' },
-  context:   { gutter: 'transparent', bg: '#fff', symbol: '', symbolColor: 'transparent' },
-  hunk:      { gutter: '#f0f0f8', bg: '#f8f8fc', symbol: '@', symbolColor: '#8e8eaa' },
+  removed:   { gutter: 'var(--color-danger-surface-strong)', bg: 'var(--color-danger-surface)', symbol: '−', symbolColor: 'var(--color-danger-dim)' },
+  added:     { gutter: 'var(--color-success-surface-strong)', bg: 'var(--color-success-surface)', symbol: '+', symbolColor: 'var(--color-success-dim)' },
+  context:   { gutter: 'transparent', bg: 'var(--surface-card)', symbol: '', symbolColor: 'transparent' },
+  hunk:      { gutter: 'var(--surface-sunken)', bg: 'var(--surface-section)', symbol: '@', symbolColor: 'var(--text-faint)' },
 } as const;
 
 function Cell({
@@ -103,8 +103,8 @@ function Cell({
   if (!cell) {
     return (
       <div style={{ display: 'flex', height: ROW_H }}>
-        <div style={{ width: GUTTER_W, flexShrink: 0, background: '#f8f8fc' }} />
-        <div style={{ flex: 1, background: '#fafafb' }} />
+        <div style={{ width: GUTTER_W, flexShrink: 0, background: 'var(--surface-section)' }} />
+        <div style={{ flex: 1, background: 'var(--surface-alt-soft)' }} />
       </div>
     );
   }
@@ -139,7 +139,7 @@ function Cell({
           fontFamily: 'var(--font-mono)',
           fontSize: isHunk ? 10 : 11.5,
           lineHeight: `${ROW_H}px`,
-          color: isHunk ? '#8e8eaa' : '#52526b',
+          color: isHunk ? 'var(--text-faint)' : 'var(--text-muted-strong)',
           whiteSpace: 'pre',
           overflow: 'hidden',
           fontWeight: isHunk ? 500 : 400,
@@ -157,7 +157,7 @@ export function UnifiedDiffView({ diff }: UnifiedDiffViewProps): React.ReactElem
   if (!diff) {
     return (
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <span style={{ fontSize: 13, color: '#8e8eaa', fontFamily: 'var(--font-sans)' }}>
+        <span style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
           No changes to display
         </span>
       </div>
@@ -167,15 +167,15 @@ export function UnifiedDiffView({ diff }: UnifiedDiffViewProps): React.ReactElem
   const rows = parseDiff(diff);
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#fff' }}>
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--surface-card)' }}>
       {/* Column headers */}
       <div
         style={{
           height: 30,
           flexShrink: 0,
           display: 'flex',
-          background: '#f8f8fc',
-          borderBottom: '1px solid rgba(0,0,0,.06)',
+          background: 'var(--surface-section)',
+          borderBottom: '1px solid var(--border)',
         }}
       >
         <div
@@ -188,8 +188,8 @@ export function UnifiedDiffView({ diff }: UnifiedDiffViewProps): React.ReactElem
             lineHeight: '30px',
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
-            color: '#8e8eaa',
-            borderRight: '1px solid rgba(0,0,0,.06)',
+            color: 'var(--text-faint)',
+            borderRight: '1px solid var(--border)',
           }}
         >
           Live
@@ -204,7 +204,7 @@ export function UnifiedDiffView({ diff }: UnifiedDiffViewProps): React.ReactElem
             lineHeight: '30px',
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
           }}
         >
           Working copy
@@ -216,7 +216,7 @@ export function UnifiedDiffView({ diff }: UnifiedDiffViewProps): React.ReactElem
         {rows.map((row, i) => (
           <div key={i} style={{ display: 'flex', flexShrink: 0 }}>
             {/* Left panel */}
-            <div style={{ flex: 1, minWidth: 0, borderRight: '1px solid rgba(0,0,0,.06)' }}>
+            <div style={{ flex: 1, minWidth: 0, borderRight: '1px solid var(--border)' }}>
               <Cell cell={row.left} />
             </div>
             {/* Right panel */}

@@ -9,7 +9,7 @@ function DocumentView(): React.ReactElement {
       style={{
         flex: 1,
         overflowY: 'auto',
-        background: '#fff',
+        background: 'var(--surface-card)',
         display: 'flex',
         justifyContent: 'center',
       }}
@@ -31,19 +31,19 @@ function DocumentView(): React.ReactElement {
             <span
               key={label}
               style={{
-                background: '#f0f0f8',
+                background: 'var(--surface-sunken)',
                 borderRadius: 999,
                 padding: '4px 10px',
                 fontSize: 12,
                 fontFamily: 'var(--font-sans)',
-                color: '#52526b',
+                color: 'var(--text-muted-strong)',
               }}
             >
               <span
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: 11,
-                  color: '#8e8eaa',
+                  color: 'var(--text-faint)',
                   marginRight: 4,
                 }}
               >
@@ -59,7 +59,7 @@ function DocumentView(): React.ReactElement {
           style={{
             fontSize: 31,
             fontWeight: 700,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             letterSpacing: '-0.025em',
             marginBottom: 18,
             fontFamily: 'var(--font-sans)',
@@ -75,7 +75,7 @@ function DocumentView(): React.ReactElement {
             fontSize: 15,
             fontWeight: 400,
             lineHeight: 1.7,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             maxWidth: '68ch',
             marginBottom: 32,
             fontFamily: 'var(--font-sans)',
@@ -91,7 +91,7 @@ function DocumentView(): React.ReactElement {
           style={{
             fontSize: 19,
             fontWeight: 600,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             letterSpacing: '-0.015em',
             marginBottom: 12,
             fontFamily: 'var(--font-sans)',
@@ -104,7 +104,7 @@ function DocumentView(): React.ReactElement {
           style={{
             fontSize: 15,
             lineHeight: 1.7,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             maxWidth: '68ch',
             marginBottom: 20,
             fontFamily: 'var(--font-sans)',
@@ -118,7 +118,7 @@ function DocumentView(): React.ReactElement {
         {/* Table */}
         <div
           style={{
-            border: '1px solid rgba(0,0,0,.08)',
+            border: '1px solid var(--border-mid)',
             borderRadius: 8,
             overflow: 'hidden',
             maxWidth: 620,
@@ -129,8 +129,8 @@ function DocumentView(): React.ReactElement {
           <div
             style={{
               display: 'flex',
-              background: '#f8f8fc',
-              borderBottom: '1px solid rgba(0,0,0,.08)',
+              background: 'var(--surface-section)',
+              borderBottom: '1px solid var(--border-mid)',
             }}
           >
             {[
@@ -147,7 +147,7 @@ function DocumentView(): React.ReactElement {
                   fontSize: 11,
                   fontWeight: 500,
                   fontFamily: 'var(--font-sans)',
-                  color: '#8e8eaa',
+                  color: 'var(--text-faint)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
                 }}
@@ -167,7 +167,7 @@ function DocumentView(): React.ReactElement {
               key={level}
               style={{
                 display: 'flex',
-                borderTop: i > 0 ? '1px solid rgba(0,0,0,.06)' : undefined,
+                borderTop: i > 0 ? '1px solid var(--border)' : undefined,
               }}
             >
               <div
@@ -176,7 +176,7 @@ function DocumentView(): React.ReactElement {
                   padding: '9px 12px',
                   fontSize: 13,
                   fontFamily: 'var(--font-mono)',
-                  color: '#52526b',
+                  color: 'var(--text-muted-strong)',
                 }}
               >
                 {level}
@@ -187,7 +187,7 @@ function DocumentView(): React.ReactElement {
                   padding: '9px 12px',
                   fontSize: 13,
                   fontFamily: 'var(--font-sans)',
-                  color: '#1a1a2e',
+                  color: 'var(--text-body)',
                 }}
               >
                 {who}
@@ -198,7 +198,7 @@ function DocumentView(): React.ReactElement {
                   padding: '9px 12px',
                   fontSize: 13,
                   fontFamily: 'var(--font-sans)',
-                  color: '#52526b',
+                  color: 'var(--text-muted-strong)',
                 }}
               >
                 {time}
@@ -212,7 +212,7 @@ function DocumentView(): React.ReactElement {
           style={{
             fontSize: 19,
             fontWeight: 600,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             letterSpacing: '-0.015em',
             marginBottom: 12,
             fontFamily: 'var(--font-sans)',
@@ -225,7 +225,7 @@ function DocumentView(): React.ReactElement {
           style={{
             fontSize: 15,
             lineHeight: 1.7,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             maxWidth: '68ch',
             marginBottom: 48,
             fontFamily: 'var(--font-sans)',
@@ -252,7 +252,7 @@ export function Reading(): React.ReactElement {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff',
+        background: 'var(--surface-card)',
       }}
     >
       <TitleBar

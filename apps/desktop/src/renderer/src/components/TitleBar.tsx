@@ -30,17 +30,17 @@ function StatusDot({ status }: { status: DraftStatus }): React.ReactElement | nu
   };
 
   if (status === 'working') {
-    return <span style={{ ...baseStyle, background: '#5856D6' }} />;
+    return <span style={{ ...baseStyle, background: 'var(--color-accent)' }} />;
   }
   if (status === 'needs-approval') {
-    return <span style={{ ...baseStyle, background: '#c07a12' }} />;
+    return <span style={{ ...baseStyle, background: 'var(--color-warning)' }} />;
   }
   // draft — empty circle
   return (
     <span
       style={{
         ...baseStyle,
-        border: '1.5px solid #8e8eaa',
+        border: '1.5px solid var(--text-faint)',
         background: 'transparent',
       }}
     />
@@ -108,8 +108,8 @@ export function TitleBar({
       style={{
         // Chrome-style: taller title bar so tabs sit at traffic-light height
         height: 52,
-        background: '#f8f8fc',
-        borderBottom: '1px solid rgba(0,0,0,.08)',
+        background: 'var(--surface-section)',
+        borderBottom: '1px solid var(--border-mid)',
         display: 'flex',
         alignItems: 'flex-end', // tabs sit at the bottom of the bar
         flexShrink: 0,
@@ -136,8 +136,8 @@ export function TitleBar({
               paddingLeft: 9,
               paddingRight: 9,
               marginBottom: 13, // lift to vertical centre of the 52px bar
-              background: '#fff',
-              border: '1px solid rgba(0,0,0,.08)',
+              background: 'var(--surface-card)',
+              border: '1px solid var(--border-mid)',
               borderRadius: 6,
               flexShrink: 0,
               WebkitAppRegion: 'no-drag',
@@ -149,13 +149,13 @@ export function TitleBar({
               style={{
                 fontWeight: 500,
                 fontSize: 12,
-                color: '#1a1a2e',
+                color: 'var(--text-body)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
               {draftName}
             </span>
-            <ChevronDown size={12} color="#8e8eaa" />
+            <ChevronDown size={12} color="var(--text-faint)" />
           </div>
 
           {/* Divider */}
@@ -163,7 +163,7 @@ export function TitleBar({
             style={{
               width: 1,
               height: 20,
-              background: 'rgba(0,0,0,.08)',
+              background: 'var(--border-mid)',
               marginLeft: 8,
               marginRight: 4,
               marginBottom: 16,
@@ -207,14 +207,14 @@ export function TitleBar({
                 fontSize: 12.5,
                 fontFamily: 'var(--font-sans)',
                 fontWeight: isActive ? 500 : 400,
-                color: isActive ? '#1a1a2e' : '#64648c',
+                color: isActive ? 'var(--text-body)' : 'var(--text-muted)',
                 // Active: white pill with top-rounded corners that "lifts" off the bar
-                background: isActive ? '#fff' : 'transparent',
+                background: isActive ? 'var(--surface-card)' : 'transparent',
                 borderRadius: isActive ? '8px 8px 0 0' : 4,
                 border: isActive
-                  ? '1px solid rgba(0,0,0,.08)'
+                  ? '1px solid var(--border-mid)'
                   : '1px solid transparent',
-                borderBottom: isActive ? '1px solid #fff' : '1px solid transparent',
+                borderBottom: isActive ? '1px solid var(--surface-card)' : '1px solid transparent',
                 cursor: 'pointer',
                 flexShrink: 0,
                 // Negative bottom margin so the tab bottom overlaps the border
@@ -248,7 +248,7 @@ export function TitleBar({
                 }}
                 style={{
                   flexShrink: 0,
-                  color: '#a8a8be',
+                  color: 'var(--text-dim)',
                   padding: '0 2px',
                   borderRadius: 3,
                   lineHeight: 1,
@@ -289,7 +289,7 @@ export function TitleBar({
               style={{
                 width: 12,
                 height: 12,
-                border: '1.5px solid #8e8eaa',
+                border: '1.5px solid var(--text-faint)',
                 borderTopColor: 'transparent',
                 borderRadius: '50%',
                 display: 'inline-block',
@@ -297,7 +297,7 @@ export function TitleBar({
               }}
             />
           ) : (
-            <Plus size={13} color="#8e8eaa" />
+            <Plus size={13} color="var(--text-faint)" />
           )}
         </button>
       </div>

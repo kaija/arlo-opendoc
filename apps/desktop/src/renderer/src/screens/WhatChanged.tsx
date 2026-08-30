@@ -131,10 +131,10 @@ function DiffColumn({
     <div style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
       {rows.map((row, i) => {
         const bgMap: Record<string, string> = {
-          add: '#eefaf4',
-          remove: '#fdf0f2',
+          add: 'var(--color-success-surface)',
+          remove: 'var(--color-danger-surface)',
           context: 'transparent',
-          empty: side === 'left' ? '#fdf0f2' : '#eefaf4',
+          empty: side === 'left' ? 'var(--color-danger-surface)' : 'var(--color-success-surface)',
         };
         const markerMap: Record<string, string> = {
           add: '+',
@@ -143,16 +143,16 @@ function DiffColumn({
           empty: side === 'left' ? '-' : '+',
         };
         const markerBgMap: Record<string, string> = {
-          add: '#d6f2e4',
-          remove: '#f7d7dd',
+          add: 'var(--color-success-surface-strong)',
+          remove: 'var(--color-danger-surface-strong)',
           context: 'transparent',
-          empty: side === 'left' ? '#f7d7dd' : '#d6f2e4',
+          empty: side === 'left' ? 'var(--color-danger-surface-strong)' : 'var(--color-success-surface-strong)',
         };
         const markerColorMap: Record<string, string> = {
-          add: '#1f9d6b',
-          remove: '#d1435b',
+          add: 'var(--color-success)',
+          remove: 'var(--color-danger)',
           context: 'transparent',
-          empty: side === 'left' ? '#d1435b' : '#1f9d6b',
+          empty: side === 'left' ? 'var(--color-danger)' : 'var(--color-success)',
         };
 
         const isEmptyType = row.text === '' && row.type === 'context';
@@ -188,7 +188,7 @@ function DiffColumn({
               style={{
                 fontSize: 11.5,
                 fontFamily: 'var(--font-mono)',
-                color: '#52526b',
+                color: 'var(--text-muted-strong)',
                 paddingLeft: 6,
                 paddingRight: 8,
                 whiteSpace: 'pre',
@@ -210,20 +210,20 @@ function DiffColumn({
                   display: 'flex',
                   alignItems: 'center',
                   gap: 5,
-                  background: '#fff',
-                  border: '1px solid rgba(0,0,0,.10)',
+                  background: 'var(--surface-card)',
+                  border: '1px solid var(--border-strong)',
                   borderRadius: 999,
                   padding: '4px 10px',
-                  boxShadow: '0 2px 8px rgba(0,0,0,.08)',
+                  boxShadow: '0 2px 8px var(--border-mid)',
                   cursor: 'pointer',
                   fontSize: 11.5,
                   fontWeight: 500,
                   fontFamily: 'var(--font-sans)',
-                  color: '#52526b',
+                  color: 'var(--text-muted-strong)',
                   zIndex: 2,
                 }}
               >
-                <RotateCcw size={11} color="#8e8eaa" />
+                <RotateCcw size={11} color="var(--text-faint)" />
                 Undo this change
               </div>
             )}
@@ -246,7 +246,7 @@ export function WhatChanged(): React.ReactElement {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff',
+        background: 'var(--surface-card)',
       }}
     >
       <TitleBar
@@ -290,7 +290,7 @@ export function WhatChanged(): React.ReactElement {
               alignItems: 'center',
               gap: 10,
               padding: '0 16px',
-              borderBottom: '1px solid rgba(0,0,0,.08)',
+              borderBottom: '1px solid var(--border-mid)',
               flexShrink: 0,
               flexWrap: 'wrap',
             }}
@@ -299,7 +299,7 @@ export function WhatChanged(): React.ReactElement {
               style={{
                 fontSize: 13,
                 fontWeight: 500,
-                color: '#1a1a2e',
+                color: 'var(--text-body)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
@@ -309,8 +309,8 @@ export function WhatChanged(): React.ReactElement {
               style={{
                 fontSize: 11,
                 fontWeight: 500,
-                color: '#c07a12',
-                background: 'rgba(192,122,18,.09)',
+                color: 'var(--color-warning)',
+                background: 'var(--color-warning-a09)',
                 borderRadius: 4,
                 padding: '2px 6px',
                 fontFamily: 'var(--font-sans)',
@@ -322,7 +322,7 @@ export function WhatChanged(): React.ReactElement {
               style={{
                 fontSize: 11.5,
                 fontFamily: 'var(--font-mono)',
-                color: '#1f9d6b',
+                color: 'var(--color-success)',
               }}
             >
               +18
@@ -331,7 +331,7 @@ export function WhatChanged(): React.ReactElement {
               style={{
                 fontSize: 11.5,
                 fontFamily: 'var(--font-mono)',
-                color: '#d1435b',
+                color: 'var(--color-danger)',
               }}
             >
               -2
@@ -340,7 +340,7 @@ export function WhatChanged(): React.ReactElement {
             <span
               style={{
                 fontSize: 12,
-                color: '#64648c',
+                color: 'var(--text-muted)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
@@ -350,7 +350,7 @@ export function WhatChanged(): React.ReactElement {
               style={{
                 fontSize: 11.5,
                 fontFamily: 'var(--font-mono)',
-                color: '#1f9d6b',
+                color: 'var(--color-success)',
               }}
             >
               +32
@@ -359,7 +359,7 @@ export function WhatChanged(): React.ReactElement {
               style={{
                 fontSize: 11.5,
                 fontFamily: 'var(--font-mono)',
-                color: '#d1435b',
+                color: 'var(--color-danger)',
               }}
             >
               -3
@@ -371,8 +371,8 @@ export function WhatChanged(): React.ReactElement {
             style={{
               height: 30,
               display: 'flex',
-              background: '#f8f8fc',
-              borderBottom: '1px solid rgba(0,0,0,.06)',
+              background: 'var(--surface-section)',
+              borderBottom: '1px solid var(--border)',
               flexShrink: 0,
             }}
           >
@@ -387,10 +387,10 @@ export function WhatChanged(): React.ReactElement {
                   fontSize: 11,
                   fontWeight: 500,
                   fontFamily: 'var(--font-sans)',
-                  color: '#8e8eaa',
+                  color: 'var(--text-faint)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
-                  borderRight: label === 'Live' ? '1px solid rgba(0,0,0,.06)' : undefined,
+                  borderRight: label === 'Live' ? '1px solid var(--border)' : undefined,
                 }}
               >
                 {label}
@@ -410,7 +410,7 @@ export function WhatChanged(): React.ReactElement {
               style={{
                 flex: 1,
                 overflow: 'hidden',
-                borderRight: '1px solid rgba(0,0,0,.06)',
+                borderRight: '1px solid var(--border)',
               }}
             >
               <DiffColumn side="left" showUndoButton={false} />

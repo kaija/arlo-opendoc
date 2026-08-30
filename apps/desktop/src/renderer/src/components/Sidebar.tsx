@@ -58,8 +58,8 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
       style={{
         width: 240,
         flexShrink: 0,
-        background: '#f8f8fc',
-        borderRight: '1px solid rgba(0,0,0,.06)',
+        background: 'var(--surface-section)',
+        borderRight: '1px solid var(--border)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -74,8 +74,8 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
             alignItems: 'center',
             gap: 6,
             padding: '0 8px',
-            background: '#fff',
-            border: '1px solid rgba(0,0,0,.06)',
+            background: 'var(--surface-card)',
+            border: '1px solid var(--border)',
             borderRadius: 6,
             cursor: 'pointer',
           }}
@@ -86,7 +86,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
               width: 18,
               height: 18,
               borderRadius: 5,
-              background: '#5856D6',
+              background: 'var(--color-accent)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -97,7 +97,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
               style={{
                 fontSize: 10,
                 fontWeight: 600,
-                color: '#fff',
+                color: 'var(--text-on-accent)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
@@ -109,7 +109,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
               flex: 1,
               fontSize: 13,
               fontWeight: 500,
-              color: '#1a1a2e',
+              color: 'var(--text-body)',
               fontFamily: 'var(--font-sans)',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -118,7 +118,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
           >
             Platform Handbook
           </span>
-          <ChevronDown size={12} color="#8e8eaa" style={{ flexShrink: 0 }} />
+          <ChevronDown size={12} color="var(--text-faint)" style={{ flexShrink: 0 }} />
         </div>
       </div>
 
@@ -129,7 +129,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
           fontSize: 11,
           fontWeight: 500,
           fontFamily: 'var(--font-sans)',
-          color: '#8e8eaa',
+          color: 'var(--text-faint)',
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
         }}
@@ -163,16 +163,16 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
               }}
             >
               {isExpanded ? (
-                <ChevronDown size={12} color="#a8a8be" style={{ flexShrink: 0 }} />
+                <ChevronDown size={12} color="var(--text-dim)" style={{ flexShrink: 0 }} />
               ) : (
-                <ChevronRight size={12} color="#a8a8be" style={{ flexShrink: 0 }} />
+                <ChevronRight size={12} color="var(--text-dim)" style={{ flexShrink: 0 }} />
               )}
               <span
                 style={{
                   flex: 1,
                   fontSize: 12.5,
                   fontWeight: isExpanded ? 600 : 500,
-                  color: isExpanded ? '#1a1a2e' : '#52526b',
+                  color: isExpanded ? 'var(--text-body)' : 'var(--text-muted-strong)',
                   fontFamily: 'var(--font-sans)',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -186,7 +186,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
                   style={{
                     fontSize: 10,
                     fontWeight: 500,
-                    color: '#c07a12',
+                    color: 'var(--color-warning)',
                     fontFamily: 'var(--font-sans)',
                     flexShrink: 0,
                   }}
@@ -215,9 +215,9 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
                       paddingRight: 8,
                       borderRadius: 6,
                       background: isActive
-                        ? 'rgba(88,86,214,.08)'
+                        ? 'var(--color-accent-a08)'
                         : isHovered
-                        ? 'rgba(88,86,214,.04)'
+                        ? 'var(--color-accent-a04)'
                         : 'transparent',
                       cursor: 'pointer',
                     }}
@@ -227,7 +227,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
                         flex: 1,
                         fontSize: 12.5,
                         fontWeight: isActive ? 500 : 400,
-                        color: isActive ? '#5856D6' : '#64648c',
+                        color: isActive ? 'var(--color-accent)' : 'var(--text-muted)',
                         fontFamily: 'var(--font-sans)',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -241,7 +241,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
                         style={{
                           fontSize: 10,
                           fontWeight: 500,
-                          color: '#c07a12',
+                          color: 'var(--color-warning)',
                           fontFamily: 'var(--font-sans)',
                           marginLeft: 4,
                           flexShrink: 0,
@@ -255,7 +255,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
                         style={{
                           fontSize: 10,
                           fontWeight: 500,
-                          color: '#1f9d6b',
+                          color: 'var(--color-success)',
                           fontFamily: 'var(--font-sans)',
                           marginLeft: 4,
                           flexShrink: 0,
@@ -278,14 +278,14 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
           style={{
             margin: 16,
             paddingTop: 12,
-            borderTop: '1px solid rgba(0,0,0,.06)',
+            borderTop: '1px solid var(--border)',
           }}
         >
           <p
             style={{
               fontSize: 11,
               fontWeight: 400,
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
               fontFamily: 'var(--font-sans)',
               lineHeight: 1.5,
             }}
@@ -299,7 +299,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
       <div
         style={{
           height: 48,
-          borderTop: '1px solid rgba(0,0,0,.06)',
+          borderTop: '1px solid var(--border)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -307,13 +307,13 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
           flexShrink: 0,
         }}
       >
-        <Settings size={16} color="#8e8eaa" style={{ cursor: 'pointer' }} />
+        <Settings size={16} color="var(--text-faint)" style={{ cursor: 'pointer' }} />
         <div
           style={{
             width: 22,
             height: 22,
             borderRadius: '50%',
-            background: '#dcdcea',
+            background: 'var(--surface-neutral)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -324,7 +324,7 @@ export function Sidebar({ variant, activeNoteId, expandedNotebooks = [], onNoteC
             style={{
               fontSize: 9.5,
               fontWeight: 600,
-              color: '#52526b',
+              color: 'var(--text-muted-strong)',
               fontFamily: 'var(--font-sans)',
               lineHeight: 1,
             }}

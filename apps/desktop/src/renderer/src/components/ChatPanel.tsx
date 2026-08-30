@@ -21,7 +21,7 @@ function Cursor(): React.ReactElement {
         display: 'inline-block',
         width: 1.5,
         height: 13,
-        background: '#5856D6',
+        background: 'var(--color-accent)',
         marginLeft: 1,
         verticalAlign: 'text-bottom',
       }}
@@ -40,7 +40,7 @@ function ToolCallCard({
   return (
     <div
       style={{
-        border: '1px solid rgba(0,0,0,.06)',
+        border: '1px solid var(--border)',
         borderRadius: 8,
         padding: '9px 11px',
       }}
@@ -51,12 +51,12 @@ function ToolCallCard({
           alignItems: 'center',
           gap: 5,
           fontSize: 11.5,
-          color: '#52526b',
+          color: 'var(--text-muted-strong)',
           fontFamily: 'var(--font-sans)',
           fontWeight: 500,
         }}
       >
-        <ChevronRight size={12} color="#a8a8be" style={{ flexShrink: 0 }} />
+        <ChevronRight size={12} color="var(--text-dim)" style={{ flexShrink: 0 }} />
         {label}
       </div>
       {details.length > 0 && (
@@ -72,7 +72,7 @@ function ToolCallCard({
           {details.map((d) => (
             <span
               key={d}
-              style={{ fontSize: 11.5, color: '#8e8eaa', fontFamily: 'var(--font-sans)' }}
+              style={{ fontSize: 11.5, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}
             >
               {d}
             </span>
@@ -106,8 +106,8 @@ const DIFF_LINES: Array<{ type: 'add' | 'remove' | 'context'; text: string }> = 
 // Copied verbatim from screens/Approval.tsx
 function DiffLine({ line }: { line: (typeof DIFF_LINES)[number] }): React.ReactElement {
   const bgMap = {
-    add: '#eefaf4',
-    remove: '#fdf0f2',
+    add: 'var(--color-success-surface)',
+    remove: 'var(--color-danger-surface)',
     context: 'transparent',
   }
   const markerMap = {
@@ -116,8 +116,8 @@ function DiffLine({ line }: { line: (typeof DIFF_LINES)[number] }): React.ReactE
     context: ' ',
   }
   const markerBgMap = {
-    add: '#d6f2e4',
-    remove: '#f7d7dd',
+    add: 'var(--color-success-surface-strong)',
+    remove: 'var(--color-danger-surface-strong)',
     context: 'transparent',
   }
 
@@ -141,7 +141,7 @@ function DiffLine({ line }: { line: (typeof DIFF_LINES)[number] }): React.ReactE
           fontSize: 11,
           fontFamily: 'var(--font-mono)',
           color:
-            line.type === 'add' ? '#1f9d6b' : line.type === 'remove' ? '#d1435b' : '#8e8eaa',
+            line.type === 'add' ? 'var(--color-success)' : line.type === 'remove' ? 'var(--color-danger)' : 'var(--text-faint)',
           flexShrink: 0,
         }}
       >
@@ -151,7 +151,7 @@ function DiffLine({ line }: { line: (typeof DIFF_LINES)[number] }): React.ReactE
         style={{
           fontSize: 11.5,
           fontFamily: 'var(--font-mono)',
-          color: '#52526b',
+          color: 'var(--text-muted-strong)',
           paddingLeft: 6,
           whiteSpace: 'pre',
           overflow: 'hidden',
@@ -174,7 +174,7 @@ function ApprovalCard({
   return (
     <div
       style={{
-        border: '1px solid rgba(0,0,0,.08)',
+        border: '1px solid var(--border-mid)',
         borderRadius: 10,
         overflow: 'hidden',
       }}
@@ -193,7 +193,7 @@ function ApprovalCard({
           style={{
             fontSize: 12.5,
             fontWeight: 600,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             fontFamily: 'var(--font-sans)',
             flex: 1,
           }}
@@ -205,16 +205,16 @@ function ApprovalCard({
             display: 'flex',
             alignItems: 'center',
             gap: 5,
-            background: '#f0f0f8',
+            background: 'var(--surface-sunken)',
             borderRadius: 6,
             padding: '4px 8px',
           }}
         >
-          <FileText size={12} color="#8e8eaa" />
+          <FileText size={12} color="var(--text-faint)" />
           <span
             style={{
               fontSize: 11.5,
-              color: '#52526b',
+              color: 'var(--text-muted-strong)',
               fontFamily: 'var(--font-sans)',
             }}
           >
@@ -226,8 +226,8 @@ function ApprovalCard({
       {/* Diff view */}
       <div
         style={{
-          borderTop: '1px solid rgba(0,0,0,.06)',
-          borderBottom: '1px solid rgba(0,0,0,.06)',
+          borderTop: '1px solid var(--border)',
+          borderBottom: '1px solid var(--border)',
           maxHeight: 180,
           overflowY: 'auto',
         }}
@@ -242,7 +242,7 @@ function ApprovalCard({
         <p
           style={{
             fontSize: 11,
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
             fontFamily: 'var(--font-sans)',
             marginBottom: 10,
             lineHeight: 1.5,
@@ -257,12 +257,12 @@ function ApprovalCard({
               flex: 1,
               height: 28,
               borderRadius: 6,
-              border: '1px solid rgba(0,0,0,.1)',
-              background: '#fff',
+              border: '1px solid var(--border-strong)',
+              background: 'var(--surface-card)',
               fontSize: 12,
               fontWeight: 500,
               fontFamily: 'var(--font-sans)',
-              color: '#d1435b',
+              color: 'var(--color-danger)',
               cursor: 'pointer',
             }}
           >
@@ -275,11 +275,11 @@ function ApprovalCard({
               height: 28,
               borderRadius: 6,
               border: 'none',
-              background: '#5856D6',
+              background: 'var(--color-accent)',
               fontSize: 12,
               fontWeight: 500,
               fontFamily: 'var(--font-sans)',
-              color: '#fff',
+              color: 'var(--text-on-accent)',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -287,7 +287,7 @@ function ApprovalCard({
               gap: 5,
             }}
           >
-            <Check size={12} color="#fff" />
+            <Check size={12} style={{ color: 'var(--text-on-accent)' }} />
             Approve
           </button>
         </div>
@@ -295,11 +295,11 @@ function ApprovalCard({
           <span
             style={{
               fontSize: 11,
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
               fontFamily: 'var(--font-sans)',
               cursor: 'pointer',
               textDecoration: 'underline',
-              textDecorationColor: 'rgba(142,142,170,.4)',
+              textDecorationColor: 'var(--text-decoration-faint)',
             }}
           >
             Always allow · this draft only
@@ -328,10 +328,10 @@ export function ChatPanel({
         flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff',
-        borderLeft: '1px solid rgba(0,0,0,.08)',
+        background: 'var(--surface-card)',
+        borderLeft: '1px solid var(--border-mid)',
         borderRadius: '12px 0 0 12px',
-        boxShadow: '-10px 0 24px rgba(0,0,0,.08)',
+        boxShadow: '-10px 0 24px var(--border-mid)',
       }}
     >
       {/* Header */}
@@ -341,7 +341,7 @@ export function ChatPanel({
           display: 'flex',
           alignItems: 'center',
           padding: '0 12px',
-          borderBottom: '1px solid rgba(0,0,0,.06)',
+          borderBottom: '1px solid var(--border)',
           flexShrink: 0,
         }}
       >
@@ -351,7 +351,7 @@ export function ChatPanel({
             fontFamily: 'var(--font-sans)',
             fontSize: 14,
             fontWeight: 600,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
           }}
         >
           Arlo
@@ -365,7 +365,7 @@ export function ChatPanel({
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
-                background: 'rgba(88,86,214,.06)',
+                background: 'var(--color-accent-a06)',
                 borderRadius: 20,
                 padding: '3px 10px',
               }}
@@ -375,14 +375,14 @@ export function ChatPanel({
                   width: 6,
                   height: 6,
                   borderRadius: '50%',
-                  background: '#5856D6',
+                  background: 'var(--color-accent)',
                 }}
               />
               <span
                 style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: 12,
-                  color: '#5856D6',
+                  color: 'var(--color-accent)',
                   fontWeight: 500,
                 }}
               >
@@ -396,7 +396,7 @@ export function ChatPanel({
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
-                background: 'rgba(192,122,18,.08)',
+                background: 'var(--color-warning-a08)',
                 borderRadius: 20,
                 padding: '3px 10px',
               }}
@@ -406,14 +406,14 @@ export function ChatPanel({
                   width: 6,
                   height: 6,
                   borderRadius: '50%',
-                  background: '#c07a12',
+                  background: 'var(--color-warning)',
                 }}
               />
               <span
                 style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: 12,
-                  color: '#c07a12',
+                  color: 'var(--color-warning)',
                   fontWeight: 500,
                 }}
               >
@@ -436,7 +436,7 @@ export function ChatPanel({
             background: 'transparent',
             borderRadius: 6,
             cursor: 'pointer',
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
             padding: 0,
           }}
         >
@@ -460,12 +460,12 @@ export function ChatPanel({
           <div
             style={{
               maxWidth: 300,
-              background: '#f0f0f8',
+              background: 'var(--surface-sunken)',
               borderRadius: 10,
               padding: '10px 12px',
               fontSize: 12.5,
               lineHeight: 1.55,
-              color: '#1a1a2e',
+              color: 'var(--text-body)',
               fontFamily: 'var(--font-sans)',
             }}
           >
@@ -486,7 +486,7 @@ export function ChatPanel({
           style={{
             fontSize: 12.5,
             lineHeight: 1.65,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             fontFamily: 'var(--font-sans)',
             marginBottom: 4,
           }}
@@ -507,7 +507,7 @@ export function ChatPanel({
             style={{
               fontSize: 12.5,
               fontFamily: 'var(--font-sans)',
-              color: '#1f9d6b',
+              color: 'var(--color-success)',
               fontWeight: 500,
             }}
           >
@@ -519,7 +519,7 @@ export function ChatPanel({
             style={{
               fontSize: 12.5,
               fontFamily: 'var(--font-sans)',
-              color: '#d1435b',
+              color: 'var(--color-danger)',
               fontWeight: 500,
             }}
           >
@@ -531,7 +531,7 @@ export function ChatPanel({
       {/* Footer */}
       <div
         style={{
-          borderTop: '1px solid rgba(0,0,0,.06)',
+          borderTop: '1px solid var(--border)',
           padding: '10px 12px 12px',
           flexShrink: 0,
           display: 'flex',
@@ -552,7 +552,7 @@ export function ChatPanel({
               width: 6,
               height: 6,
               borderRadius: '50%',
-              background: draftStatus === 'needs-approval' ? '#c07a12' : '#5856D6',
+              background: draftStatus === 'needs-approval' ? 'var(--color-warning)' : 'var(--color-accent)',
               flexShrink: 0,
             }}
           />
@@ -560,7 +560,7 @@ export function ChatPanel({
             style={{
               fontFamily: 'var(--font-sans)',
               fontSize: 11,
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
             }}
           >
             Draft: {draftName}
@@ -573,10 +573,10 @@ export function ChatPanel({
             display: 'flex',
             alignItems: 'flex-end',
             gap: 8,
-            background: '#f8f8fc',
+            background: 'var(--surface-section)',
             borderRadius: 10,
             padding: '8px 8px 8px 12px',
-            border: '1px solid rgba(0,0,0,.06)',
+            border: '1px solid var(--border)',
           }}
         >
           <textarea
@@ -592,7 +592,7 @@ export function ChatPanel({
               resize: 'none',
               fontFamily: 'var(--font-sans)',
               fontSize: 13,
-              color: '#1a1a2e',
+              color: 'var(--text-body)',
               lineHeight: '20px',
               padding: 0,
             }}
@@ -610,8 +610,8 @@ export function ChatPanel({
               height: 28,
               borderRadius: 8,
               border: 'none',
-              background: inputValue.trim() !== '' ? '#5856D6' : '#f0f0f8',
-              color: inputValue.trim() !== '' ? '#fff' : '#8e8eaa',
+              background: inputValue.trim() !== '' ? 'var(--color-accent)' : 'var(--surface-sunken)',
+              color: inputValue.trim() !== '' ? 'var(--text-on-accent)' : 'var(--text-faint)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

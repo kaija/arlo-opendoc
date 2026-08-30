@@ -102,13 +102,13 @@ interface GitStatusBadgeProps {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  M: '#d98000',
-  A: '#2da44e',
-  D: '#cf222e',
+  M: 'var(--color-warning-strong)',
+  A: 'var(--color-success-text)',
+  D: 'var(--color-danger-text)',
 };
 
 function GitStatusBadge({ status }: GitStatusBadgeProps): React.ReactElement {
-  const color = STATUS_COLORS[status] ?? '#8e8eaa';
+  const color = STATUS_COLORS[status] ?? 'var(--text-faint)';
   return (
     <span
       style={{
@@ -144,8 +144,8 @@ function TreeRow({
   onDoubleClick,
 }: TreeRowProps): React.ReactElement {
   let background = 'transparent';
-  if (isActive) background = 'rgba(88,86,214,.08)';
-  else if (isHovered) background = 'rgba(88,86,214,.04)';
+  if (isActive) background = 'var(--color-accent-a08)';
+  else if (isHovered) background = 'var(--color-accent-a04)';
 
   const isUnsupported = node.kind === 'file' && !isPreviewable;
 
@@ -157,7 +157,7 @@ function TreeRow({
     paddingRight: 8,
     borderRadius: 6,
     background,
-    color: isActive ? '#5856D6' : isUnsupported ? '#b8b8cc' : '#1a1a2e',
+    color: isActive ? 'var(--color-accent)' : isUnsupported ? 'var(--text-disabled)' : 'var(--text-body)',
     fontWeight: isActive ? 500 : 400,
     fontSize: 13,
     fontFamily: 'var(--font-sans)',
@@ -181,8 +181,8 @@ function TreeRow({
     >
       {node.kind === 'dir' ? (
         isExpanded
-          ? <ChevronDown size={12} style={{ flexShrink: 0, color: isActive ? '#5856D6' : '#8e8eaa' }} />
-          : <ChevronRight size={12} style={{ flexShrink: 0, color: isActive ? '#5856D6' : '#8e8eaa' }} />
+          ? <ChevronDown size={12} style={{ flexShrink: 0, color: isActive ? 'var(--color-accent)' : 'var(--text-faint)' }} />
+          : <ChevronRight size={12} style={{ flexShrink: 0, color: isActive ? 'var(--color-accent)' : 'var(--text-faint)' }} />
       ) : (
         <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
           <FileTypeIcon fileName={node.name} />
@@ -252,8 +252,8 @@ export function FileBrowser({
       style={{
         width,
         flexShrink: 0,
-        background: '#f8f8fc',
-        borderRight: '1px solid rgba(0,0,0,.06)',
+        background: 'var(--surface-section)',
+        borderRight: '1px solid var(--border)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -267,7 +267,7 @@ export function FileBrowser({
           padding: '10px 8px 6px 16px',
           fontSize: 11,
           fontWeight: 500,
-          color: '#8e8eaa',
+          color: 'var(--text-faint)',
           fontFamily: 'var(--font-sans)',
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
@@ -280,7 +280,7 @@ export function FileBrowser({
           {repoName ?? fileTree.name}
         </span>
         {branch && (
-          <span style={{ marginLeft: 6, fontSize: 10, color: '#8e8eaa', fontFamily: 'var(--font-mono)', textTransform: 'none', letterSpacing: 0, flexShrink: 0 }}>
+          <span style={{ marginLeft: 6, fontSize: 10, color: 'var(--text-faint)', fontFamily: 'var(--font-mono)', textTransform: 'none', letterSpacing: 0, flexShrink: 0 }}>
             {branch}
           </span>
         )}
@@ -294,12 +294,12 @@ export function FileBrowser({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: showHidden ? 'rgba(88,86,214,.12)' : 'transparent',
+              background: showHidden ? 'var(--color-accent-a12)' : 'transparent',
               border: 'none',
               borderRadius: 4,
               cursor: 'pointer',
               padding: '2px 3px',
-              color: showHidden ? '#5856D6' : '#8e8eaa',
+              color: showHidden ? 'var(--color-accent)' : 'var(--text-faint)',
               lineHeight: 1,
             }}
             aria-label={showHidden ? '隱藏隱藏檔案' : '顯示隱藏檔案'}
@@ -350,7 +350,7 @@ export function FileBrowser({
           width: 4,
           height: '100%',
           cursor: 'col-resize',
-          background: resizing ? 'rgba(88,86,214,.25)' : 'transparent',
+          background: resizing ? 'var(--color-accent-a25)' : 'transparent',
           transition: 'background 0.15s',
           zIndex: 10,
         }}

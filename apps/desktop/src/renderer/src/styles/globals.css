@@ -4,34 +4,267 @@
 @import '@fontsource/inter/600.css';
 @import '@fontsource/inter/700.css';
 
+/* ══════════════════════════════════════════════════════════════════════════
+   Design tokens — arlo-design system
+   ══════════════════════════════════════════════════════════════════════════
+
+   Every colour in the renderer resolves through one of these. Nothing below
+   the token layer should contain a raw hex or rgba() literal, with two
+   deliberate exceptions documented in FileTypeIcon.tsx (language brand marks).
+
+   THEMING CONTRACT
+   ----------------
+   :root                                  → light palette (the default)
+   @media (prefers-color-scheme: dark)    → dark palette, unless the user has
+     :root:not([data-theme='light'])        explicitly chosen light
+   :root[data-theme='dark']               → dark palette, user's explicit choice
+
+   `theme: 'system'` is represented by the ABSENCE of a data-theme attribute,
+   so the media query decides. This is CSS-only on purpose: index.html sets
+   script-src 'self', so a pre-paint inline script is not available to us and
+   the correct theme must be resolvable before React mounts.
+
+   The two dark blocks are duplicates BY NECESSITY (a media query and an
+   attribute selector cannot share a declaration list). Keep them in sync —
+   they are adjacent below so a diff shows any drift.
+   ────────────────────────────────────────────────────────────────────────── */
+
 :root {
-  /* Typography */
+  /* ── Typography ─────────────────────────────────────────────────────── */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
 
-  /* Accent */
-  --color-accent: #5856D6;
-  --color-accent-hover: #4745B5;
-  --color-accent-light: rgba(88, 86, 214, 0.08);
+  /* ── Accent ─────────────────────────────────────────────────────────── */
+  --color-accent: #5856d6;
+  --color-accent-hover: #4745b5;
+  --color-accent-a04: rgba(88, 86, 214, 0.04);
+  --color-accent-a05: rgba(88, 86, 214, 0.05);
+  --color-accent-a06: rgba(88, 86, 214, 0.06);
+  --color-accent-a08: rgba(88, 86, 214, 0.08);
+  --color-accent-a12: rgba(88, 86, 214, 0.12);
+  --color-accent-a18: rgba(88, 86, 214, 0.18);
+  --color-accent-a25: rgba(88, 86, 214, 0.25);
+  --color-accent-a35: rgba(88, 86, 214, 0.35);
+  --color-accent-a40: rgba(88, 86, 214, 0.4);
+  --color-accent-tint: #f0effe;
+  --color-accent-tint-strong: #e8e6ff;
 
-  /* Text */
-  --color-text-primary: #1a1a2e;
-  --color-text-secondary: #64648c;
-  --color-text-tertiary: #8e8eaa;
+  /* ── Text ───────────────────────────────────────────────────────────── */
+  --text-body: #1a1a2e;
+  --text-muted-strong: #52526b;
+  --text-muted: #64648c;
+  --text-faint: #8e8eaa;
+  --text-dim: #a8a8be;
+  --text-disabled: #c9c9d6;
+  --text-decoration-faint: rgba(142, 142, 170, 0.4);
+  --text-placeholder-soft: rgba(100, 100, 140, 0.65);
+  /* Sits on --color-accent. Flips to near-black in dark, where the accent
+     lightens to #7b79e8 and white would only reach 3.66:1. */
+  --text-on-accent: #ffffff;
 
-  /* Backgrounds */
-  --color-bg: #ffffff;
-  --color-bg-secondary: #f8f8fc;
-  --color-bg-tertiary: #f0f0f8;
+  /* ── Surfaces ───────────────────────────────────────────────────────── */
+  --surface-page: #ffffff;
+  --surface-card: #ffffff;
+  --surface-section: #f8f8fc;
+  --surface-sunken: #f0f0f8;
+  --surface-alt: #fafafa;
+  --surface-alt-soft: #fafafb;
+  --surface-neutral: #dcdcea;
 
-  /* Borders */
-  --color-border: rgba(0, 0, 0, 0.06);
-  --color-border-strong: rgba(0, 0, 0, 0.1);
+  /* ── Borders ────────────────────────────────────────────────────────── */
+  --border-faint: rgba(0, 0, 0, 0.04);
+  --border: rgba(0, 0, 0, 0.06);
+  --border-mid: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.1);
+  --border-stronger: rgba(0, 0, 0, 0.12);
+  --border-input-hover: rgba(0, 0, 0, 0.18);
 
-  /* Semantic */
+  /* ── Status ─────────────────────────────────────────────────────────── */
   --color-success: #1f9d6b;
+  --color-success-dim: #4f9c78;
+  --color-success-surface: #eefaf4;
+  --color-success-surface-strong: #d6f2e4;
+  --color-success-text: #2da44e;
   --color-warning: #c07a12;
+  --color-warning-strong: #d98000;
+  --color-warning-surface: #fdf6d8;
+  --color-warning-a08: rgba(192, 122, 18, 0.08);
+  --color-warning-a09: rgba(192, 122, 18, 0.09);
   --color-danger: #d1435b;
+  --color-danger-dim: #b5566a;
+  --color-danger-surface: #fdf0f2;
+  --color-danger-surface-strong: #f7d7dd;
+  --color-danger-text: #cf222e;
+  --color-error-text: #c0392b;
+
+  /* ── Effects ────────────────────────────────────────────────────────── */
+  --color-scrim: rgba(26, 26, 46, 0.28);
+  --shadow-overlay: 0 24px 60px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+  /* ── Radii ──────────────────────────────────────────────────────────── */
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* ── Motion ─────────────────────────────────────────────────────────── */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+
+  /* ── Back-compat aliases (pre-existing names still referenced) ───────── */
+  --color-accent-light: var(--color-accent-a08);
+  --color-text-primary: var(--text-body);
+  --color-text-secondary: var(--text-muted);
+  --color-text-tertiary: var(--text-faint);
+  --color-bg: var(--surface-page);
+  --color-bg-secondary: var(--surface-section);
+  --color-bg-tertiary: var(--surface-sunken);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+}
+
+/* ── Dark palette · system preference ─────────────────────────────────────
+   Applies when the OS is dark AND the user has not explicitly chosen light.
+   KEEP IN SYNC with the [data-theme='dark'] block immediately below. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-accent: #7b79e8;
+    --color-accent-hover: #918fee;
+    --color-accent-a04: rgba(123, 121, 232, 0.06);
+    --color-accent-a05: rgba(123, 121, 232, 0.08);
+    --color-accent-a06: rgba(123, 121, 232, 0.1);
+    --color-accent-a08: rgba(123, 121, 232, 0.14);
+    --color-accent-a12: rgba(123, 121, 232, 0.18);
+    --color-accent-a18: rgba(123, 121, 232, 0.26);
+    --color-accent-a25: rgba(123, 121, 232, 0.34);
+    --color-accent-a35: rgba(123, 121, 232, 0.44);
+    --color-accent-a40: rgba(123, 121, 232, 0.5);
+    --color-accent-tint: #262445;
+    --color-accent-tint-strong: #302d55;
+
+    --text-body: #eeeef6;
+    --text-muted-strong: #cfcfe0;
+    --text-muted: #a8a8c6;
+    --text-faint: #8686a6;
+    --text-dim: #6e6e8e;
+    --text-disabled: #52526e;
+    --text-decoration-faint: rgba(168, 168, 198, 0.35);
+    --text-placeholder-soft: rgba(168, 168, 198, 0.6);
+    --text-on-accent: #16162a;
+
+    --surface-page: #141426;
+    --surface-card: #1c1c33;
+    --surface-section: #1a1a30;
+    --surface-sunken: #24243f;
+    --surface-alt: #1f1f38;
+    --surface-alt-soft: #1d1d35;
+    --surface-neutral: #33334f;
+
+    --border-faint: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.09);
+    --border-mid: rgba(255, 255, 255, 0.12);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --border-stronger: rgba(255, 255, 255, 0.2);
+    --border-input-hover: rgba(255, 255, 255, 0.28);
+
+    --color-success: #3ecf8e;
+    --color-success-dim: #5fb894;
+    --color-success-surface: #142e24;
+    --color-success-surface-strong: #1b4433;
+    --color-success-text: #4ac26b;
+    --color-warning: #e0a944;
+    --color-warning-strong: #f0a03c;
+    --color-warning-surface: #33290f;
+    --color-warning-a08: rgba(224, 169, 68, 0.12);
+    --color-warning-a09: rgba(224, 169, 68, 0.14);
+    --color-danger: #f2708a;
+    --color-danger-dim: #d98299;
+    --color-danger-surface: #331a20;
+    --color-danger-surface-strong: #4d2530;
+    --color-danger-text: #f26d78;
+    --color-error-text: #f07566;
+
+    --color-scrim: rgba(0, 0, 0, 0.55);
+    --shadow-overlay: 0 24px 60px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.35);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.45);
+
+    color-scheme: dark;
+  }
+}
+
+/* ── Dark palette · explicit user choice ──────────────────────────────────
+   KEEP IN SYNC with the @media block immediately above. */
+:root[data-theme='dark'] {
+  --color-accent: #7b79e8;
+  --color-accent-hover: #918fee;
+  --color-accent-a04: rgba(123, 121, 232, 0.06);
+  --color-accent-a05: rgba(123, 121, 232, 0.08);
+  --color-accent-a06: rgba(123, 121, 232, 0.1);
+  --color-accent-a08: rgba(123, 121, 232, 0.14);
+  --color-accent-a12: rgba(123, 121, 232, 0.18);
+  --color-accent-a18: rgba(123, 121, 232, 0.26);
+  --color-accent-a25: rgba(123, 121, 232, 0.34);
+  --color-accent-a35: rgba(123, 121, 232, 0.44);
+  --color-accent-a40: rgba(123, 121, 232, 0.5);
+  --color-accent-tint: #262445;
+  --color-accent-tint-strong: #302d55;
+
+  --text-body: #eeeef6;
+  --text-muted-strong: #cfcfe0;
+  --text-muted: #a8a8c6;
+  --text-faint: #8686a6;
+  --text-dim: #6e6e8e;
+  --text-disabled: #52526e;
+  --text-decoration-faint: rgba(168, 168, 198, 0.35);
+  --text-placeholder-soft: rgba(168, 168, 198, 0.6);
+  --text-on-accent: #16162a;
+
+  --surface-page: #141426;
+  --surface-card: #1c1c33;
+  --surface-section: #1a1a30;
+  --surface-sunken: #24243f;
+  --surface-alt: #1f1f38;
+  --surface-alt-soft: #1d1d35;
+  --surface-neutral: #33334f;
+
+  --border-faint: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-mid: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-stronger: rgba(255, 255, 255, 0.2);
+  --border-input-hover: rgba(255, 255, 255, 0.28);
+
+  --color-success: #3ecf8e;
+  --color-success-dim: #5fb894;
+  --color-success-surface: #142e24;
+  --color-success-surface-strong: #1b4433;
+  --color-success-text: #4ac26b;
+  --color-warning: #e0a944;
+  --color-warning-strong: #f0a03c;
+  --color-warning-surface: #33290f;
+  --color-warning-a08: rgba(224, 169, 68, 0.12);
+  --color-warning-a09: rgba(224, 169, 68, 0.14);
+  --color-danger: #f2708a;
+  --color-danger-dim: #d98299;
+  --color-danger-surface: #331a20;
+  --color-danger-surface-strong: #4d2530;
+  --color-danger-text: #f26d78;
+  --color-error-text: #f07566;
+
+  --color-scrim: rgba(0, 0, 0, 0.55);
+  --shadow-overlay: 0 24px 60px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.45);
+
+  color-scheme: dark;
 }
 
 *,
@@ -49,8 +282,8 @@ html {
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text-primary);
+  background: var(--surface-page);
+  color: var(--text-body);
   height: 100vh;
   overflow: hidden;
 }

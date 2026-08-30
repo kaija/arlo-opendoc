@@ -69,13 +69,13 @@ const FILTER_PILLS = [
 function badgeStyle(variant: SearchResult['badges'][number]['variant']): React.CSSProperties {
   if (variant === 'changed') {
     return {
-      background: 'rgba(192,122,18,.09)',
-      color: '#c07a12',
+      background: 'var(--color-warning-a09)',
+      color: 'var(--color-warning)',
     };
   }
   return {
-    background: '#f0f0f8',
-    color: '#64648c',
+    background: 'var(--surface-sunken)',
+    color: 'var(--text-muted)',
   };
 }
 
@@ -92,7 +92,7 @@ function HighlightedExcerpt({
       <span
         style={{
           fontSize: 12,
-          color: '#64648c',
+          color: 'var(--text-muted)',
           fontFamily: 'var(--font-sans)',
           lineHeight: 1.55,
         }}
@@ -110,7 +110,7 @@ function HighlightedExcerpt({
     <span
       style={{
         fontSize: 12,
-        color: '#64648c',
+        color: 'var(--text-muted)',
         fontFamily: 'var(--font-sans)',
         lineHeight: 1.55,
       }}
@@ -120,7 +120,7 @@ function HighlightedExcerpt({
           <mark
             key={i}
             style={{
-              background: '#fdf6d8',
+              background: 'var(--color-warning-surface)',
               color: 'inherit',
               borderRadius: 2,
               padding: '0 1px',
@@ -156,7 +156,7 @@ export function Search(): React.ReactElement {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(26,26,46,.28)',
+          background: 'var(--color-scrim)',
         }}
       />
 
@@ -168,9 +168,9 @@ export function Search(): React.ReactElement {
           left: '50%',
           transform: 'translateX(-50%)',
           width: 720,
-          background: '#fff',
+          background: 'var(--surface-card)',
           borderRadius: 12,
-          boxShadow: '0 24px 60px rgba(0,0,0,.18), 0 4px 16px rgba(0,0,0,.10)',
+          boxShadow: 'var(--shadow-overlay)',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
@@ -184,17 +184,17 @@ export function Search(): React.ReactElement {
             alignItems: 'center',
             gap: 10,
             padding: '0 16px',
-            borderBottom: '1px solid rgba(0,0,0,.08)',
+            borderBottom: '1px solid var(--border-mid)',
             flexShrink: 0,
           }}
         >
-          <SearchIcon size={16} color="#8e8eaa" style={{ flexShrink: 0 }} />
+          <SearchIcon size={16} color="var(--text-faint)" style={{ flexShrink: 0 }} />
           <div
             style={{
               flex: 1,
               fontSize: 14,
               fontFamily: 'var(--font-sans)',
-              color: '#1a1a2e',
+              color: 'var(--text-body)',
               display: 'flex',
               alignItems: 'center',
               gap: 0,
@@ -207,7 +207,7 @@ export function Search(): React.ReactElement {
                 display: 'inline-block',
                 width: 1.5,
                 height: 15,
-                background: '#5856D6',
+                background: 'var(--color-accent)',
                 marginLeft: 1,
                 verticalAlign: 'text-bottom',
               }}
@@ -215,13 +215,13 @@ export function Search(): React.ReactElement {
           </div>
           <span
             style={{
-              background: '#f0f0f8',
-              border: '1px solid rgba(0,0,0,.06)',
+              background: 'var(--surface-sunken)',
+              border: '1px solid var(--border)',
               borderRadius: 4,
               padding: '3px 7px',
               fontSize: 11,
               fontFamily: 'var(--font-mono)',
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
               flexShrink: 0,
             }}
           >
@@ -233,7 +233,7 @@ export function Search(): React.ReactElement {
         <div
           style={{
             padding: '10px 12px',
-            borderBottom: '1px solid rgba(0,0,0,.06)',
+            borderBottom: '1px solid var(--border)',
             display: 'flex',
             gap: 6,
             flexWrap: 'wrap',
@@ -247,11 +247,11 @@ export function Search(): React.ReactElement {
                 height: 26,
                 padding: '0 10px',
                 borderRadius: 999,
-                border: '1px solid rgba(0,0,0,.08)',
-                background: i === 0 ? '#f0f0f8' : '#fff',
+                border: '1px solid var(--border-mid)',
+                background: i === 0 ? 'var(--surface-sunken)' : 'var(--surface-card)',
                 fontSize: 11.5,
                 fontWeight: i === 0 ? 500 : 400,
-                color: i === 0 ? '#1a1a2e' : '#64648c',
+                color: i === 0 ? 'var(--text-body)' : 'var(--text-muted)',
                 fontFamily: 'var(--font-sans)',
                 cursor: 'pointer',
               }}
@@ -270,8 +270,8 @@ export function Search(): React.ReactElement {
                 padding: '11px 18px',
                 display: 'flex',
                 gap: 14,
-                background: i === 0 ? '#f8f8fc' : 'transparent',
-                borderBottom: i < RESULTS.length - 1 ? '1px solid rgba(0,0,0,.04)' : undefined,
+                background: i === 0 ? 'var(--surface-section)' : 'transparent',
+                borderBottom: i < RESULTS.length - 1 ? '1px solid var(--border-faint)' : undefined,
                 cursor: 'pointer',
               }}
             >
@@ -281,7 +281,7 @@ export function Search(): React.ReactElement {
                   style={{
                     fontSize: 13,
                     fontWeight: 500,
-                    color: '#1a1a2e',
+                    color: 'var(--text-body)',
                     fontFamily: 'var(--font-sans)',
                     marginBottom: 2,
                   }}
@@ -292,7 +292,7 @@ export function Search(): React.ReactElement {
                   style={{
                     fontSize: 11,
                     fontFamily: 'var(--font-mono)',
-                    color: '#8e8eaa',
+                    color: 'var(--text-faint)',
                     marginBottom: 4,
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -340,8 +340,8 @@ export function Search(): React.ReactElement {
         <div
           style={{
             height: 40,
-            background: '#f8f8fc',
-            borderTop: '1px solid rgba(0,0,0,.06)',
+            background: 'var(--surface-section)',
+            borderTop: '1px solid var(--border)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -352,7 +352,7 @@ export function Search(): React.ReactElement {
           <span
             style={{
               fontSize: 11.5,
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
               fontFamily: 'var(--font-sans)',
             }}
           >
@@ -370,7 +370,7 @@ export function Search(): React.ReactElement {
               style={{
                 width: 60,
                 height: 3,
-                background: '#f0f0f8',
+                background: 'var(--surface-sunken)',
                 borderRadius: 999,
                 overflow: 'hidden',
               }}
@@ -379,7 +379,7 @@ export function Search(): React.ReactElement {
                 style={{
                   width: '80%',
                   height: '100%',
-                  background: '#5856D6',
+                  background: 'var(--color-accent)',
                   borderRadius: 999,
                 }}
               />
@@ -387,7 +387,7 @@ export function Search(): React.ReactElement {
             <span
               style={{
                 fontSize: 11,
-                color: '#8e8eaa',
+                color: 'var(--text-faint)',
                 fontFamily: 'var(--font-sans)',
               }}
             >

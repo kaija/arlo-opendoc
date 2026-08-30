@@ -34,7 +34,7 @@ export function Onboarding({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: '#f8f8fc',
+        background: 'var(--surface-section)',
       }}
     >
       {/* Top bar: spacer for native traffic-light buttons (hiddenInset) */}
@@ -74,7 +74,7 @@ export function Onboarding({
               width: 30,
               height: 30,
               borderRadius: 7,
-              background: '#5856D6',
+              background: 'var(--color-accent)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -85,7 +85,7 @@ export function Onboarding({
               style={{
                 fontSize: 16,
                 fontWeight: 700,
-                color: '#fff',
+                color: 'var(--text-on-accent)',
                 fontFamily: 'var(--font-sans)',
                 lineHeight: 1,
               }}
@@ -97,7 +97,7 @@ export function Onboarding({
             style={{
               fontSize: 21,
               fontWeight: 700,
-              color: '#1a1a2e',
+              color: 'var(--text-body)',
               fontFamily: 'var(--font-sans)',
               letterSpacing: '-0.02em',
             }}
@@ -111,7 +111,7 @@ export function Onboarding({
           style={{
             fontSize: 27,
             fontWeight: 700,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             fontFamily: 'var(--font-sans)',
             letterSpacing: '-0.025em',
             textAlign: 'center',
@@ -127,7 +127,7 @@ export function Onboarding({
           style={{
             fontSize: 14,
             fontWeight: 400,
-            color: '#64648c',
+            color: 'var(--text-muted)',
             fontFamily: 'var(--font-sans)',
             textAlign: 'center',
             marginBottom: 32,
@@ -149,7 +149,7 @@ export function Onboarding({
           }}
         >
           <OnboardingCard
-            icon={<FileText size={22} color="#5856D6" />}
+            icon={<FileText size={22} color="var(--color-accent)" />}
             title="Personal knowledge base"
             description="Keep your notes and documents in a local folder. Everything stays on your machine, searchable instantly."
             buttonLabel={isPending ? 'Opening…' : 'Choose folder…'}
@@ -157,7 +157,7 @@ export function Onboarding({
             onClick={onChooseLocal}
           />
           <OnboardingCard
-            icon={<Globe size={22} color="#5856D6" />}
+            icon={<Globe size={22} color="var(--color-accent)" />}
             title="Team knowledge base"
             description="Connect to a GitHub repository so your whole team shares and contributes to a single source of truth."
             buttonLabel="Continue with GitHub"
@@ -177,8 +177,8 @@ export function Onboarding({
               height: 44,
               padding: '0 18px',
               borderRadius: 10,
-              border: '1px solid rgba(88,86,214,.25)',
-              background: 'rgba(88,86,214,.05)',
+              border: '1px solid var(--color-accent-a25)',
+              background: 'var(--color-accent-a05)',
               cursor: isPending ? 'not-allowed' : 'pointer',
               opacity: isPending ? 0.6 : 1,
               marginBottom: 28,
@@ -186,12 +186,12 @@ export function Onboarding({
               width: '100%',
             }}
           >
-            <FolderOpen size={16} color="#5856D6" style={{ flexShrink: 0 }} />
+            <FolderOpen size={16} color="var(--color-accent)" style={{ flexShrink: 0 }} />
             <span
               style={{
                 fontSize: 13,
                 fontWeight: 500,
-                color: '#5856D6',
+                color: 'var(--color-accent)',
                 fontFamily: 'var(--font-sans)',
                 flex: 1,
                 textAlign: 'left',
@@ -205,7 +205,7 @@ export function Onboarding({
             <span
               style={{
                 fontSize: 11,
-                color: '#8e8eaa',
+                color: 'var(--text-faint)',
                 fontFamily: 'var(--font-sans)',
                 flexShrink: 0,
               }}
@@ -219,7 +219,7 @@ export function Onboarding({
           <p
             style={{
               fontSize: 12.5,
-              color: '#c0392b',
+              color: 'var(--color-error-text)',
               fontFamily: 'var(--font-sans)',
               textAlign: 'center',
               marginTop: 8,
@@ -233,7 +233,7 @@ export function Onboarding({
         <p
           style={{
             fontSize: 12.5,
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
             fontFamily: 'var(--font-sans)',
             textAlign: 'center',
           }}
@@ -264,8 +264,8 @@ function OnboardingCard({
     <div
       style={{
         width: 300,
-        background: '#fff',
-        border: '1px solid rgba(0,0,0,.08)',
+        background: 'var(--surface-card)',
+        border: '1px solid var(--border-mid)',
         borderRadius: 16,
         padding: 28,
         display: 'flex',
@@ -279,7 +279,7 @@ function OnboardingCard({
           width: 44,
           height: 44,
           borderRadius: 10,
-          background: 'rgba(88,86,214,.08)',
+          background: 'var(--color-accent-a08)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -294,7 +294,7 @@ function OnboardingCard({
         style={{
           fontSize: 14,
           fontWeight: 600,
-          color: '#1a1a2e',
+          color: 'var(--text-body)',
           fontFamily: 'var(--font-sans)',
           lineHeight: 1.3,
         }}
@@ -307,7 +307,7 @@ function OnboardingCard({
         style={{
           fontSize: 13,
           fontWeight: 400,
-          color: '#64648c',
+          color: 'var(--text-muted)',
           fontFamily: 'var(--font-sans)',
           lineHeight: 1.6,
           flex: 1,
@@ -324,12 +324,12 @@ function OnboardingCard({
           height: 36,
           padding: '0 16px',
           borderRadius: 999,
-          border: '1px solid rgba(0,0,0,.12)',
-          background: '#fff',
+          border: '1px solid var(--border-stronger)',
+          background: 'var(--surface-card)',
           fontSize: 12.5,
           fontWeight: 500,
           fontFamily: 'var(--font-sans)',
-          color: '#1a1a2e',
+          color: 'var(--text-body)',
           cursor: buttonDisabled ? 'not-allowed' : 'pointer',
           opacity: buttonDisabled ? 0.6 : 1,
           textAlign: 'center',

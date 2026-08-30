@@ -48,8 +48,8 @@ export function Toolbar({
     <div
       style={{
         height: 48,
-        background: '#fff',
-        borderBottom: '1px solid rgba(0,0,0,.08)',
+        background: 'var(--surface-card)',
+        borderBottom: '1px solid var(--border-mid)',
         display: 'flex',
         alignItems: 'center',
         padding: '0 16px',
@@ -77,7 +77,7 @@ export function Toolbar({
               {i > 0 && (
                 <span
                   style={{
-                    color: '#c9c9d6',
+                    color: 'var(--text-disabled)',
                     flexShrink: 0,
                     paddingLeft: 2,
                     paddingRight: 2,
@@ -89,7 +89,7 @@ export function Toolbar({
               <span
                 style={{
                   fontWeight: isLast ? 500 : 400,
-                  color: isLast ? '#1a1a2e' : '#8e8eaa',
+                  color: isLast ? 'var(--text-body)' : 'var(--text-faint)',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: isLast ? 'ellipsis' : undefined,
@@ -110,7 +110,7 @@ export function Toolbar({
           width: 420,
           height: 28,
           borderRadius: 6,
-          background: '#f0f0f8',
+          background: 'var(--surface-sunken)',
           border: 'none',
           display: 'flex',
           alignItems: 'center',
@@ -120,12 +120,12 @@ export function Toolbar({
           flexShrink: 0,
         }}
       >
-        <Search size={13} color="#8e8eaa" style={{ flexShrink: 0 }} />
+        <Search size={13} color="var(--text-faint)" style={{ flexShrink: 0 }} />
         <span
           style={{
             flex: 1,
             fontSize: 12.5,
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
             fontFamily: 'var(--font-sans)',
             textAlign: 'left',
           }}
@@ -134,13 +134,13 @@ export function Toolbar({
         </span>
         <span
           style={{
-            background: '#fff',
-            border: '1px solid rgba(0,0,0,.06)',
+            background: 'var(--surface-card)',
+            border: '1px solid var(--border)',
             borderRadius: 4,
             padding: '3px 5px',
             fontSize: 11,
             fontFamily: 'var(--font-mono)',
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
             flexShrink: 0,
             lineHeight: 1,
           }}
@@ -157,7 +157,7 @@ export function Toolbar({
           padding: 2,
           gap: 2,
           borderRadius: 6,
-          background: '#f0f0f8',
+          background: 'var(--surface-sunken)',
           flexShrink: 0,
         }}
       >
@@ -176,8 +176,8 @@ export function Toolbar({
                 fontSize: 12,
                 fontWeight: isActive ? 500 : 400,
                 fontFamily: 'var(--font-sans)',
-                color: isActive ? '#fff' : '#64648c',
-                background: isActive ? '#5856D6' : 'transparent',
+                color: isActive ? 'var(--text-on-accent)' : 'var(--text-muted)',
+                background: isActive ? 'var(--color-accent)' : 'transparent',
                 whiteSpace: 'nowrap',
               }}
             >
@@ -195,12 +195,12 @@ export function Toolbar({
           height: 28,
           padding: '0 12px',
           borderRadius: 6,
-          border: '1px solid rgba(0,0,0,.1)',
-          background: '#fff',
+          border: '1px solid var(--border-strong)',
+          background: 'var(--surface-card)',
           fontSize: 12,
           fontWeight: 500,
           fontFamily: 'var(--font-sans)',
-          color: publishEnabled ? '#1a1a2e' : '#c9c9d6',
+          color: publishEnabled ? 'var(--text-body)' : 'var(--text-disabled)',
           cursor: publishEnabled ? 'pointer' : 'default',
           flexShrink: 0,
         }}
@@ -217,12 +217,12 @@ export function Toolbar({
             height: 28,
             padding: '0 12px',
             borderRadius: 6,
-            border: '1px solid rgba(88,86,214,.35)',
-            background: isSaving ? '#f0f0f8' : 'rgba(88,86,214,.08)',
+            border: '1px solid var(--color-accent-a35)',
+            background: isSaving ? 'var(--surface-sunken)' : 'var(--color-accent-a08)',
             fontSize: 12,
             fontWeight: 500,
             fontFamily: 'var(--font-sans)',
-            color: isSaving ? '#8e8eaa' : '#5856D6',
+            color: isSaving ? 'var(--text-faint)' : 'var(--color-accent)',
             cursor: isSaving ? 'default' : 'pointer',
             flexShrink: 0,
             transition: 'opacity 0.1s',
@@ -243,12 +243,12 @@ export function Toolbar({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: chatActive ? 'rgba(88,86,214,.08)' : 'transparent',
+          background: chatActive ? 'var(--color-accent-a08)' : 'transparent',
           cursor: 'pointer',
           flexShrink: 0,
         }}
       >
-        <MessageSquare size={15} color={chatActive ? '#5856D6' : '#64648c'} />
+        <MessageSquare size={15} color={chatActive ? 'var(--color-accent)' : 'var(--text-muted)'} />
       </button>
     </div>
   );

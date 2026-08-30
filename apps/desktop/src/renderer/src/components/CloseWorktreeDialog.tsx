@@ -16,7 +16,7 @@ export function CloseWorktreeDialog({
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.4)',
+        background: 'var(--color-scrim)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -25,21 +25,21 @@ export function CloseWorktreeDialog({
     >
       <div
         style={{
-          background: '#fff',
+          background: 'var(--surface-card)',
           borderRadius: 10,
           padding: '24px 28px',
           maxWidth: 420,
           width: '90%',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+          boxShadow: 'var(--shadow-lg)',
         }}
       >
-        <p style={{ fontWeight: 600, fontSize: 15, margin: '0 0 8px', color: '#1a1a2e' }}>
+        <p style={{ fontWeight: 600, fontSize: 15, margin: '0 0 8px', color: 'var(--text-body)' }}>
           Close worktree?
         </p>
-        <p style={{ fontSize: 12, color: '#8e8eaa', margin: '0 0 12px', fontFamily: 'var(--font-mono)', wordBreak: 'break-all' }}>
+        <p style={{ fontSize: 12, color: 'var(--text-faint)', margin: '0 0 12px', fontFamily: 'var(--font-mono)', wordBreak: 'break-all' }}>
           {worktreePath}
         </p>
-        <p style={{ fontSize: 13, color: '#444', margin: '0 0 20px' }}>
+        <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: '0 0 20px' }}>
           All unsaved edits in this worktree will be permanently deleted.
         </p>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
@@ -48,8 +48,8 @@ export function CloseWorktreeDialog({
             style={{
               padding: '6px 14px',
               borderRadius: 6,
-              border: '1px solid rgba(0,0,0,.12)',
-              background: '#fff',
+              border: '1px solid var(--border-stronger)',
+              background: 'var(--surface-card)',
               fontSize: 13,
               cursor: 'pointer',
             }}
@@ -62,8 +62,8 @@ export function CloseWorktreeDialog({
               padding: '6px 14px',
               borderRadius: 6,
               border: 'none',
-              background: '#cf222e',
-              color: '#fff',
+              background: 'var(--color-danger-text)',
+              color: 'var(--text-on-accent)',
               fontSize: 13,
               fontWeight: 500,
               cursor: 'pointer',

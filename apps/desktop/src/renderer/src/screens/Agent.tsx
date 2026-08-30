@@ -12,7 +12,7 @@ function Cursor(): React.ReactElement {
         display: 'inline-block',
         width: 1.5,
         height: 13,
-        background: '#5856D6',
+        background: 'var(--color-accent)',
         marginLeft: 1,
         verticalAlign: 'text-bottom',
       }}
@@ -26,10 +26,10 @@ function ChatPanel(): React.ReactElement {
       style={{
         width: 380,
         flexShrink: 0,
-        background: '#fff',
-        borderLeft: '1px solid rgba(0,0,0,.08)',
+        background: 'var(--surface-card)',
+        borderLeft: '1px solid var(--border-mid)',
         borderRadius: '12px 0 0 12px',
-        boxShadow: '-10px 0 24px rgba(0,0,0,.08)',
+        boxShadow: '-10px 0 24px var(--border-mid)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -43,7 +43,7 @@ function ChatPanel(): React.ReactElement {
           alignItems: 'center',
           padding: '0 16px',
           gap: 8,
-          borderBottom: '1px solid rgba(0,0,0,.06)',
+          borderBottom: '1px solid var(--border)',
           flexShrink: 0,
         }}
       >
@@ -51,7 +51,7 @@ function ChatPanel(): React.ReactElement {
           style={{
             fontSize: 12.5,
             fontWeight: 600,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             fontFamily: 'var(--font-sans)',
             flex: 1,
           }}
@@ -65,7 +65,7 @@ function ChatPanel(): React.ReactElement {
             alignItems: 'center',
             gap: 5,
             padding: '3px 7px',
-            background: 'rgba(88,86,214,.06)',
+            background: 'var(--color-accent-a06)',
             borderRadius: 999,
           }}
         >
@@ -74,14 +74,14 @@ function ChatPanel(): React.ReactElement {
               width: 6,
               height: 6,
               borderRadius: '50%',
-              background: '#5856D6',
+              background: 'var(--color-accent)',
               display: 'block',
             }}
           />
           <span
             style={{
               fontSize: 11,
-              color: '#5856D6',
+              color: 'var(--color-accent)',
               fontFamily: 'var(--font-sans)',
               fontWeight: 500,
             }}
@@ -99,7 +99,7 @@ function ChatPanel(): React.ReactElement {
             padding: 4,
           }}
         >
-          <X size={14} color="#8e8eaa" />
+          <X size={14} color="var(--text-faint)" />
         </button>
       </div>
 
@@ -119,12 +119,12 @@ function ChatPanel(): React.ReactElement {
           <div
             style={{
               maxWidth: 300,
-              background: '#f0f0f8',
+              background: 'var(--surface-sunken)',
               borderRadius: 10,
               padding: '10px 12px',
               fontSize: 12.5,
               lineHeight: 1.55,
-              color: '#1a1a2e',
+              color: 'var(--text-body)',
               fontFamily: 'var(--font-sans)',
             }}
           >
@@ -147,7 +147,7 @@ function ChatPanel(): React.ReactElement {
           style={{
             fontSize: 12.5,
             lineHeight: 1.65,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             fontFamily: 'var(--font-sans)',
           }}
         >
@@ -174,7 +174,7 @@ function ToolCallCard({
   return (
     <div
       style={{
-        border: '1px solid rgba(0,0,0,.06)',
+        border: '1px solid var(--border)',
         borderRadius: 8,
         padding: '9px 11px',
       }}
@@ -185,12 +185,12 @@ function ToolCallCard({
           alignItems: 'center',
           gap: 5,
           fontSize: 11.5,
-          color: '#52526b',
+          color: 'var(--text-muted-strong)',
           fontFamily: 'var(--font-sans)',
           fontWeight: 500,
         }}
       >
-        <ChevronRight size={12} color="#a8a8be" style={{ flexShrink: 0 }} />
+        <ChevronRight size={12} color="var(--text-dim)" style={{ flexShrink: 0 }} />
         {label}
       </div>
       {details.length > 0 && (
@@ -200,7 +200,7 @@ function ToolCallCard({
               key={d}
               style={{
                 fontSize: 11.5,
-                color: '#8e8eaa',
+                color: 'var(--text-faint)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
@@ -217,7 +217,7 @@ function ChatFooter({ draftLabel }: { draftLabel: string }): React.ReactElement 
   return (
     <div
       style={{
-        borderTop: '1px solid rgba(0,0,0,.06)',
+        borderTop: '1px solid var(--border)',
         padding: '10px 12px',
         flexShrink: 0,
       }}
@@ -230,7 +230,7 @@ function ChatFooter({ draftLabel }: { draftLabel: string }): React.ReactElement 
           gap: 5,
           marginBottom: 8,
           fontSize: 11.5,
-          color: '#52526b',
+          color: 'var(--text-muted-strong)',
           fontFamily: 'var(--font-sans)',
         }}
       >
@@ -239,7 +239,7 @@ function ChatFooter({ draftLabel }: { draftLabel: string }): React.ReactElement 
             width: 6,
             height: 6,
             borderRadius: '50%',
-            background: '#5856D6',
+            background: 'var(--color-accent)',
             display: 'block',
             flexShrink: 0,
           }}
@@ -252,8 +252,8 @@ function ChatFooter({ draftLabel }: { draftLabel: string }): React.ReactElement 
           display: 'flex',
           alignItems: 'center',
           gap: 8,
-          background: '#f8f8fc',
-          border: '1px solid rgba(0,0,0,.08)',
+          background: 'var(--surface-section)',
+          border: '1px solid var(--border-mid)',
           borderRadius: 8,
           padding: '8px 10px',
         }}
@@ -262,7 +262,7 @@ function ChatFooter({ draftLabel }: { draftLabel: string }): React.ReactElement 
           style={{
             flex: 1,
             fontSize: 12.5,
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
             fontFamily: 'var(--font-sans)',
           }}
         >
@@ -273,7 +273,7 @@ function ChatFooter({ draftLabel }: { draftLabel: string }): React.ReactElement 
             width: 24,
             height: 24,
             borderRadius: 6,
-            background: '#5856D6',
+            background: 'var(--color-accent)',
             border: 'none',
             display: 'flex',
             alignItems: 'center',
@@ -282,7 +282,7 @@ function ChatFooter({ draftLabel }: { draftLabel: string }): React.ReactElement 
             flexShrink: 0,
           }}
         >
-          <ArrowUp size={13} color="#fff" />
+          <ArrowUp size={13} style={{ color: 'var(--text-on-accent)' }} />
         </button>
       </div>
     </div>
@@ -304,7 +304,7 @@ export function Agent(): React.ReactElement {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff',
+        background: 'var(--surface-card)',
       }}
     >
       <TitleBar
@@ -342,7 +342,7 @@ function AgentDocumentView(): React.ReactElement {
       style={{
         flex: 1,
         overflowY: 'auto',
-        background: '#fff',
+        background: 'var(--surface-card)',
         display: 'flex',
         justifyContent: 'center',
       }}
@@ -352,7 +352,7 @@ function AgentDocumentView(): React.ReactElement {
           style={{
             fontSize: 19,
             fontWeight: 600,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             letterSpacing: '-0.015em',
             marginBottom: 12,
             fontFamily: 'var(--font-sans)',
@@ -364,7 +364,7 @@ function AgentDocumentView(): React.ReactElement {
           style={{
             fontSize: 15,
             lineHeight: 1.7,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             maxWidth: '68ch',
             marginBottom: 24,
             fontFamily: 'var(--font-sans)',
@@ -385,7 +385,7 @@ function AgentDocumentView(): React.ReactElement {
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                color: '#1a1a2e',
+                color: 'var(--text-body)',
                 fontFamily: 'var(--font-sans)',
                 marginBottom: 6,
               }}
@@ -396,7 +396,7 @@ function AgentDocumentView(): React.ReactElement {
               style={{
                 fontSize: 14,
                 lineHeight: 1.65,
-                color: '#64648c',
+                color: 'var(--text-muted)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
@@ -405,7 +405,7 @@ function AgentDocumentView(): React.ReactElement {
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: 12,
-                  background: '#f0f0f8',
+                  background: 'var(--surface-sunken)',
                   padding: '1px 4px',
                   borderRadius: 3,
                 }}
@@ -423,7 +423,7 @@ function AgentDocumentView(): React.ReactElement {
             marginTop: 16,
             height: 2,
             width: 40,
-            background: 'linear-gradient(90deg, #5856D6, transparent)',
+            background: 'linear-gradient(90deg, var(--color-accent), transparent)',
             borderRadius: 999,
             animation: 'pulse 1.5s ease-in-out infinite',
           }}

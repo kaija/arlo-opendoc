@@ -14,7 +14,7 @@ function ToolCallCard({
   return (
     <div
       style={{
-        border: '1px solid rgba(0,0,0,.06)',
+        border: '1px solid var(--border)',
         borderRadius: 8,
         padding: '9px 11px',
       }}
@@ -25,12 +25,12 @@ function ToolCallCard({
           alignItems: 'center',
           gap: 5,
           fontSize: 11.5,
-          color: '#52526b',
+          color: 'var(--text-muted-strong)',
           fontFamily: 'var(--font-sans)',
           fontWeight: 500,
         }}
       >
-        <ChevronRight size={12} color="#a8a8be" style={{ flexShrink: 0 }} />
+        <ChevronRight size={12} color="var(--text-dim)" style={{ flexShrink: 0 }} />
         {label}
       </div>
       {details.length > 0 && (
@@ -46,7 +46,7 @@ function ToolCallCard({
           {details.map((d) => (
             <span
               key={d}
-              style={{ fontSize: 11.5, color: '#8e8eaa', fontFamily: 'var(--font-sans)' }}
+              style={{ fontSize: 11.5, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}
             >
               {d}
             </span>
@@ -82,8 +82,8 @@ function DiffLine({
   line: (typeof DIFF_LINES)[number];
 }): React.ReactElement {
   const bgMap = {
-    add: '#eefaf4',
-    remove: '#fdf0f2',
+    add: 'var(--color-success-surface)',
+    remove: 'var(--color-danger-surface)',
     context: 'transparent',
   };
   const markerMap = {
@@ -92,8 +92,8 @@ function DiffLine({
     context: ' ',
   };
   const markerBgMap = {
-    add: '#d6f2e4',
-    remove: '#f7d7dd',
+    add: 'var(--color-success-surface-strong)',
+    remove: 'var(--color-danger-surface-strong)',
     context: 'transparent',
   };
 
@@ -116,7 +116,7 @@ function DiffLine({
           justifyContent: 'center',
           fontSize: 11,
           fontFamily: 'var(--font-mono)',
-          color: line.type === 'add' ? '#1f9d6b' : line.type === 'remove' ? '#d1435b' : '#8e8eaa',
+          color: line.type === 'add' ? 'var(--color-success)' : line.type === 'remove' ? 'var(--color-danger)' : 'var(--text-faint)',
           flexShrink: 0,
         }}
       >
@@ -126,7 +126,7 @@ function DiffLine({
         style={{
           fontSize: 11.5,
           fontFamily: 'var(--font-mono)',
-          color: '#52526b',
+          color: 'var(--text-muted-strong)',
           paddingLeft: 6,
           whiteSpace: 'pre',
           overflow: 'hidden',
@@ -143,7 +143,7 @@ function ApprovalCard(): React.ReactElement {
   return (
     <div
       style={{
-        border: '1px solid rgba(0,0,0,.08)',
+        border: '1px solid var(--border-mid)',
         borderRadius: 10,
         overflow: 'hidden',
       }}
@@ -162,7 +162,7 @@ function ApprovalCard(): React.ReactElement {
           style={{
             fontSize: 12.5,
             fontWeight: 600,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             fontFamily: 'var(--font-sans)',
             flex: 1,
           }}
@@ -174,16 +174,16 @@ function ApprovalCard(): React.ReactElement {
             display: 'flex',
             alignItems: 'center',
             gap: 5,
-            background: '#f0f0f8',
+            background: 'var(--surface-sunken)',
             borderRadius: 6,
             padding: '4px 8px',
           }}
         >
-          <FileText size={12} color="#8e8eaa" />
+          <FileText size={12} color="var(--text-faint)" />
           <span
             style={{
               fontSize: 11.5,
-              color: '#52526b',
+              color: 'var(--text-muted-strong)',
               fontFamily: 'var(--font-sans)',
             }}
           >
@@ -195,8 +195,8 @@ function ApprovalCard(): React.ReactElement {
       {/* Diff view */}
       <div
         style={{
-          borderTop: '1px solid rgba(0,0,0,.06)',
-          borderBottom: '1px solid rgba(0,0,0,.06)',
+          borderTop: '1px solid var(--border)',
+          borderBottom: '1px solid var(--border)',
           maxHeight: 180,
           overflowY: 'auto',
         }}
@@ -211,7 +211,7 @@ function ApprovalCard(): React.ReactElement {
         <p
           style={{
             fontSize: 11,
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
             fontFamily: 'var(--font-sans)',
             marginBottom: 10,
             lineHeight: 1.5,
@@ -226,12 +226,12 @@ function ApprovalCard(): React.ReactElement {
               flex: 1,
               height: 28,
               borderRadius: 6,
-              border: '1px solid rgba(0,0,0,.1)',
-              background: '#fff',
+              border: '1px solid var(--border-strong)',
+              background: 'var(--surface-card)',
               fontSize: 12,
               fontWeight: 500,
               fontFamily: 'var(--font-sans)',
-              color: '#d1435b',
+              color: 'var(--color-danger)',
               cursor: 'pointer',
             }}
           >
@@ -243,11 +243,11 @@ function ApprovalCard(): React.ReactElement {
               height: 28,
               borderRadius: 6,
               border: 'none',
-              background: '#5856D6',
+              background: 'var(--color-accent)',
               fontSize: 12,
               fontWeight: 500,
               fontFamily: 'var(--font-sans)',
-              color: '#fff',
+              color: 'var(--text-on-accent)',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -255,7 +255,7 @@ function ApprovalCard(): React.ReactElement {
               gap: 5,
             }}
           >
-            <Check size={12} color="#fff" />
+            <Check size={12} style={{ color: 'var(--text-on-accent)' }} />
             Approve
           </button>
         </div>
@@ -263,11 +263,11 @@ function ApprovalCard(): React.ReactElement {
           <span
             style={{
               fontSize: 11,
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
               fontFamily: 'var(--font-sans)',
               cursor: 'pointer',
               textDecoration: 'underline',
-              textDecorationColor: 'rgba(142,142,170,.4)',
+              textDecorationColor: 'var(--text-decoration-faint)',
             }}
           >
             Always allow · this draft only
@@ -284,10 +284,10 @@ function ApprovalChatPanel(): React.ReactElement {
       style={{
         width: 380,
         flexShrink: 0,
-        background: '#fff',
-        borderLeft: '1px solid rgba(0,0,0,.08)',
+        background: 'var(--surface-card)',
+        borderLeft: '1px solid var(--border-mid)',
         borderRadius: '12px 0 0 12px',
-        boxShadow: '-10px 0 24px rgba(0,0,0,.08)',
+        boxShadow: '-10px 0 24px var(--border-mid)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -301,7 +301,7 @@ function ApprovalChatPanel(): React.ReactElement {
           alignItems: 'center',
           padding: '0 16px',
           gap: 8,
-          borderBottom: '1px solid rgba(0,0,0,.06)',
+          borderBottom: '1px solid var(--border)',
           flexShrink: 0,
         }}
       >
@@ -309,7 +309,7 @@ function ApprovalChatPanel(): React.ReactElement {
           style={{
             fontSize: 12.5,
             fontWeight: 600,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             fontFamily: 'var(--font-sans)',
             flex: 1,
           }}
@@ -322,7 +322,7 @@ function ApprovalChatPanel(): React.ReactElement {
             alignItems: 'center',
             gap: 5,
             padding: '3px 7px',
-            background: 'rgba(192,122,18,.08)',
+            background: 'var(--color-warning-a08)',
             borderRadius: 999,
           }}
         >
@@ -331,14 +331,14 @@ function ApprovalChatPanel(): React.ReactElement {
               width: 6,
               height: 6,
               borderRadius: '50%',
-              background: '#c07a12',
+              background: 'var(--color-warning)',
               display: 'block',
             }}
           />
           <span
             style={{
               fontSize: 11,
-              color: '#c07a12',
+              color: 'var(--color-warning)',
               fontFamily: 'var(--font-sans)',
               fontWeight: 500,
             }}
@@ -356,7 +356,7 @@ function ApprovalChatPanel(): React.ReactElement {
             padding: 4,
           }}
         >
-          <X size={14} color="#8e8eaa" />
+          <X size={14} color="var(--text-faint)" />
         </button>
       </div>
 
@@ -376,12 +376,12 @@ function ApprovalChatPanel(): React.ReactElement {
           <div
             style={{
               maxWidth: 300,
-              background: '#f0f0f8',
+              background: 'var(--surface-sunken)',
               borderRadius: 10,
               padding: '10px 12px',
               fontSize: 12.5,
               lineHeight: 1.55,
-              color: '#1a1a2e',
+              color: 'var(--text-body)',
               fontFamily: 'var(--font-sans)',
             }}
           >
@@ -400,7 +400,7 @@ function ApprovalChatPanel(): React.ReactElement {
           style={{
             fontSize: 12.5,
             lineHeight: 1.65,
-            color: '#1a1a2e',
+            color: 'var(--text-body)',
             fontFamily: 'var(--font-sans)',
             marginBottom: 4,
           }}
@@ -415,7 +415,7 @@ function ApprovalChatPanel(): React.ReactElement {
       {/* Footer */}
       <div
         style={{
-          borderTop: '1px solid rgba(0,0,0,.06)',
+          borderTop: '1px solid var(--border)',
           padding: '10px 12px',
           flexShrink: 0,
         }}
@@ -427,7 +427,7 @@ function ApprovalChatPanel(): React.ReactElement {
             gap: 5,
             marginBottom: 8,
             fontSize: 11.5,
-            color: '#52526b',
+            color: 'var(--text-muted-strong)',
             fontFamily: 'var(--font-sans)',
           }}
         >
@@ -436,7 +436,7 @@ function ApprovalChatPanel(): React.ReactElement {
               width: 6,
               height: 6,
               borderRadius: '50%',
-              background: '#c07a12',
+              background: 'var(--color-warning)',
               display: 'block',
               flexShrink: 0,
             }}
@@ -448,8 +448,8 @@ function ApprovalChatPanel(): React.ReactElement {
             display: 'flex',
             alignItems: 'center',
             gap: 8,
-            background: '#f8f8fc',
-            border: '1px solid rgba(0,0,0,.08)',
+            background: 'var(--surface-section)',
+            border: '1px solid var(--border-mid)',
             borderRadius: 8,
             padding: '8px 10px',
           }}
@@ -458,7 +458,7 @@ function ApprovalChatPanel(): React.ReactElement {
             style={{
               flex: 1,
               fontSize: 12.5,
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
               fontFamily: 'var(--font-sans)',
             }}
           >
@@ -469,7 +469,7 @@ function ApprovalChatPanel(): React.ReactElement {
               width: 24,
               height: 24,
               borderRadius: 6,
-              background: '#5856D6',
+              background: 'var(--color-accent)',
               border: 'none',
               display: 'flex',
               alignItems: 'center',
@@ -478,7 +478,7 @@ function ApprovalChatPanel(): React.ReactElement {
               flexShrink: 0,
             }}
           >
-            <ArrowUp size={13} color="#fff" />
+            <ArrowUp size={13} style={{ color: 'var(--text-on-accent)' }} />
           </button>
         </div>
       </div>
@@ -499,7 +499,7 @@ export function Approval(): React.ReactElement {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff',
+        background: 'var(--surface-card)',
       }}
     >
       <TitleBar
@@ -528,7 +528,7 @@ export function Approval(): React.ReactElement {
           style={{
             flex: 1,
             overflowY: 'auto',
-            background: '#fff',
+            background: 'var(--surface-card)',
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -538,7 +538,7 @@ export function Approval(): React.ReactElement {
               style={{
                 fontSize: 19,
                 fontWeight: 600,
-                color: '#1a1a2e',
+                color: 'var(--text-body)',
                 letterSpacing: '-0.015em',
                 marginBottom: 12,
                 fontFamily: 'var(--font-sans)',
@@ -550,7 +550,7 @@ export function Approval(): React.ReactElement {
               style={{
                 fontSize: 15,
                 lineHeight: 1.7,
-                color: '#1a1a2e',
+                color: 'var(--text-body)',
                 maxWidth: '68ch',
                 fontFamily: 'var(--font-sans)',
               }}

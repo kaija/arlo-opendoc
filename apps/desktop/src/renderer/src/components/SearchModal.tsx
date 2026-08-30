@@ -42,8 +42,8 @@ function Spinner(): React.ReactElement {
         display: 'inline-block',
         width: 14,
         height: 14,
-        border: '2px solid rgba(88,86,214,.25)',
-        borderTopColor: '#5856D6',
+        border: '2px solid var(--color-accent-a25)',
+        borderTopColor: 'var(--color-accent)',
         borderRadius: '50%',
         animation: 'spin 0.7s linear infinite',
         flexShrink: 0,
@@ -73,9 +73,9 @@ function OptionToggle({ label, title, active, onToggle, testId }: ToggleProps): 
         minWidth: 28,
         padding: '0 6px',
         borderRadius: 4,
-        border: active ? '1px solid #5856D6' : '1px solid rgba(0,0,0,.10)',
-        background: active ? '#5856D6' : 'transparent',
-        color: active ? '#fff' : '#8e8eaa',
+        border: active ? '1px solid var(--color-accent)' : '1px solid var(--border-strong)',
+        background: active ? 'var(--color-accent)' : 'transparent',
+        color: active ? 'var(--text-on-accent)' : 'var(--text-faint)',
         fontSize: 11,
         fontFamily: 'var(--font-mono)',
         fontWeight: 600,
@@ -354,7 +354,7 @@ export function SearchModal({
         {/* Backdrop */}
         <div
           data-testid="search-modal-backdrop"
-          style={{ position: 'absolute', inset: 0, background: 'rgba(26,26,46,.28)' }}
+          style={{ position: 'absolute', inset: 0, background: 'var(--color-scrim)' }}
           onClick={onClose}
         />
 
@@ -367,9 +367,9 @@ export function SearchModal({
             left: '50%',
             transform: 'translateX(-50%)',
             width: 720,
-            background: '#fff',
+            background: 'var(--surface-card)',
             borderRadius: 12,
-            boxShadow: '0 24px 60px rgba(0,0,0,.18), 0 4px 16px rgba(0,0,0,.10)',
+            boxShadow: 'var(--shadow-overlay)',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
@@ -380,7 +380,7 @@ export function SearchModal({
           <div
             style={{
               display: 'flex',
-              borderBottom: '1px solid rgba(0,0,0,.08)',
+              borderBottom: '1px solid var(--border-mid)',
               flexShrink: 0,
             }}
           >
@@ -397,8 +397,8 @@ export function SearchModal({
                     padding: '0 16px',
                     background: 'transparent',
                     border: 'none',
-                    borderBottom: isActive ? '2px solid #5856D6' : '2px solid transparent',
-                    color: isActive ? '#1a1a2e' : '#8e8eaa',
+                    borderBottom: isActive ? '2px solid var(--color-accent)' : '2px solid transparent',
+                    color: isActive ? 'var(--text-body)' : 'var(--text-faint)',
                     fontSize: 13,
                     fontWeight: isActive ? 600 : 400,
                     fontFamily: 'var(--font-sans)',
@@ -416,7 +416,7 @@ export function SearchModal({
           <div
             style={{
               padding: '10px 14px 8px',
-              borderBottom: '1px solid rgba(0,0,0,.06)',
+              borderBottom: '1px solid var(--border)',
               flexShrink: 0,
               display: 'flex',
               flexDirection: 'column',
@@ -473,7 +473,7 @@ export function SearchModal({
             {regexError && activeTab === 'search-files' && (
               <div
                 data-testid="regex-error"
-                style={{ fontSize: 11.5, color: '#c0392b', fontFamily: 'var(--font-sans)' }}
+                style={{ fontSize: 11.5, color: 'var(--color-error-text)', fontFamily: 'var(--font-sans)' }}
               >
                 Invalid regex
               </div>
@@ -518,8 +518,8 @@ export function SearchModal({
             data-testid="search-footer"
             style={{
               height: 36,
-              background: '#f8f8fc',
-              borderTop: '1px solid rgba(0,0,0,.06)',
+              background: 'var(--surface-section)',
+              borderTop: '1px solid var(--border)',
               display: 'flex',
               alignItems: 'center',
               padding: '0 14px',
@@ -529,7 +529,7 @@ export function SearchModal({
             <span
               style={{
                 fontSize: 11.5,
-                color: contentError ? '#c0392b' : '#8e8eaa',
+                color: contentError ? 'var(--color-error-text)' : 'var(--text-faint)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
@@ -549,12 +549,12 @@ function inputStyle(disabled: boolean): React.CSSProperties {
     flex: 1,
     height: 34,
     padding: '0 10px',
-    border: '1px solid rgba(0,0,0,.12)',
+    border: '1px solid var(--border-stronger)',
     borderRadius: 6,
     fontSize: 13,
     fontFamily: 'var(--font-sans)',
-    color: disabled ? '#a0a0b8' : '#1a1a2e',
-    background: disabled ? '#f8f8fc' : '#fff',
+    color: disabled ? 'var(--text-disabled)' : 'var(--text-body)',
+    background: disabled ? 'var(--surface-section)' : 'var(--surface-card)',
     outline: 'none',
     cursor: disabled ? 'not-allowed' : 'text',
   };
@@ -620,14 +620,14 @@ function renderSearchFilesResults({
               flexDirection: 'column',
               gap: 2,
               cursor: 'pointer',
-              background: isSelected ? '#f0effe' : 'transparent',
-              borderBottom: '1px solid rgba(0,0,0,.04)',
+              background: isSelected ? 'var(--color-accent-tint)' : 'transparent',
+              borderBottom: '1px solid var(--border-faint)',
             }}
           >
             <span
               style={{
                 fontSize: 13,
-                color: '#1a1a2e',
+                color: 'var(--text-body)',
                 fontFamily: 'var(--font-sans)',
                 fontWeight: 400,
               }}
@@ -637,7 +637,7 @@ function renderSearchFilesResults({
             <span
               style={{
                 fontSize: 11,
-                color: 'rgba(100,100,140,.65)',
+                color: 'var(--text-placeholder-soft)',
                 fontFamily: 'var(--font-mono)',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -699,7 +699,7 @@ function renderFindInFilesResults({
         }}
       >
         <Spinner />
-        <span style={{ fontSize: 13, color: '#8e8eaa', fontFamily: 'var(--font-sans)' }}>
+        <span style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
           Searching…
         </span>
       </div>
@@ -711,7 +711,7 @@ function renderFindInFilesResults({
         <span
           style={{
             fontSize: 13,
-            color: '#c0392b',
+            color: 'var(--color-error-text)',
             fontFamily: 'var(--font-sans)',
           }}
         >
@@ -735,7 +735,7 @@ function renderFindInFilesResults({
         }}
       >
         <span
-          style={{ fontSize: 12, color: '#a8a8be', fontFamily: 'var(--font-sans)' }}
+          style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--font-sans)' }}
         >
           {contentQuery ? '' : 'Press Enter to search file contents'}
         </span>
@@ -762,9 +762,9 @@ function renderFindInFilesResults({
                 alignItems: 'center',
                 gap: 6,
                 padding: '7px 14px 5px',
-                background: '#f8f8fc',
-                borderTop: '1px solid rgba(0,0,0,.06)',
-                borderBottom: '1px solid rgba(0,0,0,.06)',
+                background: 'var(--surface-section)',
+                borderTop: '1px solid var(--border)',
+                borderBottom: '1px solid var(--border)',
                 position: 'sticky',
                 top: 0,
               }}
@@ -774,7 +774,7 @@ function renderFindInFilesResults({
                 style={{
                   fontSize: 12,
                   fontFamily: 'var(--font-mono)',
-                  color: '#1a1a2e',
+                  color: 'var(--text-body)',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
@@ -786,7 +786,7 @@ function renderFindInFilesResults({
               <span
                 style={{
                   fontSize: 11,
-                  color: '#8e8eaa',
+                  color: 'var(--text-faint)',
                   fontFamily: 'var(--font-sans)',
                   flexShrink: 0,
                 }}
@@ -821,9 +821,9 @@ function renderFindInFilesResults({
                     gap: 0,
                     padding: '2px 0',
                     background: isSelected
-                      ? '#e8e6ff'
+                      ? 'var(--color-accent-tint-strong)'
                       : line.isMatch
-                        ? 'rgba(88,86,214,.06)'
+                        ? 'var(--color-accent-a06)'
                         : 'transparent',
                     cursor: line.isMatch ? 'pointer' : 'default',
                     borderBottom: '1px solid transparent',
@@ -838,7 +838,7 @@ function renderFindInFilesResults({
                       paddingLeft: 14,
                       fontSize: 11,
                       fontFamily: 'var(--font-mono)',
-                      color: '#a8a8be',
+                      color: 'var(--text-dim)',
                       userSelect: 'none',
                       flexShrink: 0,
                       lineHeight: '20px',
@@ -852,7 +852,7 @@ function renderFindInFilesResults({
                       flex: 1,
                       fontSize: 12,
                       fontFamily: 'var(--font-mono)',
-                      color: line.isMatch ? '#1a1a2e' : '#64648c',
+                      color: line.isMatch ? 'var(--text-body)' : 'var(--text-muted)',
                       whiteSpace: 'pre',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -876,10 +876,10 @@ function renderFindInFilesResults({
           style={{
             padding: '10px 14px',
             fontSize: 12,
-            color: '#8e8eaa',
+            color: 'var(--text-faint)',
             fontFamily: 'var(--font-sans)',
-            borderTop: '1px solid rgba(0,0,0,.06)',
-            background: '#f8f8fc',
+            borderTop: '1px solid var(--border)',
+            background: 'var(--surface-section)',
           }}
         >
           Showing first 20 files — refine your query to see more
@@ -902,7 +902,7 @@ function EmptyMessage({ text }: { text: string }): React.ReactElement {
         padding: 16,
       }}
     >
-      <span style={{ fontSize: 13, color: '#8e8eaa', fontFamily: 'var(--font-sans)' }}>
+      <span style={{ fontSize: 13, color: 'var(--text-faint)', fontFamily: 'var(--font-sans)' }}>
         {text}
       </span>
     </div>

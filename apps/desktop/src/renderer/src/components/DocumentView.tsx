@@ -255,8 +255,8 @@ function renderInline(text: string): React.ReactNode[] {
     if (part.startsWith('`') && part.endsWith('`')) {
       return (
         <code key={i} style={{
-          background: '#f0f0f8', borderRadius: 3, padding: '1px 5px',
-          fontFamily: 'var(--font-mono)', fontSize: '0.88em', color: '#52526b',
+          background: 'var(--surface-sunken)', borderRadius: 3, padding: '1px 5px',
+          fontFamily: 'var(--font-mono)', fontSize: '0.88em', color: 'var(--text-muted-strong)',
         }}>
           {part.slice(1, -1)}
         </code>
@@ -269,7 +269,7 @@ function renderInline(text: string): React.ReactNode[] {
         <a
           key={i}
           href={url}
-          style={{ color: '#5856D6', cursor: 'pointer' }}
+          style={{ color: 'var(--color-accent)', cursor: 'pointer' }}
           onClick={(e) => {
             e.preventDefault();
             void window.arlodoc.openExternal(url);
@@ -286,12 +286,12 @@ function renderInline(text: string): React.ReactNode[] {
 // ── Token renderer ─────────────────────────────────────────────────────────
 
 const HEADING_STYLES: Record<string, React.CSSProperties> = {
-  h1: { fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', marginBottom: 16, marginTop: 40, lineHeight: 1.2, borderBottom: '1px solid rgba(0,0,0,.08)', paddingBottom: 8 },
-  h2: { fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', marginBottom: 12, marginTop: 32, lineHeight: 1.3, borderBottom: '1px solid rgba(0,0,0,.08)', paddingBottom: 6 },
+  h1: { fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', marginBottom: 16, marginTop: 40, lineHeight: 1.2, borderBottom: '1px solid var(--border-mid)', paddingBottom: 8 },
+  h2: { fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', marginBottom: 12, marginTop: 32, lineHeight: 1.3, borderBottom: '1px solid var(--border-mid)', paddingBottom: 6 },
   h3: { fontSize: 17, fontWeight: 600, marginBottom: 10, marginTop: 24, lineHeight: 1.4 },
   h4: { fontSize: 15, fontWeight: 600, marginBottom: 8,  marginTop: 20 },
   h5: { fontSize: 14, fontWeight: 600, marginBottom: 6,  marginTop: 16 },
-  h6: { fontSize: 13, fontWeight: 600, marginBottom: 4,  marginTop: 12, color: '#52526b' },
+  h6: { fontSize: 13, fontWeight: 600, marginBottom: 4,  marginTop: 12, color: 'var(--text-muted-strong)' },
 };
 
 const ALIGN_MAP: Record<string, React.CSSProperties['textAlign']> = {
@@ -299,17 +299,17 @@ const ALIGN_MAP: Record<string, React.CSSProperties['textAlign']> = {
 };
 
 function renderToken(tok: Token, idx: number): React.ReactNode {
-  const base: React.CSSProperties = { fontFamily: 'var(--font-sans)', color: '#1a1a2e' };
+  const base: React.CSSProperties = { fontFamily: 'var(--font-sans)', color: 'var(--text-body)' };
 
   if (tok.type === 'blank') return null;
 
   if (tok.type === 'hr') {
-    return <hr key={idx} style={{ border: 'none', borderTop: '1px solid rgba(0,0,0,.1)', margin: '24px 0' }} />;
+    return <hr key={idx} style={{ border: 'none', borderTop: '1px solid var(--border-strong)', margin: '24px 0' }} />;
   }
 
   if (tok.type === 'code_block') {
     return (
-      <pre key={idx} style={{ background: '#f0f0f8', borderRadius: 8, padding: '16px 20px', fontFamily: 'var(--font-mono)', fontSize: 13, color: '#1a1a2e', overflowX: 'auto', lineHeight: 1.6, margin: '16px 0' }}>
+      <pre key={idx} style={{ background: 'var(--surface-sunken)', borderRadius: 8, padding: '16px 20px', fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--text-body)', overflowX: 'auto', lineHeight: 1.6, margin: '16px 0' }}>
         <code>{tok.content}</code>
       </pre>
     );
@@ -317,7 +317,7 @@ function renderToken(tok: Token, idx: number): React.ReactNode {
 
   if (tok.type === 'blockquote') {
     return (
-      <blockquote key={idx} style={{ borderLeft: '3px solid #5856D6', margin: '16px 0', paddingLeft: 16, color: '#52526b', fontStyle: 'italic' }}>
+      <blockquote key={idx} style={{ borderLeft: '3px solid var(--color-accent)', margin: '16px 0', paddingLeft: 16, color: 'var(--text-muted-strong)', fontStyle: 'italic' }}>
         {tok.content.split('\n').map((l, i) => (
           <p key={i} style={{ margin: 0, lineHeight: 1.7 }}>{renderInline(l)}</p>
         ))}
@@ -355,10 +355,10 @@ function renderToken(tok: Token, idx: number): React.ReactNode {
                     textAlign: ALIGN_MAP[tok.alignments[ci] ?? 'none'],
                     fontWeight: 600,
                     fontSize: 12,
-                    color: '#52526b',
-                    background: '#f8f8fc',
-                    borderBottom: '2px solid rgba(0,0,0,.1)',
-                    borderTop: '1px solid rgba(0,0,0,.08)',
+                    color: 'var(--text-muted-strong)',
+                    background: 'var(--surface-section)',
+                    borderBottom: '2px solid var(--border-strong)',
+                    borderTop: '1px solid var(--border-mid)',
                     letterSpacing: '0.01em',
                     whiteSpace: 'nowrap',
                   }}
@@ -370,15 +370,15 @@ function renderToken(tok: Token, idx: number): React.ReactNode {
           </thead>
           <tbody>
             {tok.rows.map((row, ri) => (
-              <tr key={ri} style={{ background: ri % 2 === 1 ? '#fafafa' : '#fff' }}>
+              <tr key={ri} style={{ background: ri % 2 === 1 ? 'var(--surface-alt)' : 'var(--surface-card)' }}>
                 {row.map((cell, ci) => (
                   <td
                     key={ci}
                     style={{
                       padding: '8px 14px',
                       textAlign: ALIGN_MAP[tok.alignments[ci] ?? 'none'],
-                      color: '#1a1a2e',
-                      borderBottom: '1px solid rgba(0,0,0,.06)',
+                      color: 'var(--text-body)',
+                      borderBottom: '1px solid var(--border)',
                       verticalAlign: 'top',
                       lineHeight: 1.6,
                     }}
@@ -414,7 +414,7 @@ function renderToken(tok: Token, idx: number): React.ReactNode {
 function MarkdownView({ content }: { content: string }): React.ReactElement {
   const tokens = tokenize(stripFrontMatter(content));
   return (
-    <div style={{ fontFamily: 'var(--font-sans)', color: '#1a1a2e' }}>
+    <div style={{ fontFamily: 'var(--font-sans)', color: 'var(--text-body)' }}>
       {tokens.map((tok, i) => renderToken(tok, i))}
     </div>
   );
@@ -426,18 +426,18 @@ function CodeView({ content, filePath }: { content: string; filePath: string }):
   const label = getLanguageLabel(filePath);
   const lines = content.split('\n');
   return (
-    <div style={{ borderRadius: 10, border: '1px solid rgba(0,0,0,.08)', overflow: 'hidden', margin: 0 }}>
+    <div style={{ borderRadius: 10, border: '1px solid var(--border-mid)', overflow: 'hidden', margin: 0 }}>
       {label && (
         <div style={{
           display: 'flex',
           alignItems: 'center',
           padding: '6px 16px',
-          background: '#f0f0f8',
-          borderBottom: '1px solid rgba(0,0,0,.08)',
+          background: 'var(--surface-sunken)',
+          borderBottom: '1px solid var(--border-mid)',
           fontFamily: 'var(--font-mono)',
           fontSize: 11,
           fontWeight: 600,
-          color: '#52526b',
+          color: 'var(--text-muted-strong)',
           letterSpacing: '0.04em',
           textTransform: 'uppercase',
           userSelect: 'none',
@@ -451,8 +451,8 @@ function CodeView({ content, filePath }: { content: string; filePath: string }):
         fontFamily: 'var(--font-mono)',
         fontSize: 13,
         lineHeight: 1.65,
-        color: '#1a1a2e',
-        background: '#f8f8fc',
+        color: 'var(--text-body)',
+        background: 'var(--surface-section)',
         margin: 0,
         padding: '20px 24px',
       }}>
@@ -501,7 +501,7 @@ export function DocumentView({ fileContent, activeFilePath, scrollToLine, onScro
     target.scrollIntoView({ block: 'center' });
 
     // Transient highlight: inject a one-shot animation
-    const HIGHLIGHT_COLOR = 'rgba(88, 86, 214, 0.18)';
+    const HIGHLIGHT_COLOR = 'var(--color-accent-a18)';
     const prevBg = target.style.backgroundColor;
     target.style.transition = 'background-color 0s';
     target.style.backgroundColor = HIGHLIGHT_COLOR;
@@ -526,13 +526,13 @@ export function DocumentView({ fileContent, activeFilePath, scrollToLine, onScro
   return (
     <div
       ref={containerRef}
-      style={{ flex: 1, overflowY: 'auto', background: '#fff', display: 'flex', justifyContent: 'center' }}
+      style={{ flex: 1, overflowY: 'auto', background: 'var(--surface-card)', display: 'flex', justifyContent: 'center' }}
     >
       <div style={{ width: '100%', maxWidth: isMd || isTxt ? 740 : 900, padding: '48px 40px' }}>
         {isMd
           ? <MarkdownView content={fileContent} />
           : isTxt
-            ? <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: '#1a1a2e', margin: 0 }}>{fileContent}</pre>
+            ? <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: 'var(--text-body)', margin: 0 }}>{fileContent}</pre>
             : <CodeView content={fileContent} filePath={activeFilePath} />
         }
       </div>

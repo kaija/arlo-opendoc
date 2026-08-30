@@ -11,7 +11,7 @@ export function NoFileSelected(): React.ReactElement {
         alignItems: 'center',
         justifyContent: 'center',
         gap: 12,
-        background: '#fff',
+        background: 'var(--surface-card)',
         userSelect: 'none',
       }}
     >
@@ -20,18 +20,18 @@ export function NoFileSelected(): React.ReactElement {
           width: 48,
           height: 48,
           borderRadius: 12,
-          background: '#f0f0f8',
+          background: 'var(--surface-sunken)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <FileText size={22} color="#a8a8be" />
+        <FileText size={22} color="var(--text-dim)" />
       </div>
       <p
         style={{
           fontSize: 13,
-          color: '#a8a8be',
+          color: 'var(--text-dim)',
           fontFamily: 'var(--font-sans)',
           margin: 0,
           fontWeight: 400,

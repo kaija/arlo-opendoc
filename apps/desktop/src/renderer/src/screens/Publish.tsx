@@ -41,7 +41,7 @@ export function Publish(): React.ReactElement {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(26,26,46,.28)',
+          background: 'var(--color-scrim)',
         }}
       />
 
@@ -53,9 +53,9 @@ export function Publish(): React.ReactElement {
           left: '50%',
           transform: 'translateX(-50%)',
           width: 620,
-          background: '#fff',
+          background: 'var(--surface-card)',
           borderRadius: 12,
-          boxShadow: '0 24px 60px rgba(0,0,0,.18), 0 4px 16px rgba(0,0,0,.10)',
+          boxShadow: 'var(--shadow-overlay)',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
@@ -71,7 +71,7 @@ export function Publish(): React.ReactElement {
             style={{
               fontSize: 16,
               fontWeight: 600,
-              color: '#1a1a2e',
+              color: 'var(--text-body)',
               fontFamily: 'var(--font-sans)',
             }}
           >
@@ -93,13 +93,13 @@ export function Publish(): React.ReactElement {
             <div
               style={{
                 height: 34,
-                border: '1px solid rgba(0,0,0,.1)',
+                border: '1px solid var(--border-strong)',
                 borderRadius: 6,
                 display: 'flex',
                 alignItems: 'center',
                 padding: '0 10px',
                 fontSize: 13,
-                color: '#1a1a2e',
+                color: 'var(--text-body)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
@@ -114,7 +114,7 @@ export function Publish(): React.ReactElement {
           >
             <div
               style={{
-                border: '1px solid rgba(0,0,0,.1)',
+                border: '1px solid var(--border-strong)',
                 borderRadius: 6,
                 padding: '10px 12px',
               }}
@@ -131,7 +131,7 @@ export function Publish(): React.ReactElement {
                   <span
                     style={{
                       fontSize: 13,
-                      color: '#8e8eaa',
+                      color: 'var(--text-faint)',
                       fontFamily: 'var(--font-sans)',
                       flexShrink: 0,
                       marginTop: 1,
@@ -142,7 +142,7 @@ export function Publish(): React.ReactElement {
                   <span
                     style={{
                       fontSize: 13,
-                      color: '#1a1a2e',
+                      color: 'var(--text-body)',
                       fontFamily: 'var(--font-sans)',
                       lineHeight: 1.55,
                     }}
@@ -158,7 +158,7 @@ export function Publish(): React.ReactElement {
           <FieldGroup label={`${FILES_CHANGED.length} notes changed`}>
             <div
               style={{
-                border: '1px solid rgba(0,0,0,.08)',
+                border: '1px solid var(--border-mid)',
                 borderRadius: 6,
                 overflow: 'hidden',
               }}
@@ -171,14 +171,14 @@ export function Publish(): React.ReactElement {
                     alignItems: 'center',
                     gap: 8,
                     padding: '7px 12px',
-                    borderTop: i > 0 ? '1px solid rgba(0,0,0,.06)' : undefined,
+                    borderTop: i > 0 ? '1px solid var(--border)' : undefined,
                   }}
                 >
                   <span
                     style={{
                       flex: 1,
                       fontSize: 12.5,
-                      color: '#1a1a2e',
+                      color: 'var(--text-body)',
                       fontFamily: 'var(--font-sans)',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -191,7 +191,7 @@ export function Publish(): React.ReactElement {
                     style={{
                       fontSize: 11.5,
                       fontFamily: 'var(--font-mono)',
-                      color: '#1f9d6b',
+                      color: 'var(--color-success)',
                     }}
                   >
                     +{file.added}
@@ -201,7 +201,7 @@ export function Publish(): React.ReactElement {
                       style={{
                         fontSize: 11.5,
                         fontFamily: 'var(--font-mono)',
-                        color: '#d1435b',
+                        color: 'var(--color-danger)',
                       }}
                     >
                       -{file.removed}
@@ -223,7 +223,7 @@ export function Publish(): React.ReactElement {
                   gap: 6,
                   height: 28,
                   padding: '0 10px',
-                  background: '#f0f0f8',
+                  background: 'var(--surface-sunken)',
                   borderRadius: 999,
                 }}
               >
@@ -232,7 +232,7 @@ export function Publish(): React.ReactElement {
                     width: 18,
                     height: 18,
                     borderRadius: '50%',
-                    background: '#5856D6',
+                    background: 'var(--color-accent)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -243,7 +243,7 @@ export function Publish(): React.ReactElement {
                     style={{
                       fontSize: 8.5,
                       fontWeight: 600,
-                      color: '#fff',
+                      color: 'var(--text-on-accent)',
                       fontFamily: 'var(--font-sans)',
                     }}
                   >
@@ -253,7 +253,7 @@ export function Publish(): React.ReactElement {
                 <span
                   style={{
                     fontSize: 12,
-                    color: '#1a1a2e',
+                    color: 'var(--text-body)',
                     fontFamily: 'var(--font-sans)',
                   }}
                 >
@@ -267,10 +267,10 @@ export function Publish(): React.ReactElement {
                   height: 28,
                   padding: '0 10px',
                   borderRadius: 999,
-                  border: '1.5px dashed rgba(0,0,0,.12)',
+                  border: '1.5px dashed var(--border-stronger)',
                   background: 'transparent',
                   fontSize: 12,
-                  color: '#8e8eaa',
+                  color: 'var(--text-faint)',
                   fontFamily: 'var(--font-sans)',
                   cursor: 'pointer',
                   display: 'flex',
@@ -290,7 +290,7 @@ export function Publish(): React.ReactElement {
                 width: 16,
                 height: 16,
                 borderRadius: 4,
-                background: '#5856D6',
+                background: 'var(--color-accent)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -298,12 +298,12 @@ export function Publish(): React.ReactElement {
                 cursor: 'pointer',
               }}
             >
-              <Check size={10} color="#fff" />
+              <Check size={10} style={{ color: 'var(--text-on-accent)' }} />
             </div>
             <span
               style={{
                 fontSize: 12.5,
-                color: '#52526b',
+                color: 'var(--text-muted-strong)',
                 fontFamily: 'var(--font-sans)',
               }}
             >
@@ -319,7 +319,7 @@ export function Publish(): React.ReactElement {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '12px 24px 16px',
-            borderTop: '1px solid rgba(0,0,0,.06)',
+            borderTop: '1px solid var(--border)',
           }}
         >
           <button
@@ -327,7 +327,7 @@ export function Publish(): React.ReactElement {
               background: 'transparent',
               border: 'none',
               fontSize: 12.5,
-              color: '#64648c',
+              color: 'var(--text-muted)',
               fontFamily: 'var(--font-sans)',
               cursor: 'pointer',
               fontWeight: 400,
@@ -341,8 +341,8 @@ export function Publish(): React.ReactElement {
               padding: '0 18px',
               borderRadius: 999,
               border: 'none',
-              background: '#5856D6',
-              color: '#fff',
+              background: 'var(--color-accent)',
+              color: 'var(--text-on-accent)',
               fontSize: 13,
               fontWeight: 500,
               fontFamily: 'var(--font-sans)',
@@ -373,7 +373,7 @@ function FieldGroup({
           style={{
             fontSize: 11.5,
             fontWeight: 500,
-            color: '#52526b',
+            color: 'var(--text-muted-strong)',
             fontFamily: 'var(--font-sans)',
           }}
         >
@@ -383,7 +383,7 @@ function FieldGroup({
           <span
             style={{
               fontSize: 11,
-              color: '#8e8eaa',
+              color: 'var(--text-faint)',
               fontFamily: 'var(--font-sans)',
             }}
           >
