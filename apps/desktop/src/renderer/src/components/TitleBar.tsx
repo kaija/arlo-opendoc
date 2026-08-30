@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown, Plus } from 'lucide-react';
 import { MAX_TABS } from '@arlo-doc/shared';
@@ -97,16 +97,15 @@ export function TitleBar({
 
   const showTitle = baseWidth > MIN_TAB_WIDTH;
 
-  const handleDoubleClick = useCallback(() => {
-    window.windowControls?.toggleMaximize();
-  }, []);
-
   const atMaxTabs = tabs.length >= MAX_TABS;
   const newTabDisabled = atMaxTabs || isCreatingTab;
 
   return (
+    // The whole bar is a drag region. Every interactive child below opts back
+    // out with `WebkitAppRegion: 'no-drag'`, which leaves the gaps between and
+    // around the tabs draggable — and, because it is a native drag region, the
+    // OS handles double-click-to-zoom/maximize there for free.
     <div
-      onDoubleClick={handleDoubleClick}
       style={{
         // Chrome-style: taller title bar so tabs sit at traffic-light height
         height: 52,
@@ -177,7 +176,9 @@ export function TitleBar({
         </>
       )}
 
-      {/* Tabs — Chrome style: rounded top corners, flush with bottom border */}
+      {/* Tabs — Chrome style: rounded top corners, flush with bottom border.
+          The strip itself stays draggable; only the tab buttons opt out, so the
+          empty space to the right of the last tab drags the window. */}
       <div
         ref={tabBarRef}
         style={{
@@ -187,8 +188,7 @@ export function TitleBar({
           minWidth: 0,
           overflow: 'hidden',
           height: '100%',
-          WebkitAppRegion: 'no-drag',
-        } as ElectronCSSProperties}
+        }}
       >
         {tabs.map((tab) => {
           const isActive = tab.id === activeTabId;
@@ -226,7 +226,8 @@ export function TitleBar({
                 transition: 'background 0.1s, color 0.1s',
                 overflow: 'hidden',
                 gap: 4,
-              }}
+                WebkitAppRegion: 'no-drag',
+              } as ElectronCSSProperties}
             >
               {showTitle && (
                 <span
@@ -292,7 +293,8 @@ export function TitleBar({
             flexShrink: 0,
             marginBottom: -1,
             opacity: newTabDisabled ? 0.4 : 1,
-          }}
+            WebkitAppRegion: 'no-drag',
+          } as ElectronCSSProperties}
         >
           {isCreatingTab ? (
             <span
