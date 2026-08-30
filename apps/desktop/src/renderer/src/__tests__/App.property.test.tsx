@@ -232,8 +232,8 @@ describe('Property 5: handleFileClick updates both gitStatus and fileDiff for th
     const unsupportedPaths = [
       '/repo/image.png',
       '/repo/archive.zip',
-      '/repo/script.js',
-      '/repo/data.json',
+      '/repo/photo.jpg',
+      '/repo/document.pdf',
       '/repo/binary.exe',
     ];
 
@@ -424,11 +424,28 @@ describe('isSupportedFile', () => {
     expect(isSupportedFile('/foo/bar.txt')).toBe(true);
   });
 
-  it('returns false for unsupported extensions', () => {
+  it('returns true for source and config text extensions', () => {
+    // The supported set was broadened beyond docs to any common text / source
+    // file (see TEXT_EXTENSIONS in fileClickLogic.ts).
+    expect(isSupportedFile('/foo/bar.js')).toBe(true);
+    expect(isSupportedFile('/foo/bar.ts')).toBe(true);
+    expect(isSupportedFile('/foo/bar.json')).toBe(true);
+    expect(isSupportedFile('/foo/bar.py')).toBe(true);
+    expect(isSupportedFile('/foo/bar.yaml')).toBe(true);
+  });
+
+  it('returns true for extensionless files with a known text basename', () => {
+    expect(isSupportedFile('/foo/Makefile')).toBe(true);
+    expect(isSupportedFile('/foo/Dockerfile')).toBe(true);
+  });
+
+  it('returns false for binary / unknown extensions', () => {
     expect(isSupportedFile('/foo/bar.png')).toBe(false);
-    expect(isSupportedFile('/foo/bar.js')).toBe(false);
-    expect(isSupportedFile('/foo/bar.json')).toBe(false);
-    expect(isSupportedFile('/foo/bar')).toBe(false);
+    expect(isSupportedFile('/foo/bar.jpg')).toBe(false);
+    expect(isSupportedFile('/foo/bar.zip')).toBe(false);
+    expect(isSupportedFile('/foo/bar.exe')).toBe(false);
+    expect(isSupportedFile('/foo/bar.pdf')).toBe(false);
+    expect(isSupportedFile('/foo/plainfile')).toBe(false);
   });
 
   it('is case-insensitive', () => {
