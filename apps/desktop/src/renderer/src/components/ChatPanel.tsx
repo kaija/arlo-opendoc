@@ -540,33 +540,35 @@ export function ChatPanel({
           gap: 8,
         }}
       >
-        {/* Draft status pill */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-          }}
-        >
+        {/* Draft status pill — only once a draft actually exists */}
+        {draftStatus !== null && draftName !== '' && (
           <div
             style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: draftStatus === 'needs-approval' ? 'var(--color-warning)' : 'var(--color-accent)',
-              flexShrink: 0,
-            }}
-          />
-          <span
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 11,
-              color: 'var(--text-faint)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
             }}
           >
-            {t('chat.draftLabel', { name: draftName })}
-          </span>
-        </div>
+            <div
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: draftStatus === 'needs-approval' ? 'var(--color-warning)' : 'var(--color-accent)',
+                flexShrink: 0,
+              }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 11,
+                color: 'var(--text-faint)',
+              }}
+            >
+              {t('chat.draftLabel', { name: draftName })}
+            </span>
+          </div>
+        )}
 
         {/* Input row */}
         <div

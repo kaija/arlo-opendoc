@@ -147,16 +147,18 @@ export function TitleBar({
             } as ElectronCSSProperties}
           >
             <StatusDot status={draftStatus} />
-            <span
-              style={{
-                fontWeight: 500,
-                fontSize: 12,
-                color: 'var(--text-body)',
-                fontFamily: 'var(--font-sans)',
-              }}
-            >
-              {draftName}
-            </span>
+            {draftName !== '' && (
+              <span
+                style={{
+                  fontWeight: 500,
+                  fontSize: 12,
+                  color: 'var(--text-body)',
+                  fontFamily: 'var(--font-sans)',
+                }}
+              >
+                {draftName}
+              </span>
+            )}
             <ChevronDown size={12} color="var(--text-faint)" />
           </div>
 

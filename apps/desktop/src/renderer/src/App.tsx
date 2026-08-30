@@ -357,16 +357,11 @@ export function App(): React.ReactElement {
   );
 
   // ── Chat ────────────────────────────────────────────────────────────────
+  // Opening the panel only shows it. A draft (and its title-bar pill) begins
+  // when the agent actually starts working — see handleNeedsApproval — not
+  // from the act of opening chat.
   const handleChatToggle = useCallback(() => {
-    setState((s) => {
-      const opening = !s.showChat;
-      return {
-        ...s,
-        showChat: opening,
-        draftStatus: opening && !s.draftStatus ? 'working' : s.draftStatus,
-        draftName: opening && !s.draftName ? 'Payments runbook refresh' : s.draftName,
-      };
-    });
+    setState((s) => ({ ...s, showChat: !s.showChat }));
   }, []);
 
   const handleCloseChat = useCallback(() => {
@@ -379,14 +374,18 @@ export function App(): React.ReactElement {
   // pushing to a remote — are NOT routed through here; they confirm at their
   // own call sites regardless of this setting.
   const handleNeedsApproval = useCallback(() => {
+    // The draft belongs to the worktree being edited, so name the title-bar
+    // pill after the active tab rather than a placeholder.
+    const draftName =
+      activeTab && activeTab.title !== 'Untitled' ? activeTab.title : '';
     if (appSettingsRef.current?.agent.autonomy !== 'review-each') {
       // At 'draft-freely' and 'full' the edit lands in the worktree and the
       // pull request becomes the gate, so there is nothing to stop for.
-      update({ draftStatus: 'draft' });
+      update({ draftStatus: 'draft', draftName });
       return;
     }
-    update({ draftStatus: 'needs-approval' });
-  }, [update]);
+    update({ draftStatus: 'needs-approval', draftName });
+  }, [update, activeTab]);
 
   const handleApprove = useCallback(() => {
     update({ draftStatus: 'working', lastApprovalResult: 'approved' });
