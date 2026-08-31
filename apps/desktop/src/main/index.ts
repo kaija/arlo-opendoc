@@ -41,6 +41,16 @@ function getEngine(windowId: number): CoreEngine {
   return engine;
 }
 
+/**
+ * Returns the engine for the given window, or null when none has been
+ * registered yet (i.e. the renderer hasn't opened a folder yet).
+ * Used by git handlers that are called speculatively on startup — they
+ * should return a graceful "no data" response rather than an IPC error.
+ */
+function tryGetEngine(windowId: number): CoreEngine | null {
+  return engines.get(windowId) ?? null;
+}
+
 // ── Node.js errno → KbErrorCode mapping ───────────────────────────────────
 // Used by readFolder and readFile handlers to produce structured KbError codes
 // instead of raw errno strings.
@@ -134,7 +144,11 @@ ipcMain.handle("arlo-doc:gitPull", async (event) => {
 
 ipcMain.handle("arlo-doc:gitStatus", async (event) => {
   try {
-    return await getEngine(event.sender.id).gitStatus();
+    // No engine yet means no folder is open — return an empty status rather
+    // than throwing, since the renderer calls this speculatively on startup.
+    const engine = tryGetEngine(event.sender.id);
+    if (!engine) return { branch: "", ahead: 0, behind: 0, files: [] };
+    return await engine.gitStatus();
   } catch (err) {
     wrapError(err);
   }
@@ -142,7 +156,10 @@ ipcMain.handle("arlo-doc:gitStatus", async (event) => {
 
 ipcMain.handle("arlo-doc:gitDiff", async (event, filePath: string) => {
   try {
-    return await getEngine(event.sender.id).gitDiff(filePath);
+    // No engine yet — return empty diff string rather than throwing.
+    const engine = tryGetEngine(event.sender.id);
+    if (!engine) return "";
+    return await engine.gitDiff(filePath);
   } catch (err) {
     wrapError(err);
   }
@@ -191,9 +208,14 @@ ipcMain.handle("arlo-doc:readFolder", async (event, folderPath: string, showHidd
     // count as "opened a repository".
 
     // Register (or re-register) a CoreEngine for this window now that we know kbRoot.
+    // Resolve kbRoot to the actual git repo root so that git operations always
+    // run in the right directory — even when folderPath is a worktree
+    // subdirectory rather than the repo root itself. Falls back to folderPath
+    // when the chosen folder isn't inside a git repo at all.
     // StoreAdapter, ForgeAdapter, and AgentKeyProvider are stubs until Phase 2.
+    const kbRoot = await repoRootOf(folderPath);
     engines.set(event.sender.id, new CoreEngine({
-      kbRoot: folderPath,
+      kbRoot,
       store: {} as never,
       forge: {} as never,
       agentKeyProvider: {} as never,

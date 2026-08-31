@@ -24,6 +24,14 @@ export interface GitBackend {
   getRepoRoot(cwd: string): Promise<string>;
 
   /**
+   * Returns the absolute path to the **main** repository root, even when `cwd`
+   * is inside a linked worktree.  Uses `--git-common-dir` (the shared `.git`
+   * directory) whose parent is always the main checkout, unlike
+   * `--show-toplevel` which returns the worktree's own directory.
+   */
+  getMainRepoRoot(cwd: string): Promise<string>;
+
+  /**
    * `git config --get <key>` resolved from within `repoDir`, so repository-local
    * config wins over global exactly as git itself resolves it.
    * Returns null when the key is unset — an unset identity is a normal state,

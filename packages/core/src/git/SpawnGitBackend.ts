@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { dirname } from "node:path";
 import type { GitBackend } from "./GitBackend.js";
 import type { GitStatus, GitCommit, WorktreeInfo } from "@arlo-doc/shared";
 
@@ -216,5 +217,16 @@ export class SpawnGitBackend implements GitBackend {
   async getRepoRoot(cwd: string): Promise<string> {
     const output = await runGit(["-C", cwd, "rev-parse", "--show-toplevel"]);
     return output.trim();
+  }
+
+  async getMainRepoRoot(cwd: string): Promise<string> {
+    // --git-common-dir returns the shared .git directory — the same value for
+    // every worktree in the repo.  Its parent is always the main checkout root.
+    // --show-toplevel returns the *worktree* directory, which is wrong for
+    // linked worktrees when we need the main repo as the diff anchor.
+    const commonDir = await runGit(
+      ["-C", cwd, "rev-parse", "--path-format=absolute", "--git-common-dir"],
+    );
+    return dirname(commonDir.trim());
   }
 }

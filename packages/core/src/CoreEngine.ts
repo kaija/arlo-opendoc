@@ -1,3 +1,4 @@
+import { relative, isAbsolute } from "node:path";
 import type { StoreAdapter } from "./store/StoreAdapter.js";
 import type { ForgeAdapter } from "./forge/ForgeAdapter.js";
 import type { AgentKeyProvider } from "./agent/types.js";
@@ -35,7 +36,15 @@ export class CoreEngine {
     return this.config.git.status(this.config.kbRoot);
   }
   async gitDiff(filePath: string): Promise<string> {
-    return this.config.git.diff(this.config.kbRoot, filePath);
+    // git diff must be anchored to the main repo root, not the worktree
+    // subdirectory.  When kbRoot is a linked worktree (e.g. .arlo/worktrees/
+    // wt-xxx), files from the main checkout are outside that directory and git
+    // rejects any path that escapes the worktree boundary — even with ../.
+    // getMainRepoRoot uses --git-common-dir to find the shared .git parent,
+    // which is the main checkout regardless of which worktree we're in.
+    const repoRoot = await this.config.git.getMainRepoRoot(this.config.kbRoot);
+    const relPath = isAbsolute(filePath) ? relative(repoRoot, filePath) : filePath;
+    return this.config.git.diff(repoRoot, relPath);
   }
 
   // Agent
