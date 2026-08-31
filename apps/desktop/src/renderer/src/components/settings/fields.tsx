@@ -623,6 +623,7 @@ export function Slider({
   min,
   max,
   format,
+  disabled = false,
   onChange,
 }: {
   id: string;
@@ -632,19 +633,27 @@ export function Slider({
   min: number;
   max: number;
   format: (v: number) => string;
+  disabled?: boolean | undefined;
   onChange: (next: number) => void;
 }): React.ReactElement {
   return (
     <Field label={label} htmlFor={id} hint={hint}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+      <div
+        style={{ display: 'flex', alignItems: 'center', gap: 14, opacity: disabled ? 0.55 : 1 }}
+      >
         <input
           id={id}
           type="range"
           min={min}
           max={max}
           value={value}
+          disabled={disabled}
           onChange={(e) => onChange(Number(e.target.value))}
-          style={{ flex: 1, accentColor: 'var(--color-accent)', cursor: 'pointer' }}
+          style={{
+            flex: 1,
+            accentColor: 'var(--color-accent)',
+            cursor: disabled ? 'not-allowed' : 'pointer',
+          }}
         />
         <span
           style={{

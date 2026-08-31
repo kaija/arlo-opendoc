@@ -15,7 +15,9 @@ interface MarkdownEditorProps {
   /** Settings > Editor > Typography. Empty family falls back to the mono stack. */
   fontFamily?: string | undefined;
   fontSize?: number | undefined;
-  /** Measure in ch. Undefined leaves the textarea full width. */
+  /** Settings > Editor > Typography. Fills the pane; defaults to on. */
+  fullWidth?: boolean | undefined;
+  /** Measure in ch. Ignored while fullWidth, which leaves the textarea full width. */
   lineWidth?: number | undefined;
   wrapLines?: boolean | undefined;
   lineNumbers?: boolean | undefined;
@@ -27,6 +29,7 @@ export function MarkdownEditor({
   onSave,
   fontFamily,
   fontSize,
+  fullWidth = true,
   lineWidth,
   wrapLines,
   lineNumbers,
@@ -76,8 +79,14 @@ export function MarkdownEditor({
 
   const placeholder = content == null ? t('markdownEditor.placeholder') : '';
 
+  // By default the text area takes the whole pane, so it grows with the window
+  // and gives its width back when the chat panel opens. Turning Full width off
+  // in Settings > Editor holds the column to the measure instead — centred,
+  // unless the gutter is up, which has to stay against the first column.
+  const measured = !fullWidth && lineWidth !== undefined;
+
   return (
-    <div style={{ flex: 1, display: 'flex', background: 'var(--surface-card)', position: 'relative' }}>
+    <div style={{ flex: 1, minWidth: 0, display: 'flex', background: 'var(--surface-card)', position: 'relative' }}>
       {showGutter && (
         <div
           ref={gutterRef}
@@ -125,7 +134,9 @@ export function MarkdownEditor({
           caretColor: 'var(--color-accent)',
           whiteSpace: wrapLines === false ? 'pre' : 'pre-wrap',
           overflowX: wrapLines === false ? 'auto' : 'hidden',
-          ...(lineWidth !== undefined ? { maxWidth: `${lineWidth}ch` } : {}),
+          ...(measured
+            ? { maxWidth: `${lineWidth}ch`, ...(showGutter ? {} : { margin: '0 auto' }) }
+            : {}),
         }}
       />
 

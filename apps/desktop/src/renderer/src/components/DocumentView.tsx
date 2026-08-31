@@ -9,7 +9,9 @@ interface DocumentViewProps {
   onScrollComplete?: (() => void) | undefined;
   /** Settings > Editor > Front matter. Defaults to hiding it. */
   frontMatterMode?: 'hide' | 'table' | undefined;
-  /** Settings > Editor > Typography. Measure of the prose column, in ch. */
+  /** Settings > Editor > Typography. Fills the pane; defaults to on. */
+  fullWidth?: boolean | undefined;
+  /** Settings > Editor > Typography. Measure of the column, in ch. Off while fullWidth. */
   lineWidth?: number | undefined;
 }
 
@@ -486,11 +488,9 @@ function renderToken(tok: Token, idx: number): React.ReactNode {
 function MarkdownView({
   content,
   frontMatterMode = 'hide',
-  lineWidth,
 }: {
   content: string;
   frontMatterMode?: 'hide' | 'table' | undefined;
-  lineWidth?: number | undefined;
 }): React.ReactElement {
   const { frontMatter, body } = splitFrontMatter(content);
   const tokens = tokenize(body);
@@ -499,8 +499,6 @@ function MarkdownView({
       style={{
         fontFamily: 'var(--font-sans)',
         color: 'var(--text-body)',
-        // Measure is expressed in ch so it tracks the reader's font size.
-        ...(lineWidth !== undefined ? { maxWidth: `${lineWidth}ch` } : {}),
       }}
     >
       {frontMatterMode === 'table' && frontMatter !== null && (
@@ -567,6 +565,7 @@ export function DocumentView({
   scrollToLine,
   onScrollComplete,
   frontMatterMode,
+  fullWidth = true,
   lineWidth,
 }: DocumentViewProps): React.ReactElement {
   const isMd = isMarkdownPath(activeFilePath);
@@ -621,14 +620,29 @@ export function DocumentView({
     };
   }, [scrollToLine, onScrollComplete]);
 
+  // The reading column fills the pane by default, so it widens with the window
+  // and narrows again the moment the chat panel takes its 380px. A reader who
+  // prefers a fixed measure turns Full width off in Settings > Editor, and the
+  // column is then held to `lineWidth` and centred instead.
+  const measured = !fullWidth && lineWidth !== undefined;
+
   return (
     <div
       ref={containerRef}
-      style={{ flex: 1, overflowY: 'auto', background: 'var(--surface-card)', display: 'flex', justifyContent: 'center' }}
+      style={{ flex: 1, minWidth: 0, overflowY: 'auto', background: 'var(--surface-card)' }}
     >
-      <div style={{ width: '100%', maxWidth: isMd || isTxt ? 740 : 900, padding: '48px 40px' }}>
+      <div
+        style={{
+          width: '100%',
+          // Matches the editor's padding, so toggling Edit/Preview does not
+          // shift the text sideways.
+          padding: '36px 40px',
+          // ch tracks the reader's font size, so the measure holds as they zoom.
+          ...(measured ? { maxWidth: `${lineWidth}ch`, margin: '0 auto' } : {}),
+        }}
+      >
         {isMd
-          ? <MarkdownView content={fileContent} frontMatterMode={frontMatterMode} lineWidth={lineWidth} />
+          ? <MarkdownView content={fileContent} frontMatterMode={frontMatterMode} />
           : isTxt
             ? <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: 13, lineHeight: 1.6, color: 'var(--text-body)', margin: 0 }}>{fileContent}</pre>
             : <CodeView content={fileContent} filePath={activeFilePath} />

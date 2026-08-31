@@ -92,7 +92,13 @@ export const AppSettingsSchema = z.object({
       /** Empty string means "use the platform mono stack". */
       fontFamily: z.string().max(120).default(""),
       fontSize: z.number().int().min(10).max(24).default(14),
-      /** Measure of the editor column, in characters. */
+      /**
+       * Let the editor and the preview fill the pane they are given, so the
+       * text follows the window and reflows when the chat panel opens. With
+       * this off the column is held to `lineWidth` and centred.
+       */
+      fullWidth: z.boolean().default(true),
+      /** Measure of the editor column, in characters. Ignored while fullWidth. */
       lineWidth: z.number().int().min(40).max(160).default(72),
       wrapLines: z.boolean().default(true),
       lineNumbers: z.boolean().default(false),

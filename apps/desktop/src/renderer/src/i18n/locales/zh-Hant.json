@@ -240,8 +240,13 @@
       "fontSize": {
         "label": "字型大小"
       },
+      "fullWidth": {
+        "label": "填滿編輯區",
+        "hint": "文字會佔滿整個編輯區，並在聊天面板展開時自動貼齊。"
+      },
       "lineWidth": {
-        "label": "行寬"
+        "label": "行寬",
+        "hintFullWidth": "文字填滿編輯區時無法使用。"
       },
       "wrapLines": {
         "label": "自動換行過長的行"

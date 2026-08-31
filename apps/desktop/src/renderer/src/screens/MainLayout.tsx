@@ -239,6 +239,7 @@ export function MainLayout({
                   scrollToLine={scrollToLine}
                   onScrollComplete={onScrollComplete}
                   frontMatterMode={appSettings?.editor.frontMatter}
+                  fullWidth={appSettings?.editor.fullWidth}
                   lineWidth={appSettings?.editor.lineWidth}
                 />
               ) : (
@@ -254,6 +255,7 @@ export function MainLayout({
                 saveError={fileSaveError}
                 fontFamily={appSettings?.editor.fontFamily}
                 fontSize={appSettings?.editor.fontSize}
+                fullWidth={appSettings?.editor.fullWidth}
                 lineWidth={appSettings?.editor.lineWidth}
                 wrapLines={appSettings?.editor.wrapLines}
                 lineNumbers={appSettings?.editor.lineNumbers}

@@ -240,8 +240,13 @@
       "fontSize": {
         "label": "Font size"
       },
+      "fullWidth": {
+        "label": "Fill the pane",
+        "hint": "Text spans the whole editing area, and reflows to meet the chat panel when it opens."
+      },
       "lineWidth": {
-        "label": "Line width"
+        "label": "Line width",
+        "hintFullWidth": "Unavailable while the text fills the pane."
       },
       "wrapLines": {
         "label": "Wrap long lines"

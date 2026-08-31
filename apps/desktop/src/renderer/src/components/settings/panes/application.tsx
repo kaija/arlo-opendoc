@@ -388,6 +388,20 @@ export function buildEditorPane(t: TFunction): PaneDef {
               ),
           },
           {
+            id: 'editor-full-width',
+            label: t('settings.editor.fullWidth.label'),
+            keywords: ['width', 'fill', 'pane', 'margins', 'whitespace', 'measure'],
+            render: (s) =>
+              s.app === null ? null : (
+                <Toggle
+                  label={t('settings.editor.fullWidth.label')}
+                  hint={t('settings.editor.fullWidth.hint')}
+                  checked={s.app.editor.fullWidth}
+                  onChange={(fullWidth) => s.patchApp({ editor: { fullWidth } })}
+                />
+              ),
+          },
+          {
             id: 'editor-line-width',
             label: t('settings.editor.lineWidth.label'),
             keywords: ['measure', 'column', 'wrap width'],
@@ -396,10 +410,19 @@ export function buildEditorPane(t: TFunction): PaneDef {
                 <Slider
                   id="editor-line-width"
                   label={t('settings.editor.lineWidth.label')}
+                  // The measure only bites once the text stops filling the
+                  // pane, so the dependency is stated rather than silently
+                  // ignored — the same way line numbers depend on wrapping.
+                  hint={
+                    s.app.editor.fullWidth
+                      ? t('settings.editor.lineWidth.hintFullWidth')
+                      : undefined
+                  }
                   value={s.app.editor.lineWidth}
                   min={40}
                   max={160}
                   format={(v) => `${v}ch`}
+                  disabled={s.app.editor.fullWidth}
                   onChange={(lineWidth) => s.patchApp({ editor: { lineWidth } })}
                 />
               ),
