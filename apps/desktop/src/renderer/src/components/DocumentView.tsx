@@ -20,6 +20,11 @@ function isMarkdownPath(filePath: string): boolean {
   return lower.endsWith('.md') || lower.endsWith('.mdx');
 }
 
+function isHtmlPath(filePath: string): boolean {
+  const lower = filePath.toLowerCase();
+  return lower.endsWith('.html') || lower.endsWith('.htm');
+}
+
 /**
  * Maps a file path to a human-readable language label shown above code files.
  * Returns null for plain text files that need no label.
@@ -509,6 +514,38 @@ function MarkdownView({
   );
 }
 
+// ── HtmlView ───────────────────────────────────────────────────────────────
+
+/**
+ * Renders an .html / .htm file as the page it describes, rather than its source.
+ *
+ * The file is dropped into a fully sandboxed iframe: no `allow-scripts`, so
+ * nothing in the file runs, and no `allow-same-origin`, so it gets an opaque
+ * origin and cannot reach the app, its storage, or the preload bridge. The
+ * renderer's Content-Security-Policy is inherited through `srcdoc`, so remote
+ * images, fonts, and stylesheets do not load either — a preview never phones
+ * home. Inline and embedded CSS render, which covers the common case.
+ *
+ * Edit mode is untouched: MarkdownEditor shows the raw text for any file.
+ */
+function HtmlView({ content }: { content: string }): React.ReactElement {
+  return (
+    <iframe
+      title="HTML preview"
+      srcDoc={content}
+      sandbox=""
+      referrerPolicy="no-referrer"
+      style={{
+        flex: 1,
+        width: '100%',
+        border: 'none',
+        background: '#fff',
+        colorScheme: 'light',
+      }}
+    />
+  );
+}
+
 // ── CodeView ───────────────────────────────────────────────────────────────
 
 function CodeView({ content, filePath }: { content: string; filePath: string }): React.ReactElement {
@@ -569,6 +606,7 @@ export function DocumentView({
   lineWidth,
 }: DocumentViewProps): React.ReactElement {
   const isMd = isMarkdownPath(activeFilePath);
+  const isHtml = isHtmlPath(activeFilePath);
   const isTxt = activeFilePath.toLowerCase().endsWith('.txt');
 
   // Ref to the outer scrollable container so we can find data-line elements within it
@@ -619,6 +657,27 @@ export function DocumentView({
       window.clearTimeout(cleanupTimer);
     };
   }, [scrollToLine, onScrollComplete]);
+
+  // An HTML file previews as the page it describes, in its own sandboxed frame
+  // (see HtmlView) — full-bleed, with no reading column. containerRef still
+  // mounts so the scroll-to-line effect can settle: a frame has no [data-line]
+  // anchors, so it just reports completion.
+  if (isHtml) {
+    return (
+      <div
+        ref={containerRef}
+        style={{
+          flex: 1,
+          minWidth: 0,
+          display: 'flex',
+          overflow: 'hidden',
+          background: 'var(--surface-card)',
+        }}
+      >
+        <HtmlView content={fileContent} />
+      </div>
+    );
+  }
 
   // The reading column fills the pane by default, so it widens with the window
   // and narrows again the moment the chat panel takes its 380px. A reader who
