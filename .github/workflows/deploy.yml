@@ -9,6 +9,13 @@ jobs:
   build-and-push:
     name: Build and push container images
     runs-on: ubuntu-latest
+    # This job needs container-registry credentials (the REGISTRY_URL,
+    # REGISTRY_USERNAME, and REGISTRY_PASSWORD secrets). Without them
+    # docker/login-action fails the run on every push to main. Gate the job on
+    # an opt-in repo variable so it is cleanly skipped until deployment is set
+    # up: add the three secrets, then set the DEPLOY_ENABLED repository variable
+    # to "true" (Settings → Secrets and variables → Actions → Variables).
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
 
     steps:
       - name: Checkout
